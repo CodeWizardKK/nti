@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "nti/params.proto";
+import "nti/nft_transfer.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "nti/x/nti/types";
@@ -15,7 +16,17 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/nti/nti/params";
   }
-  // this line is used by starport scaffolding # 2
+  // Queries a NftTransfer by index.
+	rpc NftTransfer(QueryGetNftTransferRequest) returns (QueryGetNftTransferResponse) {
+		option (google.api.http).get = "/nti/nti/nft_transfer/{index}";
+	}
+
+	// Queries a list of NftTransfer items.
+	rpc NftTransferAll(QueryAllNftTransferRequest) returns (QueryAllNftTransferResponse) {
+		option (google.api.http).get = "/nti/nti/nft_transfer";
+	}
+
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -25,6 +36,24 @@ message QueryParamsRequest {}
 message QueryParamsResponse {
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetNftTransferRequest {
+	  string index = 1;
+
+}
+
+message QueryGetNftTransferResponse {
+	NftTransfer nftTransfer = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllNftTransferRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllNftTransferResponse {
+	repeated NftTransfer nftTransfer = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

@@ -1,0 +1,17 @@
+syntax = "proto3";
+package nti.nti;
+
+option go_package = "nti/x/nti/types";
+
+message NftTransfer {
+  string index = 1; 
+  string srcNftHash = 2; 
+  string srcChain = 3; 
+  string srcAddr = 4; 
+  string destNftHash = 5; 
+  string destChain = 6; 
+  string destAddr = 7; 
+  int32 createdAt = 8; 
+  
+}
+
