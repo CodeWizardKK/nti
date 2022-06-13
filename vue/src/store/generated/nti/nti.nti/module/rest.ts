@@ -9,6 +9,8 @@
  * ---------------------------------------------------------------
  */
 
+export type NtiMsgReserveNftTransferResponse = object;
+
 export interface NtiNftTransfer {
   index?: string;
   srcNftHash?: string;
