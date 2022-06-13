@@ -42,8 +42,27 @@ export interface NtiQueryAllNftTransferResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface NtiQueryAllReservedNftTransferResponse {
+  reservedNftTransfer?: NtiReservedNftTransfer[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface NtiQueryGetNftTransferResponse {
   nftTransfer?: NtiNftTransfer;
+}
+
+export interface NtiQueryGetReservedNftTransferResponse {
+  reservedNftTransfer?: NtiReservedNftTransfer;
 }
 
 /**
@@ -52,6 +71,22 @@ export interface NtiQueryGetNftTransferResponse {
 export interface NtiQueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: NtiParams;
+}
+
+export interface NtiReservedNftTransfer {
+  reservedKey?: string;
+  srcNftHash?: string;
+  srcChain?: string;
+  srcAddr?: string;
+  destNftHash?: string;
+  destChain?: string;
+  destAddr?: string;
+
+  /** @format int32 */
+  blockHeight?: number;
+
+  /** @format int32 */
+  createdAt?: number;
 }
 
 export interface ProtobufAny {
@@ -377,6 +412,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryParams = (params: RequestParams = {}) =>
     this.request<NtiQueryParamsResponse, RpcStatus>({
       path: `/nti/nti/params`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryReservedNftTransferAll
+   * @summary Queries a list of ReservedNftTransfer items.
+   * @request GET:/nti/nti/reserved_nft_transfer
+   */
+  queryReservedNftTransferAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<NtiQueryAllReservedNftTransferResponse, RpcStatus>({
+      path: `/nti/nti/reserved_nft_transfer`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryReservedNftTransfer
+   * @summary Queries a ReservedNftTransfer by index.
+   * @request GET:/nti/nti/reserved_nft_transfer/{reservedKey}
+   */
+  queryReservedNftTransfer = (reservedKey: string, params: RequestParams = {}) =>
+    this.request<NtiQueryGetReservedNftTransferResponse, RpcStatus>({
+      path: `/nti/nti/reserved_nft_transfer/${reservedKey}`,
       method: "GET",
       format: "json",
       ...params,

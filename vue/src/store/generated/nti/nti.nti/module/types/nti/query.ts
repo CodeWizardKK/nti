@@ -6,6 +6,7 @@ import {
   PageRequest,
   PageResponse,
 } from "../cosmos/base/query/v1beta1/pagination";
+import { ReservedNftTransfer } from "../nti/reserved_nft_transfer";
 
 export const protobufPackage = "nti.nti";
 
@@ -32,6 +33,23 @@ export interface QueryAllNftTransferRequest {
 
 export interface QueryAllNftTransferResponse {
   nftTransfer: NftTransfer[];
+  pagination: PageResponse | undefined;
+}
+
+export interface QueryGetReservedNftTransferRequest {
+  reservedKey: string;
+}
+
+export interface QueryGetReservedNftTransferResponse {
+  reservedNftTransfer: ReservedNftTransfer | undefined;
+}
+
+export interface QueryAllReservedNftTransferRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllReservedNftTransferResponse {
+  reservedNftTransfer: ReservedNftTransfer[];
   pagination: PageResponse | undefined;
 }
 
@@ -449,6 +467,345 @@ export const QueryAllNftTransferResponse = {
   },
 };
 
+const baseQueryGetReservedNftTransferRequest: object = { reservedKey: "" };
+
+export const QueryGetReservedNftTransferRequest = {
+  encode(
+    message: QueryGetReservedNftTransferRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.reservedKey !== "") {
+      writer.uint32(10).string(message.reservedKey);
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetReservedNftTransferRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetReservedNftTransferRequest,
+    } as QueryGetReservedNftTransferRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.reservedKey = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetReservedNftTransferRequest {
+    const message = {
+      ...baseQueryGetReservedNftTransferRequest,
+    } as QueryGetReservedNftTransferRequest;
+    if (object.reservedKey !== undefined && object.reservedKey !== null) {
+      message.reservedKey = String(object.reservedKey);
+    } else {
+      message.reservedKey = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetReservedNftTransferRequest): unknown {
+    const obj: any = {};
+    message.reservedKey !== undefined &&
+      (obj.reservedKey = message.reservedKey);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetReservedNftTransferRequest>
+  ): QueryGetReservedNftTransferRequest {
+    const message = {
+      ...baseQueryGetReservedNftTransferRequest,
+    } as QueryGetReservedNftTransferRequest;
+    if (object.reservedKey !== undefined && object.reservedKey !== null) {
+      message.reservedKey = object.reservedKey;
+    } else {
+      message.reservedKey = "";
+    }
+    return message;
+  },
+};
+
+const baseQueryGetReservedNftTransferResponse: object = {};
+
+export const QueryGetReservedNftTransferResponse = {
+  encode(
+    message: QueryGetReservedNftTransferResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.reservedNftTransfer !== undefined) {
+      ReservedNftTransfer.encode(
+        message.reservedNftTransfer,
+        writer.uint32(10).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetReservedNftTransferResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetReservedNftTransferResponse,
+    } as QueryGetReservedNftTransferResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.reservedNftTransfer = ReservedNftTransfer.decode(
+            reader,
+            reader.uint32()
+          );
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetReservedNftTransferResponse {
+    const message = {
+      ...baseQueryGetReservedNftTransferResponse,
+    } as QueryGetReservedNftTransferResponse;
+    if (
+      object.reservedNftTransfer !== undefined &&
+      object.reservedNftTransfer !== null
+    ) {
+      message.reservedNftTransfer = ReservedNftTransfer.fromJSON(
+        object.reservedNftTransfer
+      );
+    } else {
+      message.reservedNftTransfer = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetReservedNftTransferResponse): unknown {
+    const obj: any = {};
+    message.reservedNftTransfer !== undefined &&
+      (obj.reservedNftTransfer = message.reservedNftTransfer
+        ? ReservedNftTransfer.toJSON(message.reservedNftTransfer)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetReservedNftTransferResponse>
+  ): QueryGetReservedNftTransferResponse {
+    const message = {
+      ...baseQueryGetReservedNftTransferResponse,
+    } as QueryGetReservedNftTransferResponse;
+    if (
+      object.reservedNftTransfer !== undefined &&
+      object.reservedNftTransfer !== null
+    ) {
+      message.reservedNftTransfer = ReservedNftTransfer.fromPartial(
+        object.reservedNftTransfer
+      );
+    } else {
+      message.reservedNftTransfer = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllReservedNftTransferRequest: object = {};
+
+export const QueryAllReservedNftTransferRequest = {
+  encode(
+    message: QueryAllReservedNftTransferRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllReservedNftTransferRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllReservedNftTransferRequest,
+    } as QueryAllReservedNftTransferRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllReservedNftTransferRequest {
+    const message = {
+      ...baseQueryAllReservedNftTransferRequest,
+    } as QueryAllReservedNftTransferRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllReservedNftTransferRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllReservedNftTransferRequest>
+  ): QueryAllReservedNftTransferRequest {
+    const message = {
+      ...baseQueryAllReservedNftTransferRequest,
+    } as QueryAllReservedNftTransferRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllReservedNftTransferResponse: object = {};
+
+export const QueryAllReservedNftTransferResponse = {
+  encode(
+    message: QueryAllReservedNftTransferResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.reservedNftTransfer) {
+      ReservedNftTransfer.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllReservedNftTransferResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllReservedNftTransferResponse,
+    } as QueryAllReservedNftTransferResponse;
+    message.reservedNftTransfer = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.reservedNftTransfer.push(
+            ReservedNftTransfer.decode(reader, reader.uint32())
+          );
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllReservedNftTransferResponse {
+    const message = {
+      ...baseQueryAllReservedNftTransferResponse,
+    } as QueryAllReservedNftTransferResponse;
+    message.reservedNftTransfer = [];
+    if (
+      object.reservedNftTransfer !== undefined &&
+      object.reservedNftTransfer !== null
+    ) {
+      for (const e of object.reservedNftTransfer) {
+        message.reservedNftTransfer.push(ReservedNftTransfer.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllReservedNftTransferResponse): unknown {
+    const obj: any = {};
+    if (message.reservedNftTransfer) {
+      obj.reservedNftTransfer = message.reservedNftTransfer.map((e) =>
+        e ? ReservedNftTransfer.toJSON(e) : undefined
+      );
+    } else {
+      obj.reservedNftTransfer = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllReservedNftTransferResponse>
+  ): QueryAllReservedNftTransferResponse {
+    const message = {
+      ...baseQueryAllReservedNftTransferResponse,
+    } as QueryAllReservedNftTransferResponse;
+    message.reservedNftTransfer = [];
+    if (
+      object.reservedNftTransfer !== undefined &&
+      object.reservedNftTransfer !== null
+    ) {
+      for (const e of object.reservedNftTransfer) {
+        message.reservedNftTransfer.push(ReservedNftTransfer.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -461,6 +818,14 @@ export interface Query {
   NftTransferAll(
     request: QueryAllNftTransferRequest
   ): Promise<QueryAllNftTransferResponse>;
+  /** Queries a ReservedNftTransfer by index. */
+  ReservedNftTransfer(
+    request: QueryGetReservedNftTransferRequest
+  ): Promise<QueryGetReservedNftTransferResponse>;
+  /** Queries a list of ReservedNftTransfer items. */
+  ReservedNftTransferAll(
+    request: QueryAllReservedNftTransferRequest
+  ): Promise<QueryAllReservedNftTransferResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -491,6 +856,34 @@ export class QueryClientImpl implements Query {
     const promise = this.rpc.request("nti.nti.Query", "NftTransferAll", data);
     return promise.then((data) =>
       QueryAllNftTransferResponse.decode(new Reader(data))
+    );
+  }
+
+  ReservedNftTransfer(
+    request: QueryGetReservedNftTransferRequest
+  ): Promise<QueryGetReservedNftTransferResponse> {
+    const data = QueryGetReservedNftTransferRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "nti.nti.Query",
+      "ReservedNftTransfer",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetReservedNftTransferResponse.decode(new Reader(data))
+    );
+  }
+
+  ReservedNftTransferAll(
+    request: QueryAllReservedNftTransferRequest
+  ): Promise<QueryAllReservedNftTransferResponse> {
+    const data = QueryAllReservedNftTransferRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "nti.nti.Query",
+      "ReservedNftTransferAll",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllReservedNftTransferResponse.decode(new Reader(data))
     );
   }
 }

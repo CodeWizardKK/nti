@@ -2,9 +2,10 @@ import { txClient, queryClient, MissingWalletError , registry} from './module'
 
 import { NftTransfer } from "./module/types/nti/nft_transfer"
 import { Params } from "./module/types/nti/params"
+import { ReservedNftTransfer } from "./module/types/nti/reserved_nft_transfer"
 
 
-export { NftTransfer, Params };
+export { NftTransfer, Params, ReservedNftTransfer };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -45,10 +46,13 @@ const getDefaultState = () => {
 				Params: {},
 				NftTransfer: {},
 				NftTransferAll: {},
+				ReservedNftTransfer: {},
+				ReservedNftTransferAll: {},
 				
 				_Structure: {
 						NftTransfer: getStructure(NftTransfer.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
+						ReservedNftTransfer: getStructure(ReservedNftTransfer.fromPartial({})),
 						
 		},
 		_Registry: registry,
@@ -94,6 +98,18 @@ export default {
 						(<any> params).query=null
 					}
 			return state.NftTransferAll[JSON.stringify(params)] ?? {}
+		},
+				getReservedNftTransfer: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.ReservedNftTransfer[JSON.stringify(params)] ?? {}
+		},
+				getReservedNftTransferAll: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.ReservedNftTransferAll[JSON.stringify(params)] ?? {}
 		},
 				
 		getTypeStructure: (state) => (type) => {
@@ -194,6 +210,54 @@ export default {
 				return getters['getNftTransferAll']( { params: {...key}, query}) ?? {}
 			} catch (e) {
 				throw new Error('QueryClient:QueryNftTransferAll API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryReservedNftTransfer({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryReservedNftTransfer( key.reservedKey)).data
+				
+					
+				commit('QUERY', { query: 'ReservedNftTransfer', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryReservedNftTransfer', payload: { options: { all }, params: {...key},query }})
+				return getters['getReservedNftTransfer']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryReservedNftTransfer API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryReservedNftTransferAll({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryReservedNftTransferAll(query)).data
+				
+					
+				while (all && (<any> value).pagination && (<any> value).pagination.next_key!=null) {
+					let next_values=(await queryClient.queryReservedNftTransferAll({...query, 'pagination.key':(<any> value).pagination.next_key})).data
+					value = mergeResults(value, next_values);
+				}
+				commit('QUERY', { query: 'ReservedNftTransferAll', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryReservedNftTransferAll', payload: { options: { all }, params: {...key},query }})
+				return getters['getReservedNftTransferAll']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryReservedNftTransferAll API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},

@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "nti/params.proto";
 import "nti/nft_transfer.proto";
+import "nti/reserved_nft_transfer.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "nti/x/nti/types";
@@ -24,6 +25,16 @@ service Query {
 	// Queries a list of NftTransfer items.
 	rpc NftTransferAll(QueryAllNftTransferRequest) returns (QueryAllNftTransferResponse) {
 		option (google.api.http).get = "/nti/nti/nft_transfer";
+	}
+
+// Queries a ReservedNftTransfer by index.
+	rpc ReservedNftTransfer(QueryGetReservedNftTransferRequest) returns (QueryGetReservedNftTransferResponse) {
+		option (google.api.http).get = "/nti/nti/reserved_nft_transfer/{reservedKey}";
+	}
+
+	// Queries a list of ReservedNftTransfer items.
+	rpc ReservedNftTransferAll(QueryAllReservedNftTransferRequest) returns (QueryAllReservedNftTransferResponse) {
+		option (google.api.http).get = "/nti/nti/reserved_nft_transfer";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -53,6 +64,24 @@ message QueryAllNftTransferRequest {
 
 message QueryAllNftTransferResponse {
 	repeated NftTransfer nftTransfer = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetReservedNftTransferRequest {
+	  string reservedKey = 1;
+
+}
+
+message QueryGetReservedNftTransferResponse {
+	ReservedNftTransfer reservedNftTransfer = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllReservedNftTransferRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllReservedNftTransferResponse {
+	repeated ReservedNftTransfer reservedNftTransfer = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { Params } from "../nti/params";
 import { NftTransfer } from "../nti/nft_transfer";
+import { ReservedNftTransfer } from "../nti/reserved_nft_transfer";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "nti.nti";
@@ -8,8 +9,9 @@ export const protobufPackage = "nti.nti";
 /** GenesisState defines the nti module's genesis state. */
 export interface GenesisState {
   params: Params | undefined;
-  /** this line is used by starport scaffolding # genesis/proto/state */
   nftTransferList: NftTransfer[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  reservedNftTransferList: ReservedNftTransfer[];
 }
 
 const baseGenesisState: object = {};
@@ -22,6 +24,9 @@ export const GenesisState = {
     for (const v of message.nftTransferList) {
       NftTransfer.encode(v!, writer.uint32(18).fork()).ldelim();
     }
+    for (const v of message.reservedNftTransferList) {
+      ReservedNftTransfer.encode(v!, writer.uint32(26).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -30,6 +35,7 @@ export const GenesisState = {
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseGenesisState } as GenesisState;
     message.nftTransferList = [];
+    message.reservedNftTransferList = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -39,6 +45,11 @@ export const GenesisState = {
         case 2:
           message.nftTransferList.push(
             NftTransfer.decode(reader, reader.uint32())
+          );
+          break;
+        case 3:
+          message.reservedNftTransferList.push(
+            ReservedNftTransfer.decode(reader, reader.uint32())
           );
           break;
         default:
@@ -52,6 +63,7 @@ export const GenesisState = {
   fromJSON(object: any): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
     message.nftTransferList = [];
+    message.reservedNftTransferList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromJSON(object.params);
     } else {
@@ -63,6 +75,14 @@ export const GenesisState = {
     ) {
       for (const e of object.nftTransferList) {
         message.nftTransferList.push(NftTransfer.fromJSON(e));
+      }
+    }
+    if (
+      object.reservedNftTransferList !== undefined &&
+      object.reservedNftTransferList !== null
+    ) {
+      for (const e of object.reservedNftTransferList) {
+        message.reservedNftTransferList.push(ReservedNftTransfer.fromJSON(e));
       }
     }
     return message;
@@ -79,12 +99,20 @@ export const GenesisState = {
     } else {
       obj.nftTransferList = [];
     }
+    if (message.reservedNftTransferList) {
+      obj.reservedNftTransferList = message.reservedNftTransferList.map((e) =>
+        e ? ReservedNftTransfer.toJSON(e) : undefined
+      );
+    } else {
+      obj.reservedNftTransferList = [];
+    }
     return obj;
   },
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
     message.nftTransferList = [];
+    message.reservedNftTransferList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
     } else {
@@ -96,6 +124,16 @@ export const GenesisState = {
     ) {
       for (const e of object.nftTransferList) {
         message.nftTransferList.push(NftTransfer.fromPartial(e));
+      }
+    }
+    if (
+      object.reservedNftTransferList !== undefined &&
+      object.reservedNftTransferList !== null
+    ) {
+      for (const e of object.reservedNftTransferList) {
+        message.reservedNftTransferList.push(
+          ReservedNftTransfer.fromPartial(e)
+        );
       }
     }
     return message;
