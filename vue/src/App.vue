@@ -39,6 +39,8 @@ export default {
     onBeforeMount(async () => {
       await $s.dispatch('common/env/init')
 
+      await $s.dispatch("nti.nti/QueryReservedNftTransferAll",{options:{subscribe:true, all:true},params:{}})
+
       router.push('portfolio')
     })
 
