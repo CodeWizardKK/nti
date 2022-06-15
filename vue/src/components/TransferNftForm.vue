@@ -8,6 +8,7 @@
 
             <input class="sp-input" placeholder="Source NFT Hash" v-model="srcNftHash" />
             <input class="sp-input" placeholder="Source Chain" v-model="srcChain" />
+            <input class="sp-input" placeholder="Source Address" v-model="srcAddr" />
             <input class="sp-input" placeholder="Destination NFT Hash" v-model="destNftHash" />
             <input class="sp-input" placeholder="Destination Chain" v-model="destChain" />
             <input class="sp-input" placeholder="Destination Address" v-model="destAddr" />
@@ -33,6 +34,7 @@ export default {
     // state
     const srcNftHash = ref('')
     const srcChain = ref('')
+    const srcAddr = ref('')
     const destNftHash = ref('')
     const destChain = ref('')
     const destAddr = ref('')
@@ -43,13 +45,14 @@ export default {
             creator: currentAccount.value,
             srcNftHash: srcNftHash.value,
             srcChain: srcChain.value,
+            srcAddr: srcAddr.value,
             destNftHash: destNftHash.value,
             destChain: destChain.value,
             destAddr: destAddr.value,
         };
 
         try {
-            await $s.dispatch("rika.tibc.tibc/sendMsgTransferNft", {
+            await $s.dispatch("nti.nti/sendMsgTransferNft", {
                 value,
                 fee: [],
             });
@@ -61,6 +64,7 @@ export default {
     return {
         srcNftHash,
         srcChain,
+        srcAddr,
         destNftHash,
         destChain,
         destAddr,

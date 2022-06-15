@@ -40,6 +40,7 @@ export default {
       await $s.dispatch('common/env/init')
 
       await $s.dispatch("nti.nti/QueryReservedNftTransferAll",{options:{subscribe:true, all:true},params:{}})
+      await $s.dispatch("nti.nti/QueryNftTransferAll",{options:{subscribe:true, all:true},params:{}})
 
       router.push('portfolio')
     })

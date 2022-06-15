@@ -5,10 +5,12 @@
     <div id="parent">
       <div class="child">
         <reserve-nft-transfer-form />
+        <transfer-nft-form />
       </div>
 
       <div class="child">
         <reserved-nft-transfer-list />
+        <nft-transfer-list />
       </div>
     </div>
   </div>
@@ -43,14 +45,18 @@ th ,td {
 
 <script>
 import ReservedNftTransferList from '../components/ReservedNftTransferList.vue';
+import NftTransferList from '../components/NftTransferList.vue';
 import ReserveNftTransferForm from '../components/ReserveNftTransferForm.vue';
+import TransferNftForm from '../components/TransferNftForm.vue';
 
 export default {
   name: 'Data',
 
   components: {
     ReservedNftTransferList,
+    NftTransferList,
     ReserveNftTransferForm,
+    TransferNftForm,
   }
 }
 </script>

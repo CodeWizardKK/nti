@@ -54,7 +54,7 @@ export default {
         // computed
         const items = computed(() => {
             return (
-                $s.getters["rika.tibc.tibc/getNftTransferAll"]({
+                $s.getters["nti.nti/getNftTransferAll"]({
                     params: {}
                 })?.nftTransfer ?? []
             )
