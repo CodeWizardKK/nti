@@ -9,12 +9,16 @@ import (
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgReserveNftTransfer{}, "nti/ReserveNftTransfer", nil)
+	cdc.RegisterConcrete(&MsgTransferNft{}, "nti/TransferNft", nil)
 	// this line is used by starport scaffolding # 2
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgReserveNftTransfer{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgTransferNft{},
 	)
 	// this line is used by starport scaffolding # 3
 
