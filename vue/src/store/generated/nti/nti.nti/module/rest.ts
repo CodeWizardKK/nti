@@ -82,12 +82,14 @@ export interface NtiReservedNftTransfer {
   srcNftHash?: string;
   srcChain?: string;
   srcAddr?: string;
-  destNftHash?: string;
   destChain?: string;
   destAddr?: string;
 
   /** @format int32 */
   blockHeight?: number;
+
+  /** @format int32 */
+  fungibleToken?: number;
 
   /** @format int32 */
   createdAt?: number;

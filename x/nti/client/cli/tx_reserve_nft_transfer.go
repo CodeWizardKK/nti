@@ -3,12 +3,13 @@ package cli
 import (
 	"strconv"
 
+	"nti/x/nti/types"
+
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
-	"nti/x/nti/types"
 )
 
 var _ = strconv.Itoa(0)
@@ -22,10 +23,10 @@ func CmdReserveNftTransfer() *cobra.Command {
 			argSrcNftHash := args[0]
 			argSrcChain := args[1]
 			argSrcAddr := args[2]
-			argDestNftHash := args[3]
-			argDestChain := args[4]
-			argDestAddr := args[5]
-			argBlockHeight, err := cast.ToInt32E(args[6])
+			argDestChain := args[3]
+			argDestAddr := args[4]
+			argBlockHeight, err := cast.ToInt32E(args[5])
+			argFungibleToken, err := cast.ToInt32E(args[6])
 			if err != nil {
 				return err
 			}
@@ -40,10 +41,10 @@ func CmdReserveNftTransfer() *cobra.Command {
 				argSrcNftHash,
 				argSrcChain,
 				argSrcAddr,
-				argDestNftHash,
 				argDestChain,
 				argDestAddr,
 				argBlockHeight,
+				argFungibleToken,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

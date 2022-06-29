@@ -9,16 +9,16 @@ const TypeMsgReserveNftTransfer = "reserve_nft_transfer"
 
 var _ sdk.Msg = &MsgReserveNftTransfer{}
 
-func NewMsgReserveNftTransfer(creator string, srcNftHash string, srcChain string, srcAddr string, destNftHash string, destChain string, destAddr string, blockHeight int32) *MsgReserveNftTransfer {
+func NewMsgReserveNftTransfer(creator string, srcNftHash string, srcChain string, srcAddr string, destChain string, destAddr string, blockHeight int32, fungibleToken int32) *MsgReserveNftTransfer {
 	return &MsgReserveNftTransfer{
-		Creator:     creator,
-		SrcNftHash:  srcNftHash,
-		SrcChain:    srcChain,
-		SrcAddr:     srcAddr,
-		DestNftHash: destNftHash,
-		DestChain:   destChain,
-		DestAddr:    destAddr,
-		BlockHeight: blockHeight,
+		Creator:       creator,
+		SrcNftHash:    srcNftHash,
+		SrcChain:      srcChain,
+		SrcAddr:       srcAddr,
+		DestChain:     destChain,
+		DestAddr:      destAddr,
+		BlockHeight:   blockHeight,
+		FungibleToken: fungibleToken,
 	}
 }
 

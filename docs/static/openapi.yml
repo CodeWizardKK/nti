@@ -30051,13 +30051,14 @@ paths:
                       type: string
                     srcAddr:
                       type: string
-                    destNftHash:
-                      type: string
                     destChain:
                       type: string
                     destAddr:
                       type: string
                     blockHeight:
+                      type: integer
+                      format: int32
+                    fungibleToken:
                       type: integer
                       format: int32
                     createdAt:
@@ -30188,13 +30189,14 @@ paths:
                     type: string
                   srcAddr:
                     type: string
-                  destNftHash:
-                    type: string
                   destChain:
                     type: string
                   destAddr:
                     type: string
                   blockHeight:
+                    type: integer
+                    format: int32
+                  fungibleToken:
                     type: integer
                     format: int32
                   createdAt:
@@ -52025,13 +52027,14 @@ definitions:
               type: string
             srcAddr:
               type: string
-            destNftHash:
-              type: string
             destChain:
               type: string
             destAddr:
               type: string
             blockHeight:
+              type: integer
+              format: int32
+            fungibleToken:
               type: integer
               format: int32
             createdAt:
@@ -52099,13 +52102,14 @@ definitions:
             type: string
           srcAddr:
             type: string
-          destNftHash:
-            type: string
           destChain:
             type: string
           destAddr:
             type: string
           blockHeight:
+            type: integer
+            format: int32
+          fungibleToken:
             type: integer
             format: int32
           createdAt:
@@ -52129,13 +52133,14 @@ definitions:
         type: string
       srcAddr:
         type: string
-      destNftHash:
-        type: string
       destChain:
         type: string
       destAddr:
         type: string
       blockHeight:
+        type: integer
+        format: int32
+      fungibleToken:
         type: integer
         format: int32
       createdAt:

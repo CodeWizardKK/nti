@@ -8,10 +8,10 @@ message ReservedNftTransfer {
   string srcNftHash = 2; 
   string srcChain = 3; 
   string srcAddr = 4; 
-  string destNftHash = 5; 
-  string destChain = 6; 
-  string destAddr = 7; 
-  int32 blockHeight = 8; 
+  string destChain = 5; 
+  string destAddr = 6; 
+  int32 blockHeight = 7; 
+  int32 fungibleToken = 8;
   int32 createdAt = 9; 
   
 }

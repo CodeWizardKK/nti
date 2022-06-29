@@ -8,10 +8,10 @@ export interface MsgReserveNftTransfer {
   srcNftHash: string;
   srcChain: string;
   srcAddr: string;
-  destNftHash: string;
   destChain: string;
   destAddr: string;
   blockHeight: number;
+  fungibleToken: number;
 }
 
 export interface MsgReserveNftTransferResponse {}
@@ -33,10 +33,10 @@ const baseMsgReserveNftTransfer: object = {
   srcNftHash: "",
   srcChain: "",
   srcAddr: "",
-  destNftHash: "",
   destChain: "",
   destAddr: "",
   blockHeight: 0,
+  fungibleToken: 0,
 };
 
 export const MsgReserveNftTransfer = {
@@ -56,17 +56,17 @@ export const MsgReserveNftTransfer = {
     if (message.srcAddr !== "") {
       writer.uint32(34).string(message.srcAddr);
     }
-    if (message.destNftHash !== "") {
-      writer.uint32(42).string(message.destNftHash);
-    }
     if (message.destChain !== "") {
-      writer.uint32(50).string(message.destChain);
+      writer.uint32(42).string(message.destChain);
     }
     if (message.destAddr !== "") {
-      writer.uint32(58).string(message.destAddr);
+      writer.uint32(50).string(message.destAddr);
     }
     if (message.blockHeight !== 0) {
-      writer.uint32(64).int32(message.blockHeight);
+      writer.uint32(56).int32(message.blockHeight);
+    }
+    if (message.fungibleToken !== 0) {
+      writer.uint32(64).int32(message.fungibleToken);
     }
     return writer;
   },
@@ -91,16 +91,16 @@ export const MsgReserveNftTransfer = {
           message.srcAddr = reader.string();
           break;
         case 5:
-          message.destNftHash = reader.string();
-          break;
-        case 6:
           message.destChain = reader.string();
           break;
-        case 7:
+        case 6:
           message.destAddr = reader.string();
           break;
-        case 8:
+        case 7:
           message.blockHeight = reader.int32();
+          break;
+        case 8:
+          message.fungibleToken = reader.int32();
           break;
         default:
           reader.skipType(tag & 7);
@@ -132,11 +132,6 @@ export const MsgReserveNftTransfer = {
     } else {
       message.srcAddr = "";
     }
-    if (object.destNftHash !== undefined && object.destNftHash !== null) {
-      message.destNftHash = String(object.destNftHash);
-    } else {
-      message.destNftHash = "";
-    }
     if (object.destChain !== undefined && object.destChain !== null) {
       message.destChain = String(object.destChain);
     } else {
@@ -152,6 +147,11 @@ export const MsgReserveNftTransfer = {
     } else {
       message.blockHeight = 0;
     }
+    if (object.fungibleToken !== undefined && object.fungibleToken !== null) {
+      message.fungibleToken = Number(object.fungibleToken);
+    } else {
+      message.fungibleToken = 0;
+    }
     return message;
   },
 
@@ -161,12 +161,12 @@ export const MsgReserveNftTransfer = {
     message.srcNftHash !== undefined && (obj.srcNftHash = message.srcNftHash);
     message.srcChain !== undefined && (obj.srcChain = message.srcChain);
     message.srcAddr !== undefined && (obj.srcAddr = message.srcAddr);
-    message.destNftHash !== undefined &&
-      (obj.destNftHash = message.destNftHash);
     message.destChain !== undefined && (obj.destChain = message.destChain);
     message.destAddr !== undefined && (obj.destAddr = message.destAddr);
     message.blockHeight !== undefined &&
       (obj.blockHeight = message.blockHeight);
+    message.fungibleToken !== undefined &&
+      (obj.fungibleToken = message.fungibleToken);
     return obj;
   },
 
@@ -194,11 +194,6 @@ export const MsgReserveNftTransfer = {
     } else {
       message.srcAddr = "";
     }
-    if (object.destNftHash !== undefined && object.destNftHash !== null) {
-      message.destNftHash = object.destNftHash;
-    } else {
-      message.destNftHash = "";
-    }
     if (object.destChain !== undefined && object.destChain !== null) {
       message.destChain = object.destChain;
     } else {
@@ -213,6 +208,11 @@ export const MsgReserveNftTransfer = {
       message.blockHeight = object.blockHeight;
     } else {
       message.blockHeight = 0;
+    }
+    if (object.fungibleToken !== undefined && object.fungibleToken !== null) {
+      message.fungibleToken = object.fungibleToken;
+    } else {
+      message.fungibleToken = 0;
     }
     return message;
   },
