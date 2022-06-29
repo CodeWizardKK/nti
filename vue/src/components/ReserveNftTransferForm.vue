@@ -9,10 +9,10 @@
             <input class="sp-input" placeholder="Source NFT Hash" v-model="srcNftHash" />
             <input class="sp-input" placeholder="Source Chain" v-model="srcChain" />
             <input class="sp-input" placeholder="Source Address" v-model="srcAddr" />
-            <input class="sp-input" placeholder="Destination NFT Hash" v-model="destNftHash" />
             <input class="sp-input" placeholder="Destination Chain" v-model="destChain" />
             <input class="sp-input" placeholder="Destination Address" v-model="destAddr" />
             <input class="sp-input" placeholder="Block Height" v-model="blockHeight" />
+            <input class="sp-input" placeholder="Fungible Token" v-model="fungibleToken" />
             <sp-button @click="transferNft">Reserve NFT Transfer</sp-button>
             </form>
         </div>
@@ -36,10 +36,10 @@ export default {
     const srcNftHash = ref('')
     const srcChain = ref('')
     const srcAddr = ref('')
-    const destNftHash = ref('')
     const destChain = ref('')
     const destAddr = ref('')
     const blockHeight = ref('')
+    const fungibleToken = ref('')
 
     // methods
     const transferNft = async () => {
@@ -48,10 +48,10 @@ export default {
             srcNftHash: srcNftHash.value,
             srcChain: srcChain.value,
             srcAddr: srcAddr.value,
-            destNftHash: destNftHash.value,
             destChain: destChain.value,
             destAddr: destAddr.value,
             blockHeight: blockHeight.value,
+            fungibleToken: fungibleToken.value,
         };
 
         try {
@@ -68,10 +68,10 @@ export default {
         srcNftHash,
         srcChain,
         srcAddr,
-        destNftHash,
         destChain,
         destAddr,
         blockHeight,
+        fungibleToken,
         transferNft,
     }
   },
