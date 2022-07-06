@@ -19,8 +19,9 @@ message MsgReserveNftTransfer {
   string srcAddr = 4;
   string destChain = 5;
   string destAddr = 6;
-  int32 blockHeight = 7;
-  int32 fungibleToken = 8;
+  string destReservationAddr = 7;
+  int32 blockHeight = 8;
+  int32 fungibleToken = 9;
 }
 
 message MsgReserveNftTransferResponse {
