@@ -84,6 +84,7 @@ export interface NtiReservedNftTransfer {
   srcAddr?: string;
   destChain?: string;
   destAddr?: string;
+  destReservationAddr?: string;
 
   /** @format int32 */
   blockHeight?: number;

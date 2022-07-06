@@ -10,6 +10,7 @@ export interface MsgReserveNftTransfer {
   srcAddr: string;
   destChain: string;
   destAddr: string;
+  destReservationAddr: string;
   blockHeight: number;
   fungibleToken: number;
 }
@@ -35,6 +36,7 @@ const baseMsgReserveNftTransfer: object = {
   srcAddr: "",
   destChain: "",
   destAddr: "",
+  destReservationAddr: "",
   blockHeight: 0,
   fungibleToken: 0,
 };
@@ -62,11 +64,14 @@ export const MsgReserveNftTransfer = {
     if (message.destAddr !== "") {
       writer.uint32(50).string(message.destAddr);
     }
+    if (message.destReservationAddr !== "") {
+      writer.uint32(58).string(message.destReservationAddr);
+    }
     if (message.blockHeight !== 0) {
-      writer.uint32(56).int32(message.blockHeight);
+      writer.uint32(64).int32(message.blockHeight);
     }
     if (message.fungibleToken !== 0) {
-      writer.uint32(64).int32(message.fungibleToken);
+      writer.uint32(72).int32(message.fungibleToken);
     }
     return writer;
   },
@@ -97,9 +102,12 @@ export const MsgReserveNftTransfer = {
           message.destAddr = reader.string();
           break;
         case 7:
-          message.blockHeight = reader.int32();
+          message.destReservationAddr = reader.string();
           break;
         case 8:
+          message.blockHeight = reader.int32();
+          break;
+        case 9:
           message.fungibleToken = reader.int32();
           break;
         default:
@@ -142,6 +150,14 @@ export const MsgReserveNftTransfer = {
     } else {
       message.destAddr = "";
     }
+    if (
+      object.destReservationAddr !== undefined &&
+      object.destReservationAddr !== null
+    ) {
+      message.destReservationAddr = String(object.destReservationAddr);
+    } else {
+      message.destReservationAddr = "";
+    }
     if (object.blockHeight !== undefined && object.blockHeight !== null) {
       message.blockHeight = Number(object.blockHeight);
     } else {
@@ -163,6 +179,8 @@ export const MsgReserveNftTransfer = {
     message.srcAddr !== undefined && (obj.srcAddr = message.srcAddr);
     message.destChain !== undefined && (obj.destChain = message.destChain);
     message.destAddr !== undefined && (obj.destAddr = message.destAddr);
+    message.destReservationAddr !== undefined &&
+      (obj.destReservationAddr = message.destReservationAddr);
     message.blockHeight !== undefined &&
       (obj.blockHeight = message.blockHeight);
     message.fungibleToken !== undefined &&
@@ -203,6 +221,14 @@ export const MsgReserveNftTransfer = {
       message.destAddr = object.destAddr;
     } else {
       message.destAddr = "";
+    }
+    if (
+      object.destReservationAddr !== undefined &&
+      object.destReservationAddr !== null
+    ) {
+      message.destReservationAddr = object.destReservationAddr;
+    } else {
+      message.destReservationAddr = "";
     }
     if (object.blockHeight !== undefined && object.blockHeight !== null) {
       message.blockHeight = object.blockHeight;

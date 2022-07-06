@@ -30055,6 +30055,8 @@ paths:
                       type: string
                     destAddr:
                       type: string
+                    destReservationAddr:
+                      type: string
                     blockHeight:
                       type: integer
                       format: int32
@@ -30192,6 +30194,8 @@ paths:
                   destChain:
                     type: string
                   destAddr:
+                    type: string
+                  destReservationAddr:
                     type: string
                   blockHeight:
                     type: integer
@@ -52031,6 +52035,8 @@ definitions:
               type: string
             destAddr:
               type: string
+            destReservationAddr:
+              type: string
             blockHeight:
               type: integer
               format: int32
@@ -52106,6 +52112,8 @@ definitions:
             type: string
           destAddr:
             type: string
+          destReservationAddr:
+            type: string
           blockHeight:
             type: integer
             format: int32
@@ -52136,6 +52144,8 @@ definitions:
       destChain:
         type: string
       destAddr:
+        type: string
+      destReservationAddr:
         type: string
       blockHeight:
         type: integer

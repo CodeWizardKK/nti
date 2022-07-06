@@ -33,15 +33,16 @@ func (k msgServer) ReserveNftTransfer(goCtx context.Context, msg *types.MsgReser
 	createdAt := time.Now().Unix()
 
 	reservedNftTransfer := types.ReservedNftTransfer{
-		ReservedKey:   reservedKey,
-		SrcNftHash:    msg.SrcNftHash,
-		SrcChain:      msg.SrcChain,
-		SrcAddr:       msg.SrcAddr,
-		DestChain:     msg.DestChain,
-		DestAddr:      msg.DestAddr,
-		BlockHeight:   msg.BlockHeight,
-		FungibleToken: msg.FungibleToken,
-		CreatedAt:     int32(int(createdAt)),
+		ReservedKey:         reservedKey,
+		SrcNftHash:          msg.SrcNftHash,
+		SrcChain:            msg.SrcChain,
+		SrcAddr:             msg.SrcAddr,
+		DestChain:           msg.DestChain,
+		DestAddr:            msg.DestAddr,
+		DestReservationAddr: msg.DestReservationAddr,
+		BlockHeight:         msg.BlockHeight,
+		FungibleToken:       msg.FungibleToken,
+		CreatedAt:           int32(int(createdAt)),
 	}
 
 	k.Keeper.SetReservedNftTransfer(ctx, reservedNftTransfer)

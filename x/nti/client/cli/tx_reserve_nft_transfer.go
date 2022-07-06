@@ -16,7 +16,7 @@ var _ = strconv.Itoa(0)
 
 func CmdReserveNftTransfer() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "reserve-nft-transfer [src-nft-hash] [src-chain] [src-addr] [dest-nft-hash] [dest-chain] [dest-addr] [block-height]",
+		Use:   "reserve-nft-transfer [src-nft-hash] [src-chain] [src-addr] [dest-nft-hash] [dest-chain] [dest-addr] [dest-reservation-addr] [block-height]",
 		Short: "Broadcast message reserveNftTransfer",
 		Args:  cobra.ExactArgs(7),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
@@ -25,8 +25,9 @@ func CmdReserveNftTransfer() *cobra.Command {
 			argSrcAddr := args[2]
 			argDestChain := args[3]
 			argDestAddr := args[4]
-			argBlockHeight, err := cast.ToInt32E(args[5])
-			argFungibleToken, err := cast.ToInt32E(args[6])
+			argDestReservationAddr := args[5]
+			argBlockHeight, err := cast.ToInt32E(args[6])
+			argFungibleToken, err := cast.ToInt32E(args[7])
 			if err != nil {
 				return err
 			}
@@ -43,6 +44,7 @@ func CmdReserveNftTransfer() *cobra.Command {
 				argSrcAddr,
 				argDestChain,
 				argDestAddr,
+				argDestReservationAddr,
 				argBlockHeight,
 				argFungibleToken,
 			)
