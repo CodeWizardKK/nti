@@ -33,6 +33,7 @@ const headers = [
     'Source Address',
     'Destination Chain',
     'Destination Address',
+    'Destination Reservation Address',
     'Block Height',
     'Fungible Token',
     'Created At'
@@ -47,6 +48,7 @@ export default {
             "srcAddr",
             "destChain",
             "destAddr",
+            "destReservationAddr",
             "blockHeight",
             "fungibleToken",
             "createdAt"
