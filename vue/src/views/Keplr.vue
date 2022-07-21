@@ -4,7 +4,7 @@
   <div class="container">
     <div id="parent">
       <div class="child">
-        Send Token
+        <send-token-form />
       </div>
 
       <div class="child">
@@ -42,7 +42,13 @@ th ,td {
 </style>
 
 <script>
+import SendTokenForm from '../components/SendTokenForm.vue';
+
 export default {
   name: 'Data',
+
+  components: {
+    SendTokenForm,
+  }
 }
 </script>
