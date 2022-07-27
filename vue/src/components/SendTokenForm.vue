@@ -16,6 +16,7 @@
 <script>
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import { SigningStargateClient, assertIsDeliverTxSuccess } from '@cosmjs/stargate'
 import useAccount from '../composables/useAccount'
 
 export default {
@@ -34,6 +35,38 @@ export default {
     // methods
     const submit = async () => {
         console.log('submit')
+
+        const chainId = "nti"; // Project name
+        await window.keplr.enable(chainId);
+        const offlineSigner = window.getOfflineSigner(chainId);
+        const accounts = await offlineSigner.getAccounts();
+
+        const client = await SigningStargateClient.connectWithSigner(
+            // "https://lcd-cosmoshub.keplr.app",
+            "http://0.0.0.0:26657", // Tendermint URL
+            offlineSigner
+        )
+
+        const amountFinal = {
+            denom: 'token',
+            amount: amount.value,
+        }
+        const fee = {
+            amount: [{
+                denom: 'token',
+                amount: '5000',
+            }, ],
+            gas: '200000',
+        }
+        const result = await client.sendTokens(accounts[0].address, recipient.value, [amountFinal], fee, "")
+        assertIsDeliverTxSuccess(result)
+
+        if (result.code !== undefined &&
+            result.code !== 0) {
+            alert("Failed to send tx: " + result.log || result.rawLog);
+        } else {
+            alert("Succeed to send tx:" + result.transactionHash);
+        }
     }
 
     return {
