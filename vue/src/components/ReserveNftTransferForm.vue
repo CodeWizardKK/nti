@@ -21,17 +21,14 @@
 </template>
 <script>
 import { ref } from 'vue'
-import { useStore } from 'vuex'
 import useAccount from '../composables/useAccount'
 
 export default {
   name: "Reserve NFT Transer Form",
+  emits: ['reserveNftTransfer'],
 
-  setup() {
+  setup(props, context) {
     const { currentAccount } = useAccount()
-
-    // store
-    let $s = useStore()
 
     // state
     const srcNftHash = ref('')
@@ -44,7 +41,7 @@ export default {
     const fungibleToken = ref('')
 
     // methods
-    const transferNft = async () => {
+    const transferNft = () => {
         const value = {
             creator: currentAccount.value,
             srcNftHash: srcNftHash.value,
@@ -57,14 +54,7 @@ export default {
             fungibleToken: fungibleToken.value,
         };
 
-        try {
-            await $s.dispatch("nti.nti/sendMsgReserveNftTransfer", {
-                value,
-                fee: [],
-            });
-        } catch (err) {
-            console.log(err)
-        }
+        context.emit('reserveNftTransfer', value)
     }
 
     return {

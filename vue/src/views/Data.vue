@@ -4,7 +4,8 @@
   <div class="container">
     <div id="parent">
       <div class="child">
-        <reserve-nft-transfer-form />
+        <reserve-nft-transfer-form
+        @reserve-nft-transfer="reserveNftTransfer"/>
         <transfer-nft-form />
       </div>
 
@@ -44,6 +45,8 @@ th ,td {
 </style>
 
 <script>
+import { useStore } from 'vuex'
+import { SigningStargateClient, assertIsDeliverTxSuccess } from '@cosmjs/stargate'
 import ReservedNftTransferList from '../components/ReservedNftTransferList.vue';
 import NftTransferList from '../components/NftTransferList.vue';
 import ReserveNftTransferForm from '../components/ReserveNftTransferForm.vue';
@@ -57,6 +60,69 @@ export default {
     NftTransferList,
     ReserveNftTransferForm,
     TransferNftForm,
+  },
+
+  setup(props, context) {
+    // store
+    let $s = useStore()
+
+    // methods
+    const reserveNftTransfer = async (value) => {
+      try {
+        // Send fungible tokens
+        const amount = '100';
+        const recipient = "cosmos1rdhv6ejrl8t26nmarr4l4zntnqdywwrxfnu07r";
+        const chainId = "nti"; // Project name
+
+        await window.keplr.enable(chainId);
+        const offlineSigner = window.getOfflineSigner(chainId);
+        const accounts = await offlineSigner.getAccounts();
+
+        const client = await SigningStargateClient.connectWithSigner(
+            // "https://lcd-cosmoshub.keplr.app",
+            "http://0.0.0.0:26657", // Tendermint URL
+            offlineSigner
+        )
+
+        const amountFinal = {
+            denom: 'token',
+            amount,
+        }
+        const fee = {
+            amount: [{
+                denom: 'token',
+                amount: '100',
+            }, ],
+            gas: '200000',
+        }
+
+        console.log('Send tokens...')
+        const result = await client.sendTokens(accounts[0].address, recipient, [amountFinal], fee, "")
+        console.log('Assert is deliver tx success...')
+        assertIsDeliverTxSuccess(result)
+
+        console.log('Alert failed or succeed...')
+        if (result.code !== undefined &&
+            result.code !== 0) {
+            alert("Failed to send tx: " + result.log || result.rawLog);
+        } else {
+            alert("Succeed to send tx:" + result.transactionHash);
+        }
+
+        // Send Tx
+        console.log('Send msg reserve nft transer...')
+        await $s.dispatch("nti.nti/sendMsgReserveNftTransfer", {
+            value,
+            fee: [],
+        });
+      } catch (err) {
+          console.log(err)
+      }
+    }
+
+    return {
+      reserveNftTransfer
+    }
   }
 }
 </script>

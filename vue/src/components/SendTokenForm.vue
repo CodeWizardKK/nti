@@ -54,7 +54,7 @@ export default {
         const fee = {
             amount: [{
                 denom: 'token',
-                amount: '5000',
+                amount: '100',
             }, ],
             gas: '200000',
         }

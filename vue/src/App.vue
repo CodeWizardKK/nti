@@ -51,7 +51,6 @@ export default {
       if (!window.keplr) {
           alert("Please install keplr extension");
       } else {
-          console.log(window.keplr)
           const chainId = "cosmoshub-4";
 
           // Enabling before using the Keplr is recommended.
@@ -66,7 +65,6 @@ export default {
           // But, currently, Keplr extension manages only one address/public key pair.
           // XXX: This line is needed to set the sender address for SigningCosmosClient.
           const accounts = await offlineSigner.getAccounts();
-          console.log(accounts)
       
           // Initialize the gaia api with the offline signer that is injected by Keplr extension.
           const cosmJS = new SigningCosmosClient(
@@ -74,8 +72,6 @@ export default {
               accounts[0].address,
               offlineSigner,
           );
-
-          console.log(cosmJS)
       }
     })
 
