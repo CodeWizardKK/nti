@@ -70,7 +70,7 @@ export default {
     const reserveNftTransfer = async (value) => {
       try {
         // Send fungible tokens
-        const amount = '100';
+        const amount = value.fungibleToken;
         const recipient = "cosmos1rdhv6ejrl8t26nmarr4l4zntnqdywwrxfnu07r";
         const chainId = "nti"; // Project name
 
@@ -98,10 +98,8 @@ export default {
 
         console.log('Send tokens...')
         const result = await client.sendTokens(accounts[0].address, recipient, [amountFinal], fee, "")
-        console.log('Assert is deliver tx success...')
         assertIsDeliverTxSuccess(result)
 
-        console.log('Alert failed or succeed...')
         if (result.code !== undefined &&
             result.code !== 0) {
             alert("Failed to send tx: " + result.log || result.rawLog);
