@@ -28,14 +28,16 @@ import { useStore } from 'vuex'
 
 const headers = [
     'Reserved Key',
-    'Source NFT Hash',
-    'Source Chain',
-    'Source Address',
-    'Destination Chain',
-    'Destination Address',
-    'Destination Reservation Address',
-    'Block Height',
+    'NFT Source Hash',
+    'NFT Source Chain',
+    'NFT Source Address',
+    'NFT Destination Chain',
+    'NFT Destination Address',
+    'FT Chain',
+    'FT Source Address',
+    'FT Destination Address',
     'Fungible Token',
+    'Block Height',
     'Created At'
 ]
 
@@ -43,14 +45,16 @@ export default {
     setup() {
         const columns = [
             "reservedKey",
-            "srcNftHash",
-            "srcChain",
-            "srcAddr",
-            "destChain",
-            "destAddr",
-            "destReservationAddr",
-            "blockHeight",
+            "nftSrcHash",
+            "nftSrcChain",
+            "nftSrcAddr",
+            "nftDestChain",
+            "nftDestAddr",
+            "ftChain",
+            "ftSrcAddr",
+            "ftDestAddr",
             "fungibleToken",
+            "blockHeight",
             "createdAt"
         ]
 

@@ -16,18 +16,30 @@ var _ = strconv.Itoa(0)
 
 func CmdReserveNftTransfer() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "reserve-nft-transfer [src-nft-hash] [src-chain] [src-addr] [dest-nft-hash] [dest-chain] [dest-addr] [dest-reservation-addr] [block-height]",
+		Use: `reserve-nft-transfer
+			[nft-src-hash]
+			[nft-src-chain]
+			[nft-src-addr]
+			[nft-dest-chain]
+			[nft-dest-addr]
+			[ft-chain]
+			[ft-src-addr]
+			[ft-dest-addr]
+			[fungible-token]
+			[block-height]`,
 		Short: "Broadcast message reserveNftTransfer",
 		Args:  cobra.ExactArgs(7),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			argSrcNftHash := args[0]
-			argSrcChain := args[1]
-			argSrcAddr := args[2]
-			argDestChain := args[3]
-			argDestAddr := args[4]
-			argDestReservationAddr := args[5]
-			argBlockHeight, err := cast.ToInt32E(args[6])
-			argFungibleToken, err := cast.ToInt32E(args[7])
+			argNftSrcHash := args[0]
+			argNftSrcChain := args[1]
+			argNftSrcAddr := args[2]
+			argNftDestChain := args[3]
+			argNftDestAddr := args[4]
+			argFtChain := args[5]
+			argFtSrcAddr := args[6]
+			argFtDestAddr := args[7]
+			argFungibleToken, err := cast.ToInt32E(args[8])
+			argBlockHeight, err := cast.ToInt32E(args[9])
 			if err != nil {
 				return err
 			}
@@ -39,14 +51,16 @@ func CmdReserveNftTransfer() *cobra.Command {
 
 			msg := types.NewMsgReserveNftTransfer(
 				clientCtx.GetFromAddress().String(),
-				argSrcNftHash,
-				argSrcChain,
-				argSrcAddr,
-				argDestChain,
-				argDestAddr,
-				argDestReservationAddr,
-				argBlockHeight,
+				argNftSrcHash,
+				argNftSrcChain,
+				argNftSrcAddr,
+				argNftDestChain,
+				argNftDestAddr,
+				argFtChain,
+				argFtSrcAddr,
+				argFtDestAddr,
 				argFungibleToken,
+				argBlockHeight,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

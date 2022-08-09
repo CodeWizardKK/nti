@@ -6,14 +6,16 @@
                 Reserve NFT Transfer
             </div>
 
-            <input class="sp-input" placeholder="Source NFT Hash" v-model="srcNftHash" />
-            <input class="sp-input" placeholder="Source Chain" v-model="srcChain" />
-            <input class="sp-input" placeholder="Source Address" v-model="srcAddr" />
-            <input class="sp-input" placeholder="Destination Chain" v-model="destChain" />
-            <input class="sp-input" placeholder="Destination Address" v-model="destAddr" />
-            <input class="sp-input" placeholder="Destination Reservation Address" v-model="destReservationAddr" />
-            <input class="sp-input" placeholder="Block Height" v-model="blockHeight" />
+            <input class="sp-input" placeholder="NFT Source Hash" v-model="nftSrcHash" />
+            <input class="sp-input" placeholder="NFT Source Chain" v-model="nftSrcChain" />
+            <input class="sp-input" placeholder="NFT Source Address" v-model="nftSrcAddr" />
+            <input class="sp-input" placeholder="NFT Destination Chain" v-model="nftDestChain" />
+            <input class="sp-input" placeholder="NFT Destination Address" v-model="nftDestAddr" />
+            <input class="sp-input" placeholder="FT Chain" v-model="ftChain" />
+            <input class="sp-input" placeholder="FT Source Address" v-model="ftSrcAddr" />
+            <input class="sp-input" placeholder="FT Destination Address" v-model="ftDestAddr" />
             <input class="sp-input" placeholder="Fungible Token" v-model="fungibleToken" />
+            <input class="sp-input" placeholder="Block Height" v-model="blockHeight" />
             <sp-button @click="transferNft">Reserve NFT Transfer</sp-button>
             </form>
         </div>
@@ -31,41 +33,47 @@ export default {
     const { currentAccount } = useAccount()
 
     // state
-    const srcNftHash = ref('')
-    const srcChain = ref('')
-    const srcAddr = ref('')
-    const destChain = ref('')
-    const destAddr = ref('')
-    const destReservationAddr = ref('')
-    const blockHeight = ref('')
+    const nftSrcHash = ref('')
+    const nftSrcChain = ref('')
+    const nftSrcAddr = ref('')
+    const nftDestChain = ref('')
+    const nftDestAddr = ref('')
+    const ftChain = ref('')
+    const ftSrcAddr = ref('')
+    const ftDestAddr = ref('')
     const fungibleToken = ref('')
+    const blockHeight = ref('')
 
     // methods
     const transferNft = () => {
         const value = {
             creator: currentAccount.value,
-            srcNftHash: srcNftHash.value,
-            srcChain: srcChain.value,
-            srcAddr: srcAddr.value,
-            destChain: destChain.value,
-            destAddr: destAddr.value,
-            destReservationAddr: destReservationAddr.value,
-            blockHeight: blockHeight.value,
+            nftSrcHash: nftSrcHash.value,
+            nftSrcChain: nftSrcChain.value,
+            nftSrcAddr: nftSrcAddr.value,
+            nftDestChain: nftDestChain.value,
+            nftDestAddr: nftDestAddr.value,
+            ftChain: ftChain.value,
+            ftSrcAddr: ftSrcAddr.value,
+            ftDestAddr: ftDestAddr.value,
             fungibleToken: fungibleToken.value,
+            blockHeight: blockHeight.value,
         };
 
         context.emit('reserveNftTransfer', value)
     }
 
     return {
-        srcNftHash,
-        srcChain,
-        srcAddr,
-        destChain,
-        destAddr,
-        destReservationAddr,
-        blockHeight,
+        nftSrcHash,
+        nftSrcChain,
+        nftSrcAddr,
+        nftDestChain,
+        nftDestAddr,
+        ftChain,
+        ftSrcAddr,
+        ftDestAddr,
         fungibleToken,
+        blockHeight,
         transferNft,
     }
   },

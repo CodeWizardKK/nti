@@ -72,7 +72,7 @@ export default {
         // Send fungible tokens
         const amount = '1';
         // Admin's wallet address
-        const recipient = "cosmos1867mzl3a5mnldz8vrpheshsya44nke7zq6gmld";
+        const recipient = "cosmos14fsljnzssps70732lulh6463rdw6v25nhg6u3a";
         const chainId = "nti"; // Project name
 
         await window.keplr.enable(chainId);
