@@ -18,11 +18,11 @@ func (k msgServer) ReserveNftTransfer(goCtx context.Context, msg *types.MsgReser
 
 	// Generate reserved key.
 	elems := []string{
-		msg.SrcNftHash,
-		msg.SrcChain,
-		msg.SrcAddr,
-		msg.DestChain,
-		msg.DestAddr,
+		msg.NftSrcHash,
+		msg.NftSrcChain,
+		msg.NftSrcAddr,
+		msg.NftDestChain,
+		msg.NftDestAddr,
 		// Convert block height into string.
 		strconv.FormatInt(int64(msg.BlockHeight), 10),
 	}
@@ -33,16 +33,18 @@ func (k msgServer) ReserveNftTransfer(goCtx context.Context, msg *types.MsgReser
 	createdAt := time.Now().Unix()
 
 	reservedNftTransfer := types.ReservedNftTransfer{
-		ReservedKey:         reservedKey,
-		SrcNftHash:          msg.SrcNftHash,
-		SrcChain:            msg.SrcChain,
-		SrcAddr:             msg.SrcAddr,
-		DestChain:           msg.DestChain,
-		DestAddr:            msg.DestAddr,
-		DestReservationAddr: msg.DestReservationAddr,
-		BlockHeight:         msg.BlockHeight,
-		FungibleToken:       msg.FungibleToken,
-		CreatedAt:           int32(int(createdAt)),
+		ReservedKey:   reservedKey,
+		NftSrcHash:    msg.NftSrcHash,
+		NftSrcChain:   msg.NftSrcChain,
+		NftSrcAddr:    msg.NftSrcAddr,
+		NftDestChain:  msg.NftDestChain,
+		NftDestAddr:   msg.NftDestAddr,
+		FtChain:       msg.FtChain,
+		FtSrcAddr:     msg.FtSrcAddr,
+		FtDestAddr:    msg.FtDestAddr,
+		FungibleToken: msg.FungibleToken,
+		BlockHeight:   msg.BlockHeight,
+		CreatedAt:     int32(int(createdAt)),
 	}
 
 	k.Keeper.SetReservedNftTransfer(ctx, reservedNftTransfer)
