@@ -30045,22 +30045,26 @@ paths:
                   properties:
                     reservedKey:
                       type: string
-                    srcNftHash:
+                    nftSrcHash:
                       type: string
-                    srcChain:
+                    nftSrcChain:
                       type: string
-                    srcAddr:
+                    nftSrcAddr:
                       type: string
-                    destChain:
+                    nftDestChain:
                       type: string
-                    destAddr:
+                    nftDestAddr:
                       type: string
-                    destReservationAddr:
+                    ftChain:
                       type: string
-                    blockHeight:
+                    ftSrcAddr:
+                      type: string
+                    ftDestAddr:
+                      type: string
+                    fungibleToken:
                       type: integer
                       format: int32
-                    fungibleToken:
+                    blockHeight:
                       type: integer
                       format: int32
                     createdAt:
@@ -30185,22 +30189,26 @@ paths:
                 properties:
                   reservedKey:
                     type: string
-                  srcNftHash:
+                  nftSrcHash:
                     type: string
-                  srcChain:
+                  nftSrcChain:
                     type: string
-                  srcAddr:
+                  nftSrcAddr:
                     type: string
-                  destChain:
+                  nftDestChain:
                     type: string
-                  destAddr:
+                  nftDestAddr:
                     type: string
-                  destReservationAddr:
+                  ftChain:
                     type: string
-                  blockHeight:
+                  ftSrcAddr:
+                    type: string
+                  ftDestAddr:
+                    type: string
+                  fungibleToken:
                     type: integer
                     format: int32
-                  fungibleToken:
+                  blockHeight:
                     type: integer
                     format: int32
                   createdAt:
@@ -52025,22 +52033,26 @@ definitions:
           properties:
             reservedKey:
               type: string
-            srcNftHash:
+            nftSrcHash:
               type: string
-            srcChain:
+            nftSrcChain:
               type: string
-            srcAddr:
+            nftSrcAddr:
               type: string
-            destChain:
+            nftDestChain:
               type: string
-            destAddr:
+            nftDestAddr:
               type: string
-            destReservationAddr:
+            ftChain:
               type: string
-            blockHeight:
+            ftSrcAddr:
+              type: string
+            ftDestAddr:
+              type: string
+            fungibleToken:
               type: integer
               format: int32
-            fungibleToken:
+            blockHeight:
               type: integer
               format: int32
             createdAt:
@@ -52102,22 +52114,26 @@ definitions:
         properties:
           reservedKey:
             type: string
-          srcNftHash:
+          nftSrcHash:
             type: string
-          srcChain:
+          nftSrcChain:
             type: string
-          srcAddr:
+          nftSrcAddr:
             type: string
-          destChain:
+          nftDestChain:
             type: string
-          destAddr:
+          nftDestAddr:
             type: string
-          destReservationAddr:
+          ftChain:
             type: string
-          blockHeight:
+          ftSrcAddr:
+            type: string
+          ftDestAddr:
+            type: string
+          fungibleToken:
             type: integer
             format: int32
-          fungibleToken:
+          blockHeight:
             type: integer
             format: int32
           createdAt:
@@ -52135,22 +52151,26 @@ definitions:
     properties:
       reservedKey:
         type: string
-      srcNftHash:
+      nftSrcHash:
         type: string
-      srcChain:
+      nftSrcChain:
         type: string
-      srcAddr:
+      nftSrcAddr:
         type: string
-      destChain:
+      nftDestChain:
         type: string
-      destAddr:
+      nftDestAddr:
         type: string
-      destReservationAddr:
+      ftChain:
         type: string
-      blockHeight:
+      ftSrcAddr:
+        type: string
+      ftDestAddr:
+        type: string
+      fungibleToken:
         type: integer
         format: int32
-      fungibleToken:
+      blockHeight:
         type: integer
         format: int32
       createdAt:

@@ -23,16 +23,18 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type ReservedNftTransfer struct {
-	ReservedKey         string `protobuf:"bytes,1,opt,name=reservedKey,proto3" json:"reservedKey,omitempty"`
-	SrcNftHash          string `protobuf:"bytes,2,opt,name=srcNftHash,proto3" json:"srcNftHash,omitempty"`
-	SrcChain            string `protobuf:"bytes,3,opt,name=srcChain,proto3" json:"srcChain,omitempty"`
-	SrcAddr             string `protobuf:"bytes,4,opt,name=srcAddr,proto3" json:"srcAddr,omitempty"`
-	DestChain           string `protobuf:"bytes,5,opt,name=destChain,proto3" json:"destChain,omitempty"`
-	DestAddr            string `protobuf:"bytes,6,opt,name=destAddr,proto3" json:"destAddr,omitempty"`
-	DestReservationAddr string `protobuf:"bytes,7,opt,name=destReservationAddr,proto3" json:"destReservationAddr,omitempty"`
-	BlockHeight         int32  `protobuf:"varint,8,opt,name=blockHeight,proto3" json:"blockHeight,omitempty"`
-	FungibleToken       int32  `protobuf:"varint,9,opt,name=fungibleToken,proto3" json:"fungibleToken,omitempty"`
-	CreatedAt           int32  `protobuf:"varint,10,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
+	ReservedKey   string `protobuf:"bytes,1,opt,name=reservedKey,proto3" json:"reservedKey,omitempty"`
+	NftSrcHash    string `protobuf:"bytes,2,opt,name=nftSrcHash,proto3" json:"nftSrcHash,omitempty"`
+	NftSrcChain   string `protobuf:"bytes,3,opt,name=nftSrcChain,proto3" json:"nftSrcChain,omitempty"`
+	NftSrcAddr    string `protobuf:"bytes,4,opt,name=nftSrcAddr,proto3" json:"nftSrcAddr,omitempty"`
+	NftDestChain  string `protobuf:"bytes,5,opt,name=nftDestChain,proto3" json:"nftDestChain,omitempty"`
+	NftDestAddr   string `protobuf:"bytes,6,opt,name=nftDestAddr,proto3" json:"nftDestAddr,omitempty"`
+	FtChain       string `protobuf:"bytes,7,opt,name=ftChain,proto3" json:"ftChain,omitempty"`
+	FtSrcAddr     string `protobuf:"bytes,8,opt,name=ftSrcAddr,proto3" json:"ftSrcAddr,omitempty"`
+	FtDestAddr    string `protobuf:"bytes,9,opt,name=ftDestAddr,proto3" json:"ftDestAddr,omitempty"`
+	FungibleToken int32  `protobuf:"varint,10,opt,name=fungibleToken,proto3" json:"fungibleToken,omitempty"`
+	BlockHeight   int32  `protobuf:"varint,11,opt,name=blockHeight,proto3" json:"blockHeight,omitempty"`
+	CreatedAt     int32  `protobuf:"varint,12,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
 }
 
 func (m *ReservedNftTransfer) Reset()         { *m = ReservedNftTransfer{} }
@@ -75,58 +77,72 @@ func (m *ReservedNftTransfer) GetReservedKey() string {
 	return ""
 }
 
-func (m *ReservedNftTransfer) GetSrcNftHash() string {
+func (m *ReservedNftTransfer) GetNftSrcHash() string {
 	if m != nil {
-		return m.SrcNftHash
+		return m.NftSrcHash
 	}
 	return ""
 }
 
-func (m *ReservedNftTransfer) GetSrcChain() string {
+func (m *ReservedNftTransfer) GetNftSrcChain() string {
 	if m != nil {
-		return m.SrcChain
+		return m.NftSrcChain
 	}
 	return ""
 }
 
-func (m *ReservedNftTransfer) GetSrcAddr() string {
+func (m *ReservedNftTransfer) GetNftSrcAddr() string {
 	if m != nil {
-		return m.SrcAddr
+		return m.NftSrcAddr
 	}
 	return ""
 }
 
-func (m *ReservedNftTransfer) GetDestChain() string {
+func (m *ReservedNftTransfer) GetNftDestChain() string {
 	if m != nil {
-		return m.DestChain
+		return m.NftDestChain
 	}
 	return ""
 }
 
-func (m *ReservedNftTransfer) GetDestAddr() string {
+func (m *ReservedNftTransfer) GetNftDestAddr() string {
 	if m != nil {
-		return m.DestAddr
+		return m.NftDestAddr
 	}
 	return ""
 }
 
-func (m *ReservedNftTransfer) GetDestReservationAddr() string {
+func (m *ReservedNftTransfer) GetFtChain() string {
 	if m != nil {
-		return m.DestReservationAddr
+		return m.FtChain
 	}
 	return ""
 }
 
-func (m *ReservedNftTransfer) GetBlockHeight() int32 {
+func (m *ReservedNftTransfer) GetFtSrcAddr() string {
 	if m != nil {
-		return m.BlockHeight
+		return m.FtSrcAddr
 	}
-	return 0
+	return ""
+}
+
+func (m *ReservedNftTransfer) GetFtDestAddr() string {
+	if m != nil {
+		return m.FtDestAddr
+	}
+	return ""
 }
 
 func (m *ReservedNftTransfer) GetFungibleToken() int32 {
 	if m != nil {
 		return m.FungibleToken
+	}
+	return 0
+}
+
+func (m *ReservedNftTransfer) GetBlockHeight() int32 {
+	if m != nil {
+		return m.BlockHeight
 	}
 	return 0
 }
@@ -145,26 +161,27 @@ func init() {
 func init() { proto.RegisterFile("nti/reserved_nft_transfer.proto", fileDescriptor_387170ed3b286efd) }
 
 var fileDescriptor_387170ed3b286efd = []byte{
-	// 301 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x91, 0xcf, 0x4a, 0xf3, 0x40,
-	0x14, 0xc5, 0x3b, 0xfd, 0xbe, 0x36, 0xcd, 0x88, 0x08, 0xd3, 0xcd, 0x20, 0x32, 0x06, 0x71, 0x51,
-	0x37, 0xad, 0xe0, 0x13, 0x54, 0x37, 0x05, 0xa1, 0x8b, 0xd0, 0x95, 0x9b, 0x92, 0x3f, 0x37, 0xcd,
-	0xd0, 0x32, 0x29, 0x33, 0x57, 0xb1, 0x6f, 0xe1, 0x63, 0xb9, 0xec, 0xd2, 0x9d, 0x92, 0xbc, 0x88,
-	0xcc, 0xa4, 0xb1, 0x11, 0xdc, 0x84, 0x9c, 0x73, 0x7e, 0xe7, 0x32, 0x97, 0x4b, 0x2f, 0x15, 0xca,
-	0x89, 0x06, 0x03, 0xfa, 0x05, 0xd2, 0xa5, 0xca, 0x70, 0x89, 0x3a, 0x52, 0x26, 0x03, 0x3d, 0xde,
-	0xea, 0x02, 0x0b, 0xe6, 0x29, 0x94, 0x63, 0x85, 0xf2, 0xea, 0xb3, 0x4b, 0x87, 0xe1, 0x01, 0x9c,
-	0x67, 0xb8, 0x38, 0x60, 0x2c, 0xa0, 0x27, 0x4d, 0xff, 0x11, 0x76, 0x9c, 0x04, 0x64, 0xe4, 0x87,
-	0x6d, 0x8b, 0x09, 0x4a, 0x8d, 0x4e, 0xe6, 0x19, 0xce, 0x22, 0x93, 0xf3, 0xae, 0x03, 0x5a, 0x0e,
-	0x3b, 0xa7, 0x03, 0xa3, 0x93, 0x87, 0x3c, 0x92, 0x8a, 0xff, 0x73, 0xe9, 0x8f, 0x66, 0x9c, 0x7a,
-	0x46, 0x27, 0xd3, 0x34, 0xd5, 0xfc, 0xbf, 0x8b, 0x1a, 0xc9, 0x2e, 0xa8, 0x9f, 0x82, 0xc1, 0xba,
-	0xd6, 0x73, 0xd9, 0xd1, 0xb0, 0x33, 0xad, 0x70, 0xc5, 0x7e, 0x3d, 0xb3, 0xd1, 0xec, 0x96, 0x0e,
-	0xed, 0x7f, 0xbd, 0x4c, 0x84, 0xb2, 0x50, 0x0e, 0xf3, 0x1c, 0xf6, 0x57, 0x64, 0x77, 0x8c, 0x37,
-	0x45, 0xb2, 0x9e, 0x81, 0x5c, 0xe5, 0xc8, 0x07, 0x01, 0x19, 0xf5, 0xc2, 0xb6, 0xc5, 0xae, 0xe9,
-	0x69, 0xf6, 0xac, 0x56, 0x32, 0xde, 0xc0, 0xa2, 0x58, 0x83, 0xe2, 0xbe, 0x63, 0x7e, 0x9b, 0xf6,
-	0xcd, 0x89, 0x86, 0x08, 0x21, 0x9d, 0x22, 0xa7, 0x8e, 0x38, 0x1a, 0xf7, 0x37, 0xef, 0xa5, 0x20,
-	0xfb, 0x52, 0x90, 0xaf, 0x52, 0x90, 0xb7, 0x4a, 0x74, 0xf6, 0x95, 0xe8, 0x7c, 0x54, 0xa2, 0xf3,
-	0x74, 0x66, 0xaf, 0xf4, 0x3a, 0xb1, 0x5f, 0xdc, 0x6d, 0xc1, 0xc4, 0x7d, 0x77, 0x9c, 0xbb, 0xef,
-	0x00, 0x00, 0x00, 0xff, 0xff, 0x98, 0xd1, 0x4e, 0x72, 0xbf, 0x01, 0x00, 0x00,
+	// 308 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x54, 0x91, 0x41, 0x4e, 0xc2, 0x40,
+	0x14, 0x86, 0x19, 0x11, 0x90, 0x01, 0x63, 0x32, 0x6e, 0x66, 0x61, 0x46, 0x42, 0x5c, 0xe0, 0x06,
+	0x16, 0x9e, 0x00, 0x75, 0x41, 0x62, 0xe2, 0x02, 0x59, 0xb9, 0x21, 0xa5, 0x7d, 0x43, 0x27, 0x90,
+	0x29, 0x99, 0x3e, 0x8d, 0xdc, 0xc2, 0x0b, 0x78, 0x1f, 0x97, 0x2c, 0x5d, 0x9a, 0xf6, 0x22, 0x66,
+	0xa6, 0xad, 0x1d, 0x36, 0x4d, 0xde, 0xf7, 0xfe, 0x7e, 0xef, 0x4f, 0x86, 0x5e, 0x6b, 0x54, 0x13,
+	0x03, 0x29, 0x98, 0x77, 0x88, 0x96, 0x5a, 0xe2, 0x12, 0x4d, 0xa0, 0x53, 0x09, 0x66, 0xbc, 0x33,
+	0x09, 0x26, 0xac, 0xa3, 0x51, 0x8d, 0x35, 0xaa, 0xe1, 0x57, 0x93, 0x5e, 0xce, 0xcb, 0xe0, 0xb3,
+	0xc4, 0x45, 0x19, 0x63, 0x03, 0xda, 0xab, 0xfe, 0x7f, 0x82, 0x3d, 0x27, 0x03, 0x32, 0xea, 0xce,
+	0x7d, 0xc4, 0x04, 0xa5, 0x5a, 0xe2, 0x8b, 0x09, 0x67, 0x41, 0x1a, 0xf3, 0x13, 0x17, 0xf0, 0x88,
+	0x35, 0x14, 0xd3, 0x43, 0x1c, 0x28, 0xcd, 0x9b, 0x85, 0xc1, 0x43, 0xb5, 0x61, 0x1a, 0x45, 0x86,
+	0x9f, 0xfa, 0x06, 0x4b, 0xd8, 0x90, 0xf6, 0xb5, 0xc4, 0x47, 0x48, 0xb1, 0x50, 0xb4, 0x5c, 0xe2,
+	0x88, 0x95, 0x57, 0xec, 0xec, 0x24, 0xed, 0xff, 0x2b, 0x15, 0x62, 0x9c, 0x76, 0x64, 0x29, 0xe8,
+	0xb8, 0x6d, 0x35, 0xb2, 0x2b, 0xda, 0xad, 0xcf, 0x9f, 0xb9, 0x5d, 0x0d, 0x6c, 0x3b, 0x4f, 0xdc,
+	0x2d, 0xda, 0x79, 0xde, 0x1b, 0x7a, 0x2e, 0xdf, 0xf4, 0x5a, 0xad, 0xb6, 0xb0, 0x48, 0x36, 0xa0,
+	0x39, 0x1d, 0x90, 0x51, 0x6b, 0x7e, 0x0c, 0x6d, 0xbf, 0xd5, 0x36, 0x09, 0x37, 0x33, 0x50, 0xeb,
+	0x18, 0x79, 0xcf, 0x65, 0x7c, 0x64, 0x5b, 0x84, 0x06, 0x02, 0x84, 0x68, 0x8a, 0xbc, 0xef, 0xf6,
+	0x35, 0xb8, 0xbf, 0xfd, 0xce, 0x04, 0x39, 0x64, 0x82, 0xfc, 0x66, 0x82, 0x7c, 0xe6, 0xa2, 0x71,
+	0xc8, 0x45, 0xe3, 0x27, 0x17, 0x8d, 0xd7, 0x0b, 0xfb, 0xc6, 0x1f, 0x13, 0xfb, 0xc5, 0xfd, 0x0e,
+	0xd2, 0x55, 0xdb, 0x3d, 0xed, 0xdd, 0x5f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x25, 0x26, 0xfb, 0xeb,
+	0xfd, 0x01, 0x00, 0x00,
 }
 
 func (m *ReservedNftTransfer) Marshal() (dAtA []byte, err error) {
@@ -190,57 +207,71 @@ func (m *ReservedNftTransfer) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	if m.CreatedAt != 0 {
 		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(m.CreatedAt))
 		i--
-		dAtA[i] = 0x50
-	}
-	if m.FungibleToken != 0 {
-		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(m.FungibleToken))
-		i--
-		dAtA[i] = 0x48
+		dAtA[i] = 0x60
 	}
 	if m.BlockHeight != 0 {
 		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(m.BlockHeight))
 		i--
-		dAtA[i] = 0x40
+		dAtA[i] = 0x58
 	}
-	if len(m.DestReservationAddr) > 0 {
-		i -= len(m.DestReservationAddr)
-		copy(dAtA[i:], m.DestReservationAddr)
-		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(len(m.DestReservationAddr)))
+	if m.FungibleToken != 0 {
+		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(m.FungibleToken))
+		i--
+		dAtA[i] = 0x50
+	}
+	if len(m.FtDestAddr) > 0 {
+		i -= len(m.FtDestAddr)
+		copy(dAtA[i:], m.FtDestAddr)
+		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(len(m.FtDestAddr)))
+		i--
+		dAtA[i] = 0x4a
+	}
+	if len(m.FtSrcAddr) > 0 {
+		i -= len(m.FtSrcAddr)
+		copy(dAtA[i:], m.FtSrcAddr)
+		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(len(m.FtSrcAddr)))
+		i--
+		dAtA[i] = 0x42
+	}
+	if len(m.FtChain) > 0 {
+		i -= len(m.FtChain)
+		copy(dAtA[i:], m.FtChain)
+		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(len(m.FtChain)))
 		i--
 		dAtA[i] = 0x3a
 	}
-	if len(m.DestAddr) > 0 {
-		i -= len(m.DestAddr)
-		copy(dAtA[i:], m.DestAddr)
-		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(len(m.DestAddr)))
+	if len(m.NftDestAddr) > 0 {
+		i -= len(m.NftDestAddr)
+		copy(dAtA[i:], m.NftDestAddr)
+		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(len(m.NftDestAddr)))
 		i--
 		dAtA[i] = 0x32
 	}
-	if len(m.DestChain) > 0 {
-		i -= len(m.DestChain)
-		copy(dAtA[i:], m.DestChain)
-		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(len(m.DestChain)))
+	if len(m.NftDestChain) > 0 {
+		i -= len(m.NftDestChain)
+		copy(dAtA[i:], m.NftDestChain)
+		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(len(m.NftDestChain)))
 		i--
 		dAtA[i] = 0x2a
 	}
-	if len(m.SrcAddr) > 0 {
-		i -= len(m.SrcAddr)
-		copy(dAtA[i:], m.SrcAddr)
-		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(len(m.SrcAddr)))
+	if len(m.NftSrcAddr) > 0 {
+		i -= len(m.NftSrcAddr)
+		copy(dAtA[i:], m.NftSrcAddr)
+		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(len(m.NftSrcAddr)))
 		i--
 		dAtA[i] = 0x22
 	}
-	if len(m.SrcChain) > 0 {
-		i -= len(m.SrcChain)
-		copy(dAtA[i:], m.SrcChain)
-		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(len(m.SrcChain)))
+	if len(m.NftSrcChain) > 0 {
+		i -= len(m.NftSrcChain)
+		copy(dAtA[i:], m.NftSrcChain)
+		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(len(m.NftSrcChain)))
 		i--
 		dAtA[i] = 0x1a
 	}
-	if len(m.SrcNftHash) > 0 {
-		i -= len(m.SrcNftHash)
-		copy(dAtA[i:], m.SrcNftHash)
-		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(len(m.SrcNftHash)))
+	if len(m.NftSrcHash) > 0 {
+		i -= len(m.NftSrcHash)
+		copy(dAtA[i:], m.NftSrcHash)
+		i = encodeVarintReservedNftTransfer(dAtA, i, uint64(len(m.NftSrcHash)))
 		i--
 		dAtA[i] = 0x12
 	}
@@ -275,35 +306,43 @@ func (m *ReservedNftTransfer) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovReservedNftTransfer(uint64(l))
 	}
-	l = len(m.SrcNftHash)
+	l = len(m.NftSrcHash)
 	if l > 0 {
 		n += 1 + l + sovReservedNftTransfer(uint64(l))
 	}
-	l = len(m.SrcChain)
+	l = len(m.NftSrcChain)
 	if l > 0 {
 		n += 1 + l + sovReservedNftTransfer(uint64(l))
 	}
-	l = len(m.SrcAddr)
+	l = len(m.NftSrcAddr)
 	if l > 0 {
 		n += 1 + l + sovReservedNftTransfer(uint64(l))
 	}
-	l = len(m.DestChain)
+	l = len(m.NftDestChain)
 	if l > 0 {
 		n += 1 + l + sovReservedNftTransfer(uint64(l))
 	}
-	l = len(m.DestAddr)
+	l = len(m.NftDestAddr)
 	if l > 0 {
 		n += 1 + l + sovReservedNftTransfer(uint64(l))
 	}
-	l = len(m.DestReservationAddr)
+	l = len(m.FtChain)
 	if l > 0 {
 		n += 1 + l + sovReservedNftTransfer(uint64(l))
 	}
-	if m.BlockHeight != 0 {
-		n += 1 + sovReservedNftTransfer(uint64(m.BlockHeight))
+	l = len(m.FtSrcAddr)
+	if l > 0 {
+		n += 1 + l + sovReservedNftTransfer(uint64(l))
+	}
+	l = len(m.FtDestAddr)
+	if l > 0 {
+		n += 1 + l + sovReservedNftTransfer(uint64(l))
 	}
 	if m.FungibleToken != 0 {
 		n += 1 + sovReservedNftTransfer(uint64(m.FungibleToken))
+	}
+	if m.BlockHeight != 0 {
+		n += 1 + sovReservedNftTransfer(uint64(m.BlockHeight))
 	}
 	if m.CreatedAt != 0 {
 		n += 1 + sovReservedNftTransfer(uint64(m.CreatedAt))
@@ -380,7 +419,7 @@ func (m *ReservedNftTransfer) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SrcNftHash", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field NftSrcHash", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -408,11 +447,11 @@ func (m *ReservedNftTransfer) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.SrcNftHash = string(dAtA[iNdEx:postIndex])
+			m.NftSrcHash = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SrcChain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field NftSrcChain", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -440,11 +479,11 @@ func (m *ReservedNftTransfer) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.SrcChain = string(dAtA[iNdEx:postIndex])
+			m.NftSrcChain = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 4:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SrcAddr", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field NftSrcAddr", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -472,11 +511,11 @@ func (m *ReservedNftTransfer) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.SrcAddr = string(dAtA[iNdEx:postIndex])
+			m.NftSrcAddr = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 5:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DestChain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field NftDestChain", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -504,11 +543,11 @@ func (m *ReservedNftTransfer) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.DestChain = string(dAtA[iNdEx:postIndex])
+			m.NftDestChain = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 6:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DestAddr", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field NftDestAddr", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -536,11 +575,11 @@ func (m *ReservedNftTransfer) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.DestAddr = string(dAtA[iNdEx:postIndex])
+			m.NftDestAddr = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 7:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DestReservationAddr", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field FtChain", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -568,13 +607,13 @@ func (m *ReservedNftTransfer) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.DestReservationAddr = string(dAtA[iNdEx:postIndex])
+			m.FtChain = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 8:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field BlockHeight", wireType)
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FtSrcAddr", wireType)
 			}
-			m.BlockHeight = 0
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowReservedNftTransfer
@@ -584,12 +623,57 @@ func (m *ReservedNftTransfer) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.BlockHeight |= int32(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthReservedNftTransfer
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthReservedNftTransfer
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.FtSrcAddr = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		case 9:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FtDestAddr", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowReservedNftTransfer
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthReservedNftTransfer
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthReservedNftTransfer
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.FtDestAddr = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 10:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field FungibleToken", wireType)
 			}
@@ -608,7 +692,26 @@ func (m *ReservedNftTransfer) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 10:
+		case 11:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field BlockHeight", wireType)
+			}
+			m.BlockHeight = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowReservedNftTransfer
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.BlockHeight |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 12:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CreatedAt", wireType)
 			}

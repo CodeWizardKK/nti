@@ -70,8 +70,9 @@ export default {
     const reserveNftTransfer = async (value) => {
       try {
         // Send fungible tokens
-        const amount = value.fungibleToken;
-        const recipient = "cosmos1rdhv6ejrl8t26nmarr4l4zntnqdywwrxfnu07r";
+        const amount = '1';
+        // Admin's wallet address
+        const recipient = "cosmos1867mzl3a5mnldz8vrpheshsya44nke7zq6gmld";
         const chainId = "nti"; // Project name
 
         await window.keplr.enable(chainId);

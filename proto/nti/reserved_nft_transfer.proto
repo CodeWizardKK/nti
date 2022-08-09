@@ -5,15 +5,16 @@ option go_package = "nti/x/nti/types";
 
 message ReservedNftTransfer {
   string reservedKey = 1; 
-  string srcNftHash = 2; 
-  string srcChain = 3; 
-  string srcAddr = 4; 
-  string destChain = 5; 
-  string destAddr = 6; 
-  string destReservationAddr = 7;
-  int32 blockHeight = 8; 
-  int32 fungibleToken = 9;
-  int32 createdAt = 10; 
+  string nftSrcHash = 2; 
+  string nftSrcChain = 3; 
+  string nftSrcAddr = 4; 
+  string nftDestChain = 5; 
+  string nftDestAddr = 6; 
+  string ftChain = 7;
+  string ftSrcAddr = 8;
+  string ftDestAddr = 9;
+  int32 fungibleToken = 10;
+  int32 blockHeight = 11; 
+  int32 createdAt = 12; 
   
 }
-

@@ -79,18 +79,20 @@ export interface NtiQueryParamsResponse {
 
 export interface NtiReservedNftTransfer {
   reservedKey?: string;
-  srcNftHash?: string;
-  srcChain?: string;
-  srcAddr?: string;
-  destChain?: string;
-  destAddr?: string;
-  destReservationAddr?: string;
-
-  /** @format int32 */
-  blockHeight?: number;
+  nftSrcHash?: string;
+  nftSrcChain?: string;
+  nftSrcAddr?: string;
+  nftDestChain?: string;
+  nftDestAddr?: string;
+  ftChain?: string;
+  ftSrcAddr?: string;
+  ftDestAddr?: string;
 
   /** @format int32 */
   fungibleToken?: number;
+
+  /** @format int32 */
+  blockHeight?: number;
 
   /** @format int32 */
   createdAt?: number;
