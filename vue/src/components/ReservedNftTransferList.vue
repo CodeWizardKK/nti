@@ -33,10 +33,10 @@ const headers = [
     'NFT Source Address',
     'NFT Destination Chain',
     'NFT Destination Address',
+    'Fungible Token',
     'FT Chain',
     'FT Source Address',
     'FT Destination Address',
-    'Fungible Token',
     'Block Height',
     'Created At'
 ]
@@ -50,10 +50,10 @@ export default {
             "nftSrcAddr",
             "nftDestChain",
             "nftDestAddr",
+            "fungibleToken",
             "ftChain",
             "ftSrcAddr",
             "ftDestAddr",
-            "fungibleToken",
             "blockHeight",
             "createdAt"
         ]

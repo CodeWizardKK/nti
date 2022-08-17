@@ -11,10 +11,10 @@
             <input class="sp-input" placeholder="NFT Source Address" v-model="nftSrcAddr" />
             <input class="sp-input" placeholder="NFT Destination Chain" v-model="nftDestChain" />
             <input class="sp-input" placeholder="NFT Destination Address" v-model="nftDestAddr" />
+            <input class="sp-input" placeholder="Fungible Token" v-model="fungibleToken" />
             <input class="sp-input" placeholder="FT Chain" v-model="ftChain" />
             <input class="sp-input" placeholder="FT Source Address" v-model="ftSrcAddr" />
             <input class="sp-input" placeholder="FT Destination Address" v-model="ftDestAddr" />
-            <input class="sp-input" placeholder="Fungible Token" v-model="fungibleToken" />
             <input class="sp-input" placeholder="Block Height" v-model="blockHeight" />
             <sp-button @click="transferNft">Reserve NFT Transfer</sp-button>
             </form>
