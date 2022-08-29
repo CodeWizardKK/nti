@@ -1,24 +1,37 @@
 <template>
-  <div>
-    <SpTheme>
-      <SpNavbar
-        :links="navbarLinks"
-        :active-route="router.currentRoute.value.path"
-      />
-      <router-view />
-    </SpTheme>
-  </div>
+  <a-layout>
+    <a-layout-header :style="{ background: '#fff', padding: '0 20px'}">
+      <a-space align="center">
+        <SpAcc />
+      </a-space>
+    </a-layout-header>
+
+    <a-layout>
+      <a-layout-sider>
+        side menu
+      </a-layout-sider>
+
+      <a-layout>
+        <a-layout-content>
+          <router-view />
+        </a-layout-content>
+      </a-layout>
+    </a-layout>
+  </a-layout>
 </template>
+
+<style scoped>
+</style>
 
 <script lang="ts">
 import { SigningCosmosClient } from '@cosmjs/launchpad'
-import { SpNavbar, SpTheme } from '@starport/vue'
+import { SpAcc } from '@starport/vue'
 import { computed, onBeforeMount, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
 export default {
-  components: { SpTheme, SpNavbar },
+  components: { SpAcc },
 
   setup() {
     // store
