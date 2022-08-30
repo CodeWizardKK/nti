@@ -40,6 +40,14 @@ import { computed, onBeforeMount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
+const menuItems = [
+  { name: 'Portfolio', url: '/portfolio' },
+  { name: 'NFT Transfer Edit', url: '/nft_transfer_edit' },
+  { name: 'NFT Transfer List', url: '/nft_transfer_list' },
+  { name: 'Data', url: '/data' },
+  { name: 'Keplr', url: '/keplr' },
+]
+
 export default {
   components: { SpAcc },
 
@@ -51,14 +59,6 @@ export default {
     let router = useRouter()
 
     // state
-    let menuItems = [
-      { name: 'Portfolio', url: '/portfolio' },
-      { name: 'NFT Transfer Edit', url: '/nft_transfer_edit' },
-      { name: 'NFT Transfer List', url: '/nft_transfer_list' },
-      { name: 'Data', url: '/data' },
-      { name: 'Keplr', url: '/keplr' },
-    ]
-
     const selectedKeys = ref([''])
 
     // computed
@@ -109,9 +109,7 @@ export default {
     })
 
     return {
-      // router
       router,
-      // computed
       address,
       menuItems,
       selectedKeys,
