@@ -6,7 +6,7 @@
       </a-space>
     </a-layout-header>
 
-    <a-layout>
+    <a-layout :style="{ height: '100vh' }">
       <a-layout-sider :style="{ padding: '10px 0' }">
         <a-menu :selectedKeys="selectedKeys" theme="dark">
           <a-menu-item
@@ -22,7 +22,7 @@
       </a-layout-sider>
 
       <a-layout>
-        <a-layout-content>
+        <a-layout-content :style="{ padding: '0 48px' }">
           <router-view />
         </a-layout-content>
       </a-layout>
