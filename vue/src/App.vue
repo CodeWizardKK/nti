@@ -1,13 +1,23 @@
 <template>
   <a-layout>
-    <a-layout-header :style="{ background: '#fff', padding: '0 20px'}">
+    <a-layout-header :style="{ background: '#fff', padding: '0 10px'}">
       <a-space align="center">
         <SpAcc />
       </a-space>
     </a-layout-header>
 
     <a-layout>
-      <a-layout-sider>
+      <a-layout-sider :style="{ padding: '10px 0' }">
+        <a-menu :selectedKeys="selectedKeys" theme="dark">
+          <a-menu-item
+          v-for="item in menuItems"
+          :key="item.name"
+          @click="pushRoute(item)">
+            <span>
+              {{ item.name }}
+            </span>
+          </a-menu-item>
+        </a-menu>
         side menu
       </a-layout-sider>
 
@@ -26,7 +36,7 @@
 <script lang="ts">
 import { SigningCosmosClient } from '@cosmjs/launchpad'
 import { SpAcc } from '@starport/vue'
-import { computed, onBeforeMount, onMounted } from 'vue'
+import { computed, onBeforeMount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
@@ -41,7 +51,7 @@ export default {
     let router = useRouter()
 
     // state
-    let navbarLinks = [
+    let menuItems = [
       { name: 'Portfolio', url: '/portfolio' },
       { name: 'NFT Transfer Edit', url: '/nft_transfer_edit' },
       { name: 'NFT Transfer List', url: '/nft_transfer_list' },
@@ -49,8 +59,16 @@ export default {
       { name: 'Keplr', url: '/keplr' },
     ]
 
+    const selectedKeys = ref([''])
+
     // computed
     let address = computed(() => $s.getters['common/wallet/address'])
+
+    // methods
+    const pushRoute = (menuItem: any) => {
+      selectedKeys.value = [menuItem.name]
+      router.push(menuItem.url)
+    }
 
     // lh
     onBeforeMount(async () => {
@@ -91,11 +109,13 @@ export default {
     })
 
     return {
-      navbarLinks,
       // router
       router,
       // computed
-      address
+      address,
+      menuItems,
+      selectedKeys,
+      pushRoute
     }
   }
 }
