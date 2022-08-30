@@ -30,9 +30,6 @@
   </a-layout>
 </template>
 
-<style scoped>
-</style>
-
 <script lang="ts">
 import { SigningCosmosClient } from '@cosmjs/launchpad'
 import { SpAcc } from '@starport/vue'

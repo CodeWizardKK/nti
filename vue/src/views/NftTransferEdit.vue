@@ -2,7 +2,7 @@
   <!-- Uncomment the following component to add a form for a `modelName` -->
   <!-- <SpCrud store-name="org.repo.module" item-name="modelName" /> -->
   <div>
-    <h3>NFT Transfer Edit</h3>
+    <page-title title="NFT Transfer Edit"></page-title>
     <nft-transfer-edit-form
     @reserveNftTransfer="reserveNftTransfer"></nft-transfer-edit-form>
   </div>
@@ -12,12 +12,14 @@
 import { useStore } from 'vuex'
 import { SigningStargateClient, assertIsDeliverTxSuccess } from '@cosmjs/stargate'
 import NftTransferEditForm from '../components/nft-transfer-edit/NftTransferEditForm.vue';
+import PageTitle from '../components/common/PageTitle.vue';
 
 export default {
   name: 'Data',
 
   components: {
     NftTransferEditForm,
+    PageTitle,
   },
 
   setup(props, context) {

@@ -1,14 +1,15 @@
 <template>
-  <div class="container">
-    <div class="row row-sm-revers">
-      <div class="col-md-6">
-        <SpAssets />
-        <SpTokenTransferList />
+  <div>
+    <page-title title="Portfolio"></page-title>
+      <div class="row row-sm-revers">
+        <div class="col-md-6">
+          <SpAssets />
+          <SpTokenTransferList />
+        </div>
+        <div class="col-md-5 col-lg-4 col-md-offset-1 col-lg-offset-2">
+          <SpTokenTransfer />
+        </div>
       </div>
-      <div class="col-md-5 col-lg-4 col-md-offset-1 col-lg-offset-2">
-        <SpTokenTransfer />
-      </div>
-    </div>
   </div>
 </template>
 
@@ -16,11 +17,12 @@
 import { SpAssets, SpTokenTransfer, SpTokenTransferList } from '@starport/vue'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+import PageTitle from '../components/common/PageTitle.vue'
 
 export default {
   name: 'Portfolio',
 
-  components: { SpTokenTransfer, SpAssets, SpTokenTransferList },
+  components: { SpTokenTransfer, SpAssets, SpTokenTransferList, PageTitle },
 
   setup() {
     // store

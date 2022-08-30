@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>NFT Transfer List</h3>
+    <page-title title="NFT Transfer List"></page-title>
     <nft-transfer-list-table
     :items="items"></nft-transfer-list-table>
   </div>
@@ -10,10 +10,12 @@
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import NftTransferListTable from '../components/nft-transfer-list/NftTransferListTable.vue';
+import PageTitle from '../components/common/PageTitle.vue';
 
 export default {
     components: {
-        NftTransferListTable
+        NftTransferListTable,
+        PageTitle
     },
     setup() {
         // store
