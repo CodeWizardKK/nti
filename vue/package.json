@@ -18,6 +18,7 @@
     "ant-design-vue": "^3.2.11",
     "buffer": "^6.0.3",
     "core-js": "^3.18.2",
+    "vee-validate": "^4.6.7",
     "vue": "^3.2.6",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.2"
