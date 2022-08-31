@@ -1,64 +1,57 @@
 <template>
-    <a-form
-    :model="formState"
-    name="transfer"
-    :label-col="{ span: 8 }"
-    :wrapper-col="{ span: 16 }"
-    autocomplete="off"
-    @finish="onFinish"
-    @finishFailed="onFinishFailed">
-    {{ formState }}
-        <a-form-item label="Token ID" name="tokenId" :rules="[{ required: true, message: 'Please input Token ID!' }]">
-            <a-input :value="formState.tokenId"></a-input>
-        </a-form-item>
-        <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-            <a-button type="primary" html-type="submit">Transfer</a-button>
-        </a-form-item>
-    </a-form>
-</template>
-<script lang="ts">
-import { reactive } from 'vue'
-import useAccount from '../../composables/useAccount'
+  <Form :validation-schema="schema" @submit="onSubmit">
+    <!-- You can use the field component to wrap a q-* component -->
+    <!-- Do this if you have only one or a few places that need validation -->
+    <Field name="tokenId" v-slot="{ value, handleChange, errorMessage }">
+      <a-form-item
+        label="Token ID"
+        :has-feedback="!!errorMessage"
+        :help="errorMessage"
+        :validate-status="errorMessage ? 'error' : undefined"
+      >
+        <a-input :value="value" @update:value="handleChange" />
+      </a-form-item>
+    </Field>
 
-interface FormState {
-    tokenId: string;
-}
+    <a-form-item>
+      <a-button type="primary" html-type="submit">Submit</a-button>
+    </a-form-item>
+  </Form>
+</template>
+
+<script lang="ts">
+import { Field, Form } from 'vee-validate';
+import * as yup from 'yup';
+import useAccount from '../../composables/useAccount';
 
 export default {
-  name: "Reserve NFT Transer Form",
-  emits: ['reserveNftTransfer'],
+    emits: ['reserveNftTransfer'],
+    components: { Field, Form },
 
-  setup(props: any, context: any) {
-    const { currentAccount } = useAccount()
+    setup(props: any, context: any) {
+        const { currentAccount } = useAccount()
 
-    // state
-    const formState = reactive<FormState>({
-        tokenId: '',
-    })
+        const schema = yup.object({
+            tokenId: yup.string().required().label('Token ID'),
+            nftSrcAddr: yup.string().required().label('Address'),
+        });
 
-    // methods
-    const onFinish = (values: any) => {
-        console.log('Success:', values)
-    }
+        const onSubmit = (values: any) => {
+            console.log('Success:', values)
+            const value = {
+                creator: currentAccount.value,
+            };
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo)
-    }
+            context.emit('reserveNftTransfer', value)
+        }
 
-    const transferNft = () => {
-        const value = {
-            creator: currentAccount.value,
-        };
+        return {
+            onSubmit,
+            schema,
+        }
+    },
+}
 
-        context.emit('reserveNftTransfer', value)
-    }
 
-    return {
-        formState,
-        onFinish,
-        onFinishFailed,
-        transferNft,
-    }
-  },
-};
 </script>
+
