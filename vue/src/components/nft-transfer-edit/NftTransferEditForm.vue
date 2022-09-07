@@ -188,13 +188,16 @@ const schema = yup.object({
     blockHeight: yup.string().required().label('Block height'),
 });
 
+const emits = defineEmits(['reserveNftTransfer'])
+const { currentAccount } = useAccount()
+
 const onSubmit = (values: any) => {
     console.log('Success:', values)
-    // const value = {
-        // creator: currentAccount.value,
-    // };
+    const value = {
+        creator: currentAccount.value,
+    };
 
-    // context.emit('reserveNftTransfer', value)
+    emits('reserveNftTransfer', value)
 }
 
 </script>
