@@ -193,12 +193,8 @@ const { currentAccount } = useAccount()
 
 const onSubmit = (values: any) => {
     console.log('Success:', values)
-    const value = {
-        creator: currentAccount.value,
-    };
-
-    emits('reserveNftTransfer', value)
+    values.creator = currentAccount.value
+    emits('reserveNftTransfer', values)
 }
 
 </script>
-
