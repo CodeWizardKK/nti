@@ -55,16 +55,29 @@
         <a-input :value="value" @update:value="handleChange" />
       </a-form-item>
     </Field>
-    <Field name="nftDestAddr" v-slot="{ value, handleChange, errorMessage }">
+
+    <Field name="nftDestChain" v-slot="{ value, handleChange, errorMessage }">
       <a-form-item
-        label="Address"
+        label="Blockchain"
         :has-feedback="!!errorMessage"
         :help="errorMessage"
-        :validate-status="errorMessage ? 'error' : undefined"
-      >
-        <a-input :value="value" @update:value="handleChange" />
+        :validate-status="errorMessage ? 'error' : undefined">
+        <a-select
+          ref="select"
+          :value="value"
+          style="width: 120px"
+          @focus="focus"
+          @change="handleChange">
+          <a-select-option
+            v-for="blockchain in blockchainOpts"
+            :key="blockchain.label"
+            :value="blockchain.value">
+            {{ blockchain.label }}
+          </a-select-option>
+        </a-select>
       </a-form-item>
     </Field>
+
     <Field name="fungibleToken" v-slot="{ value, handleChange, errorMessage }">
       <a-form-item
         label="Amount"
@@ -75,16 +88,29 @@
         <a-input :value="value" @update:value="handleChange" />
       </a-form-item>
     </Field>
+
     <Field name="ftChain" v-slot="{ value, handleChange, errorMessage }">
       <a-form-item
         label="Blockchain"
         :has-feedback="!!errorMessage"
         :help="errorMessage"
-        :validate-status="errorMessage ? 'error' : undefined"
-      >
-        <a-input :value="value" @update:value="handleChange" />
+        :validate-status="errorMessage ? 'error' : undefined">
+        <a-select
+          ref="select"
+          :value="value"
+          style="width: 120px"
+          @focus="focus"
+          @change="handleChange">
+          <a-select-option
+            v-for="blockchain in blockchainOpts"
+            :key="blockchain.label"
+            :value="blockchain.value">
+            {{ blockchain.label }}
+          </a-select-option>
+        </a-select>
       </a-form-item>
     </Field>
+
     <Field name="ftSrcAddr" v-slot="{ value, handleChange, errorMessage }">
       <a-form-item
         label="Source address"
