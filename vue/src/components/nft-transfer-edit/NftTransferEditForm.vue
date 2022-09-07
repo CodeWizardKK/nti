@@ -2,16 +2,106 @@
   <Form :validation-schema="schema" @submit="onSubmit">
     <!-- You can use the field component to wrap a q-* component -->
     <!-- Do this if you have only one or a few places that need validation -->
-    <input-with-validation name="nftTokenId" label="Token ID"></input-with-validation>
-    <input-with-validation name="nftSrcChain" label="Blockchain"></input-with-validation>
-    <input-with-validation name="nftSrcAddr" label="Address"></input-with-validation>
-    <input-with-validation name="nftDestChain" label="Blockchain"></input-with-validation>
-    <input-with-validation name="nftDestAddr" label="Address"></input-with-validation>
-    <input-with-validation name="fungibleToken" label="Amount"></input-with-validation>
-    <input-with-validation name="ftChain" label="Blockchain"></input-with-validation>
-    <input-with-validation name="ftSrcAddr" label="Source address"></input-with-validation>
-    <input-with-validation name="ftDestAddr" label="Destination address"></input-with-validation>
-    <input-with-validation name="blockHeight" label="Block height"></input-with-validation>
+    <Field name="nftTokenId" v-slot="{ value, handleChange, errorMessage }">
+      <a-form-item
+        label="Token ID"
+        :has-feedback="!!errorMessage"
+        :help="errorMessage"
+        :validate-status="errorMessage ? 'error' : undefined"
+      >
+        <a-input :value="value" @update:value="handleChange" />
+      </a-form-item>
+    </Field>
+    <Field name="nftSrcChain" v-slot="{ value, handleChange, errorMessage }">
+      <a-form-item
+        label="Blockchain"
+        :has-feedback="!!errorMessage"
+        :help="errorMessage"
+        :validate-status="errorMessage ? 'error' : undefined"
+      >
+        <a-input :value="value" @update:value="handleChange" />
+      </a-form-item>
+    </Field>
+    <Field name="nftSrcAddr" v-slot="{ value, handleChange, errorMessage }">
+      <a-form-item
+        label="Address"
+        :has-feedback="!!errorMessage"
+        :help="errorMessage"
+        :validate-status="errorMessage ? 'error' : undefined"
+      >
+        <a-input :value="value" @update:value="handleChange" />
+      </a-form-item>
+    </Field>
+    <Field name="nftDestChain" v-slot="{ value, handleChange, errorMessage }">
+      <a-form-item
+        label="Blockchain"
+        :has-feedback="!!errorMessage"
+        :help="errorMessage"
+        :validate-status="errorMessage ? 'error' : undefined"
+      >
+        <a-input :value="value" @update:value="handleChange" />
+      </a-form-item>
+    </Field>
+    <Field name="nftDestAddr" v-slot="{ value, handleChange, errorMessage }">
+      <a-form-item
+        label="Address"
+        :has-feedback="!!errorMessage"
+        :help="errorMessage"
+        :validate-status="errorMessage ? 'error' : undefined"
+      >
+        <a-input :value="value" @update:value="handleChange" />
+      </a-form-item>
+    </Field>
+    <Field name="fungibleToken" v-slot="{ value, handleChange, errorMessage }">
+      <a-form-item
+        label="Amount"
+        :has-feedback="!!errorMessage"
+        :help="errorMessage"
+        :validate-status="errorMessage ? 'error' : undefined"
+      >
+        <a-input :value="value" @update:value="handleChange" />
+      </a-form-item>
+    </Field>
+    <Field name="ftChain" v-slot="{ value, handleChange, errorMessage }">
+      <a-form-item
+        label="Blockchain"
+        :has-feedback="!!errorMessage"
+        :help="errorMessage"
+        :validate-status="errorMessage ? 'error' : undefined"
+      >
+        <a-input :value="value" @update:value="handleChange" />
+      </a-form-item>
+    </Field>
+    <Field name="ftSrcAddr" v-slot="{ value, handleChange, errorMessage }">
+      <a-form-item
+        label="Source address"
+        :has-feedback="!!errorMessage"
+        :help="errorMessage"
+        :validate-status="errorMessage ? 'error' : undefined"
+      >
+        <a-input :value="value" @update:value="handleChange" />
+      </a-form-item>
+    </Field>
+    <Field name="ftDestAddr" v-slot="{ value, handleChange, errorMessage }">
+      <a-form-item
+        label="Destination address"
+        :has-feedback="!!errorMessage"
+        :help="errorMessage"
+        :validate-status="errorMessage ? 'error' : undefined"
+      >
+        <a-input :value="value" @update:value="handleChange" />
+      </a-form-item>
+    </Field>
+    <Field name="blockHeight" v-slot="{ value, handleChange, errorMessage }">
+      <a-form-item
+        label="Block height"
+        :has-feedback="!!errorMessage"
+        :help="errorMessage"
+        :validate-status="errorMessage ? 'error' : undefined"
+      >
+        <a-input :value="value" @update:value="handleChange" />
+      </a-form-item>
+    </Field>
 
     <a-form-item>
       <a-button type="primary" html-type="submit">Submit</a-button>
