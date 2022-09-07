@@ -12,16 +12,29 @@
         <a-input :value="value" @update:value="handleChange" />
       </a-form-item>
     </Field>
+
     <Field name="nftSrcChain" v-slot="{ value, handleChange, errorMessage }">
       <a-form-item
         label="Blockchain"
         :has-feedback="!!errorMessage"
         :help="errorMessage"
-        :validate-status="errorMessage ? 'error' : undefined"
-      >
-        <a-input :value="value" @update:value="handleChange" />
+        :validate-status="errorMessage ? 'error' : undefined">
+        <a-select
+          ref="select"
+          :value="value"
+          style="width: 120px"
+          @focus="focus"
+          @change="handleChange">
+          <a-select-option
+            v-for="blockchain in blockchainOpts"
+            :key="blockchain.label"
+            :value="blockchain.value">
+            {{ blockchain.label }}
+          </a-select-option>
+        </a-select>
       </a-form-item>
     </Field>
+
     <Field name="nftSrcAddr" v-slot="{ value, handleChange, errorMessage }">
       <a-form-item
         label="Address"
@@ -113,7 +126,18 @@
 import { Field, Form } from 'vee-validate';
 import * as yup from 'yup';
 import useAccount from '../../composables/useAccount';
-import InputWithValidation from '../common/InputWithValidation.vue';
+
+enum Blockchain {
+  ETH,
+  BTC,
+  AVAX
+}
+
+const blockchainOpts = [
+  { value: Blockchain.ETH, label: "ETH" },
+  { value: Blockchain.BTC, label: "BTC" },
+  { value: Blockchain.AVAX, label: "AVAX" },
+]
 
 const schema = yup.object({
     nftTokenId: yup.string().required().label('Token ID'),
