@@ -45,16 +45,6 @@
         <a-input :value="value" @update:value="handleChange" />
       </a-form-item>
     </Field>
-    <Field name="nftDestChain" v-slot="{ value, handleChange, errorMessage }">
-      <a-form-item
-        label="Blockchain"
-        :has-feedback="!!errorMessage"
-        :help="errorMessage"
-        :validate-status="errorMessage ? 'error' : undefined"
-      >
-        <a-input :value="value" @update:value="handleChange" />
-      </a-form-item>
-    </Field>
 
     <Field name="nftDestChain" v-slot="{ value, handleChange, errorMessage }">
       <a-form-item
@@ -78,14 +68,24 @@
       </a-form-item>
     </Field>
 
-    <Field name="fungibleToken" v-slot="{ value, handleChange, errorMessage }">
+    <Field name="nftDestAddr" v-slot="{ value, handleChange, errorMessage }">
       <a-form-item
-        label="Amount"
+        label="Address"
         :has-feedback="!!errorMessage"
         :help="errorMessage"
         :validate-status="errorMessage ? 'error' : undefined"
       >
         <a-input :value="value" @update:value="handleChange" />
+      </a-form-item>
+    </Field>
+
+    <Field name="fungibleToken" v-slot="{ value, handleChange, errorMessage }">
+      <a-form-item
+        label="Amount"
+        :has-feedback="!!errorMessage"
+        :help="errorMessage"
+        :validate-status="errorMessage ? 'error' : undefined">
+          <a-input-number :value="value" @change="handleChange"/>
       </a-form-item>
     </Field>
 
@@ -131,16 +131,17 @@
         <a-input :value="value" @update:value="handleChange" />
       </a-form-item>
     </Field>
+
     <Field name="blockHeight" v-slot="{ value, handleChange, errorMessage }">
       <a-form-item
         label="Block height"
         :has-feedback="!!errorMessage"
         :help="errorMessage"
-        :validate-status="errorMessage ? 'error' : undefined"
-      >
-        <a-input :value="value" @update:value="handleChange" />
+        :validate-status="errorMessage ? 'error' : undefined">
+          <a-input-number :value="value" @change="handleChange"/>
       </a-form-item>
     </Field>
+
 
     <a-form-item>
       <a-button type="primary" html-type="submit">Submit</a-button>
