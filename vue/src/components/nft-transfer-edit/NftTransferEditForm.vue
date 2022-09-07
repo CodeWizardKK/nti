@@ -2,146 +2,155 @@
   <Form :validation-schema="schema" @submit="onSubmit">
     <!-- You can use the field component to wrap a q-* component -->
     <!-- Do this if you have only one or a few places that need validation -->
-    <Field name="nftTokenId" v-slot="{ value, handleChange, errorMessage }">
-      <a-form-item
-        label="Token ID"
-        :has-feedback="!!errorMessage"
-        :help="errorMessage"
-        :validate-status="errorMessage ? 'error' : undefined"
-      >
-        <a-input :value="value" @update:value="handleChange" />
-      </a-form-item>
-    </Field>
 
-    <Field name="nftSrcChain" v-slot="{ value, handleChange, errorMessage }">
-      <a-form-item
-        label="Blockchain"
-        :has-feedback="!!errorMessage"
-        :help="errorMessage"
-        :validate-status="errorMessage ? 'error' : undefined">
-        <a-select
-          ref="select"
-          :value="value"
-          style="width: 120px"
-          @focus="focus"
-          @change="handleChange">
-          <a-select-option
-            v-for="blockchain in blockchainOpts"
-            :key="blockchain.label"
-            :value="blockchain.value">
-            {{ blockchain.label }}
-          </a-select-option>
-        </a-select>
-      </a-form-item>
-    </Field>
+    <a-card title="NFT Source">
+      <Field name="nftTokenId" v-slot="{ value, handleChange, errorMessage }">
+        <a-form-item
+          label="Token ID"
+          :has-feedback="!!errorMessage"
+          :help="errorMessage"
+          :validate-status="errorMessage ? 'error' : undefined"
+        >
+          <a-input :value="value" @update:value="handleChange" />
+        </a-form-item>
+      </Field>
 
-    <Field name="nftSrcAddr" v-slot="{ value, handleChange, errorMessage }">
-      <a-form-item
-        label="Address"
-        :has-feedback="!!errorMessage"
-        :help="errorMessage"
-        :validate-status="errorMessage ? 'error' : undefined"
-      >
-        <a-input :value="value" @update:value="handleChange" />
-      </a-form-item>
-    </Field>
+      <Field name="nftSrcChain" v-slot="{ value, handleChange, errorMessage }">
+        <a-form-item
+          label="Blockchain"
+          :has-feedback="!!errorMessage"
+          :help="errorMessage"
+          :validate-status="errorMessage ? 'error' : undefined">
+          <a-select
+            ref="select"
+            :value="value"
+            style="width: 120px"
+            @focus="focus"
+            @change="handleChange">
+            <a-select-option
+              v-for="blockchain in blockchainOpts"
+              :key="blockchain.label"
+              :value="blockchain.value">
+              {{ blockchain.label }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+      </Field>
 
-    <Field name="nftDestChain" v-slot="{ value, handleChange, errorMessage }">
-      <a-form-item
-        label="Blockchain"
-        :has-feedback="!!errorMessage"
-        :help="errorMessage"
-        :validate-status="errorMessage ? 'error' : undefined">
-        <a-select
-          ref="select"
-          :value="value"
-          style="width: 120px"
-          @focus="focus"
-          @change="handleChange">
-          <a-select-option
-            v-for="blockchain in blockchainOpts"
-            :key="blockchain.label"
-            :value="blockchain.value">
-            {{ blockchain.label }}
-          </a-select-option>
-        </a-select>
-      </a-form-item>
-    </Field>
+      <Field name="nftSrcAddr" v-slot="{ value, handleChange, errorMessage }">
+        <a-form-item
+          label="Address"
+          :has-feedback="!!errorMessage"
+          :help="errorMessage"
+          :validate-status="errorMessage ? 'error' : undefined"
+        >
+          <a-input :value="value" @update:value="handleChange" />
+        </a-form-item>
+      </Field>
+    </a-card>
+    <br />
 
-    <Field name="nftDestAddr" v-slot="{ value, handleChange, errorMessage }">
-      <a-form-item
-        label="Address"
-        :has-feedback="!!errorMessage"
-        :help="errorMessage"
-        :validate-status="errorMessage ? 'error' : undefined"
-      >
-        <a-input :value="value" @update:value="handleChange" />
-      </a-form-item>
-    </Field>
+    <a-card title="NFT Destination">
+      <Field name="nftDestChain" v-slot="{ value, handleChange, errorMessage }">
+        <a-form-item
+          label="Blockchain"
+          :has-feedback="!!errorMessage"
+          :help="errorMessage"
+          :validate-status="errorMessage ? 'error' : undefined">
+          <a-select
+            ref="select"
+            :value="value"
+            style="width: 120px"
+            @focus="focus"
+            @change="handleChange">
+            <a-select-option
+              v-for="blockchain in blockchainOpts"
+              :key="blockchain.label"
+              :value="blockchain.value">
+              {{ blockchain.label }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+      </Field>
 
-    <Field name="fungibleToken" v-slot="{ value, handleChange, errorMessage }">
-      <a-form-item
-        label="Amount"
-        :has-feedback="!!errorMessage"
-        :help="errorMessage"
-        :validate-status="errorMessage ? 'error' : undefined">
-          <a-input-number :value="value" @change="handleChange"/>
-      </a-form-item>
-    </Field>
+      <Field name="nftDestAddr" v-slot="{ value, handleChange, errorMessage }">
+        <a-form-item
+          label="Address"
+          :has-feedback="!!errorMessage"
+          :help="errorMessage"
+          :validate-status="errorMessage ? 'error' : undefined"
+        >
+          <a-input :value="value" @update:value="handleChange" />
+        </a-form-item>
+      </Field>
+    </a-card>
+    <br />
 
-    <Field name="ftChain" v-slot="{ value, handleChange, errorMessage }">
-      <a-form-item
-        label="Blockchain"
-        :has-feedback="!!errorMessage"
-        :help="errorMessage"
-        :validate-status="errorMessage ? 'error' : undefined">
-        <a-select
-          ref="select"
-          :value="value"
-          style="width: 120px"
-          @focus="focus"
-          @change="handleChange">
-          <a-select-option
-            v-for="blockchain in blockchainOpts"
-            :key="blockchain.label"
-            :value="blockchain.value">
-            {{ blockchain.label }}
-          </a-select-option>
-        </a-select>
-      </a-form-item>
-    </Field>
+    <a-card title="Fungible Token">
+      <Field name="fungibleToken" v-slot="{ value, handleChange, errorMessage }">
+        <a-form-item
+          label="Amount"
+          :has-feedback="!!errorMessage"
+          :help="errorMessage"
+          :validate-status="errorMessage ? 'error' : undefined">
+            <a-input-number :value="value" @change="handleChange"/>
+        </a-form-item>
+      </Field>
 
-    <Field name="ftSrcAddr" v-slot="{ value, handleChange, errorMessage }">
-      <a-form-item
-        label="Source address"
-        :has-feedback="!!errorMessage"
-        :help="errorMessage"
-        :validate-status="errorMessage ? 'error' : undefined"
-      >
-        <a-input :value="value" @update:value="handleChange" />
-      </a-form-item>
-    </Field>
-    <Field name="ftDestAddr" v-slot="{ value, handleChange, errorMessage }">
-      <a-form-item
-        label="Destination address"
-        :has-feedback="!!errorMessage"
-        :help="errorMessage"
-        :validate-status="errorMessage ? 'error' : undefined"
-      >
-        <a-input :value="value" @update:value="handleChange" />
-      </a-form-item>
-    </Field>
+      <Field name="ftChain" v-slot="{ value, handleChange, errorMessage }">
+        <a-form-item
+          label="Blockchain"
+          :has-feedback="!!errorMessage"
+          :help="errorMessage"
+          :validate-status="errorMessage ? 'error' : undefined">
+          <a-select
+            ref="select"
+            :value="value"
+            style="width: 120px"
+            @focus="focus"
+            @change="handleChange">
+            <a-select-option
+              v-for="blockchain in blockchainOpts"
+              :key="blockchain.label"
+              :value="blockchain.value">
+              {{ blockchain.label }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+      </Field>
 
-    <Field name="blockHeight" v-slot="{ value, handleChange, errorMessage }">
-      <a-form-item
-        label="Block height"
-        :has-feedback="!!errorMessage"
-        :help="errorMessage"
-        :validate-status="errorMessage ? 'error' : undefined">
-          <a-input-number :value="value" @change="handleChange"/>
-      </a-form-item>
-    </Field>
+      <Field name="ftSrcAddr" v-slot="{ value, handleChange, errorMessage }">
+        <a-form-item
+          label="Source address"
+          :has-feedback="!!errorMessage"
+          :help="errorMessage"
+          :validate-status="errorMessage ? 'error' : undefined"
+        >
+          <a-input :value="value" @update:value="handleChange" />
+        </a-form-item>
+      </Field>
+      <Field name="ftDestAddr" v-slot="{ value, handleChange, errorMessage }">
+        <a-form-item
+          label="Destination address"
+          :has-feedback="!!errorMessage"
+          :help="errorMessage"
+          :validate-status="errorMessage ? 'error' : undefined"
+        >
+          <a-input :value="value" @update:value="handleChange" />
+        </a-form-item>
+      </Field>
 
+      <Field name="blockHeight" v-slot="{ value, handleChange, errorMessage }">
+        <a-form-item
+          label="Block height"
+          :has-feedback="!!errorMessage"
+          :help="errorMessage"
+          :validate-status="errorMessage ? 'error' : undefined">
+            <a-input-number :value="value" @change="handleChange"/>
+        </a-form-item>
+      </Field>
+    </a-card>
+    <br />
 
     <a-form-item>
       <a-button type="primary" html-type="submit">Submit</a-button>
