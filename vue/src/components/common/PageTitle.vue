@@ -1,5 +1,5 @@
 <template>
-    <a-typography-title :level="3" :style="{ margin: '36px 0 24px 0' }">
+    <a-typography-title :level="3" :style="{ margin: '24px 0 24px 0' }">
         {{ title }}
     </a-typography-title>
 </template>
