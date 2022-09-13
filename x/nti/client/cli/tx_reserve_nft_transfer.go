@@ -31,11 +31,11 @@ func CmdReserveNftTransfer() *cobra.Command {
 		Args:  cobra.ExactArgs(7),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argNftSrcHash := args[0]
-			argNftSrcChain := args[1]
+			argNftSrcChain, err := cast.ToInt32E(args[1])
 			argNftSrcAddr := args[2]
-			argNftDestChain := args[3]
+			argNftDestChain, err := cast.ToInt32E(args[3])
 			argNftDestAddr := args[4]
-			argFtChain := args[5]
+			argFtChain, err := cast.ToInt32E(args[5])
 			argFtSrcAddr := args[6]
 			argFtDestAddr := args[7]
 			argFungibleToken, err := cast.ToInt32E(args[8])

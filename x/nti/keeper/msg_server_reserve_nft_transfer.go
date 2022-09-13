@@ -19,9 +19,9 @@ func (k msgServer) ReserveNftTransfer(goCtx context.Context, msg *types.MsgReser
 	// Generate reserved key.
 	elems := []string{
 		msg.NftSrcHash,
-		msg.NftSrcChain,
+		strconv.FormatInt(int64(msg.NftSrcChain), 10),
 		msg.NftSrcAddr,
-		msg.NftDestChain,
+		strconv.FormatInt(int64(msg.NftDestChain), 10),
 		msg.NftDestAddr,
 		// Convert block height into string.
 		strconv.FormatInt(int64(msg.BlockHeight), 10),
