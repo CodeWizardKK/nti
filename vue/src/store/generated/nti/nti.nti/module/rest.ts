@@ -79,7 +79,7 @@ export interface NtiQueryParamsResponse {
 
 export interface NtiReservedNftTransfer {
   reservedKey?: string;
-  nftSrcHash?: string;
+  nftTokenId?: string;
 
   /** @format int32 */
   nftSrcChain?: number;

@@ -177,15 +177,15 @@ const blockchainOpts = [
 
 const schema = yup.object({
     nftTokenId: yup.string().required().label('Token ID'),
-    nftSrcChain: yup.string().required().label('Blockchain'),
+    nftSrcChain: yup.number().required().label('Blockchain'),
     nftSrcAddr: yup.string().required().label('Address'),
-    nftDestChain: yup.string().required().label('Blockchain'),
+    nftDestChain: yup.number().required().label('Blockchain'),
     nftDestAddr: yup.string().required().label('Address'),
-    fungibleToken: yup.string().required().label('Amount'),
-    ftChain: yup.string().required().label('Blockchain'),
+    fungibleToken: yup.number().required().label('Amount'),
+    ftChain: yup.number().required().label('Blockchain'),
     ftSrcAddr: yup.string().required().label('Source address'),
     ftDestAddr: yup.string().required().label('Destination address'),
-    blockHeight: yup.string().required().label('Block height'),
+    blockHeight: yup.number().required().label('Block height'),
 });
 
 const emits = defineEmits(['reserveNftTransfer'])

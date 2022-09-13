@@ -5,7 +5,7 @@ export const protobufPackage = "nti.nti";
 
 export interface ReservedNftTransfer {
   reservedKey: string;
-  nftSrcHash: string;
+  nftTokenId: string;
   nftSrcChain: number;
   nftSrcAddr: string;
   nftDestChain: number;
@@ -20,7 +20,7 @@ export interface ReservedNftTransfer {
 
 const baseReservedNftTransfer: object = {
   reservedKey: "",
-  nftSrcHash: "",
+  nftTokenId: "",
   nftSrcChain: 0,
   nftSrcAddr: "",
   nftDestChain: 0,
@@ -41,8 +41,8 @@ export const ReservedNftTransfer = {
     if (message.reservedKey !== "") {
       writer.uint32(10).string(message.reservedKey);
     }
-    if (message.nftSrcHash !== "") {
-      writer.uint32(18).string(message.nftSrcHash);
+    if (message.nftTokenId !== "") {
+      writer.uint32(18).string(message.nftTokenId);
     }
     if (message.nftSrcChain !== 0) {
       writer.uint32(24).int32(message.nftSrcChain);
@@ -88,7 +88,7 @@ export const ReservedNftTransfer = {
           message.reservedKey = reader.string();
           break;
         case 2:
-          message.nftSrcHash = reader.string();
+          message.nftTokenId = reader.string();
           break;
         case 3:
           message.nftSrcChain = reader.int32();
@@ -135,10 +135,10 @@ export const ReservedNftTransfer = {
     } else {
       message.reservedKey = "";
     }
-    if (object.nftSrcHash !== undefined && object.nftSrcHash !== null) {
-      message.nftSrcHash = String(object.nftSrcHash);
+    if (object.nftTokenId !== undefined && object.nftTokenId !== null) {
+      message.nftTokenId = String(object.nftTokenId);
     } else {
-      message.nftSrcHash = "";
+      message.nftTokenId = "";
     }
     if (object.nftSrcChain !== undefined && object.nftSrcChain !== null) {
       message.nftSrcChain = Number(object.nftSrcChain);
@@ -197,7 +197,7 @@ export const ReservedNftTransfer = {
     const obj: any = {};
     message.reservedKey !== undefined &&
       (obj.reservedKey = message.reservedKey);
-    message.nftSrcHash !== undefined && (obj.nftSrcHash = message.nftSrcHash);
+    message.nftTokenId !== undefined && (obj.nftTokenId = message.nftTokenId);
     message.nftSrcChain !== undefined &&
       (obj.nftSrcChain = message.nftSrcChain);
     message.nftSrcAddr !== undefined && (obj.nftSrcAddr = message.nftSrcAddr);
@@ -223,10 +223,10 @@ export const ReservedNftTransfer = {
     } else {
       message.reservedKey = "";
     }
-    if (object.nftSrcHash !== undefined && object.nftSrcHash !== null) {
-      message.nftSrcHash = object.nftSrcHash;
+    if (object.nftTokenId !== undefined && object.nftTokenId !== null) {
+      message.nftTokenId = object.nftTokenId;
     } else {
-      message.nftSrcHash = "";
+      message.nftTokenId = "";
     }
     if (object.nftSrcChain !== undefined && object.nftSrcChain !== null) {
       message.nftSrcChain = object.nftSrcChain;

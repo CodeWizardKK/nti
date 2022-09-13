@@ -30045,7 +30045,7 @@ paths:
                   properties:
                     reservedKey:
                       type: string
-                    nftSrcHash:
+                    nftTokenId:
                       type: string
                     nftSrcChain:
                       type: integer
@@ -30192,7 +30192,7 @@ paths:
                 properties:
                   reservedKey:
                     type: string
-                  nftSrcHash:
+                  nftTokenId:
                     type: string
                   nftSrcChain:
                     type: integer
@@ -52039,7 +52039,7 @@ definitions:
           properties:
             reservedKey:
               type: string
-            nftSrcHash:
+            nftTokenId:
               type: string
             nftSrcChain:
               type: integer
@@ -52123,7 +52123,7 @@ definitions:
         properties:
           reservedKey:
             type: string
-          nftSrcHash:
+          nftTokenId:
             type: string
           nftSrcChain:
             type: integer
@@ -52163,7 +52163,7 @@ definitions:
     properties:
       reservedKey:
         type: string
-      nftSrcHash:
+      nftTokenId:
         type: string
       nftSrcChain:
         type: integer
