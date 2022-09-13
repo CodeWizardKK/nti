@@ -17,7 +17,7 @@ var _ = strconv.Itoa(0)
 func CmdReserveNftTransfer() *cobra.Command {
 	cmd := &cobra.Command{
 		Use: `reserve-nft-transfer
-			[nft-src-hash]
+			[nft-token-id]
 			[nft-src-chain]
 			[nft-src-addr]
 			[nft-dest-chain]
@@ -30,7 +30,7 @@ func CmdReserveNftTransfer() *cobra.Command {
 		Short: "Broadcast message reserveNftTransfer",
 		Args:  cobra.ExactArgs(7),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			argNftSrcHash := args[0]
+			argNftTokenId := args[0]
 			argNftSrcChain, err := cast.ToInt32E(args[1])
 			argNftSrcAddr := args[2]
 			argNftDestChain, err := cast.ToInt32E(args[3])
@@ -51,7 +51,7 @@ func CmdReserveNftTransfer() *cobra.Command {
 
 			msg := types.NewMsgReserveNftTransfer(
 				clientCtx.GetFromAddress().String(),
-				argNftSrcHash,
+				argNftTokenId,
 				argNftSrcChain,
 				argNftSrcAddr,
 				argNftDestChain,

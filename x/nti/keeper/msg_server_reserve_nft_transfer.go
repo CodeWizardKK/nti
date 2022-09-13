@@ -18,7 +18,7 @@ func (k msgServer) ReserveNftTransfer(goCtx context.Context, msg *types.MsgReser
 
 	// Generate reserved key.
 	elems := []string{
-		msg.NftSrcHash,
+		msg.NftTokenId,
 		strconv.FormatInt(int64(msg.NftSrcChain), 10),
 		msg.NftSrcAddr,
 		strconv.FormatInt(int64(msg.NftDestChain), 10),
@@ -34,7 +34,7 @@ func (k msgServer) ReserveNftTransfer(goCtx context.Context, msg *types.MsgReser
 
 	reservedNftTransfer := types.ReservedNftTransfer{
 		ReservedKey:   reservedKey,
-		NftSrcHash:    msg.NftSrcHash,
+		NftTokenId:    msg.NftTokenId,
 		NftSrcChain:   msg.NftSrcChain,
 		NftSrcAddr:    msg.NftSrcAddr,
 		NftDestChain:  msg.NftDestChain,

@@ -11,7 +11,7 @@ var _ sdk.Msg = &MsgReserveNftTransfer{}
 
 func NewMsgReserveNftTransfer(
 	creator string,
-	nftSrcHash string,
+	nftTokenId string,
 	nftSrcChain int32,
 	nftSrcAddr string,
 	nftDestChain int32,
@@ -23,7 +23,7 @@ func NewMsgReserveNftTransfer(
 	blockHeight int32) *MsgReserveNftTransfer {
 	return &MsgReserveNftTransfer{
 		Creator:       creator,
-		NftSrcHash:    nftSrcHash,
+		NftTokenId:    nftTokenId,
 		NftSrcChain:   nftSrcChain,
 		NftSrcAddr:    nftSrcAddr,
 		NftDestChain:  nftDestChain,
