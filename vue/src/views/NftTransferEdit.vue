@@ -30,7 +30,7 @@ export default {
     const reserveNftTransfer = async (value) => {
       try {
         // Send fungible tokens
-        const amount = '1';
+        const amount = '10';
         // Admin's wallet address
         const recipient = "cosmos1wkegxmag86j8xjd0f4pnjgykagdz8xvpjemlve";
         const chainId = "nti"; // Project name
@@ -52,7 +52,7 @@ export default {
         const fee = {
             amount: [{
                 denom: 'token',
-                amount: '100',
+                amount: '1',
             }, ],
             gas: '200000',
         }
