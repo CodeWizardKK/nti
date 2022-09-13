@@ -80,11 +80,17 @@ export interface NtiQueryParamsResponse {
 export interface NtiReservedNftTransfer {
   reservedKey?: string;
   nftSrcHash?: string;
-  nftSrcChain?: string;
+
+  /** @format int32 */
+  nftSrcChain?: number;
   nftSrcAddr?: string;
-  nftDestChain?: string;
+
+  /** @format int32 */
+  nftDestChain?: number;
   nftDestAddr?: string;
-  ftChain?: string;
+
+  /** @format int32 */
+  ftChain?: number;
   ftSrcAddr?: string;
   ftDestAddr?: string;
 

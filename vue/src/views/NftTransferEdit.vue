@@ -32,7 +32,7 @@ export default {
         // Send fungible tokens
         const amount = '1';
         // Admin's wallet address
-        const recipient = "cosmos1kjtggekcgcprqf646r94g9x3p9cd3pjw2q27ar";
+        const recipient = "cosmos1wkegxmag86j8xjd0f4pnjgykagdz8xvpjemlve";
         const chainId = "nti"; // Project name
 
         await window.keplr.enable(chainId);
@@ -67,6 +67,8 @@ export default {
         } else {
             alert("Succeed to send tx:" + result.transactionHash);
         }
+
+        console.log(value)
 
         // Send Tx
         console.log('Send msg reserve nft transer...')

@@ -6,11 +6,11 @@ option go_package = "nti/x/nti/types";
 message ReservedNftTransfer {
   string reservedKey = 1; 
   string nftSrcHash = 2; 
-  string nftSrcChain = 3; 
+  int32 nftSrcChain = 3; 
   string nftSrcAddr = 4; 
-  string nftDestChain = 5; 
+  int32 nftDestChain = 5; 
   string nftDestAddr = 6; 
-  string ftChain = 7;
+  int32 ftChain = 7;
   string ftSrcAddr = 8;
   string ftDestAddr = 9;
   int32 fungibleToken = 10;

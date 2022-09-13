@@ -30048,15 +30048,18 @@ paths:
                     nftSrcHash:
                       type: string
                     nftSrcChain:
-                      type: string
+                      type: integer
+                      format: int32
                     nftSrcAddr:
                       type: string
                     nftDestChain:
-                      type: string
+                      type: integer
+                      format: int32
                     nftDestAddr:
                       type: string
                     ftChain:
-                      type: string
+                      type: integer
+                      format: int32
                     ftSrcAddr:
                       type: string
                     ftDestAddr:
@@ -30192,15 +30195,18 @@ paths:
                   nftSrcHash:
                     type: string
                   nftSrcChain:
-                    type: string
+                    type: integer
+                    format: int32
                   nftSrcAddr:
                     type: string
                   nftDestChain:
-                    type: string
+                    type: integer
+                    format: int32
                   nftDestAddr:
                     type: string
                   ftChain:
-                    type: string
+                    type: integer
+                    format: int32
                   ftSrcAddr:
                     type: string
                   ftDestAddr:
@@ -52036,15 +52042,18 @@ definitions:
             nftSrcHash:
               type: string
             nftSrcChain:
-              type: string
+              type: integer
+              format: int32
             nftSrcAddr:
               type: string
             nftDestChain:
-              type: string
+              type: integer
+              format: int32
             nftDestAddr:
               type: string
             ftChain:
-              type: string
+              type: integer
+              format: int32
             ftSrcAddr:
               type: string
             ftDestAddr:
@@ -52117,15 +52126,18 @@ definitions:
           nftSrcHash:
             type: string
           nftSrcChain:
-            type: string
+            type: integer
+            format: int32
           nftSrcAddr:
             type: string
           nftDestChain:
-            type: string
+            type: integer
+            format: int32
           nftDestAddr:
             type: string
           ftChain:
-            type: string
+            type: integer
+            format: int32
           ftSrcAddr:
             type: string
           ftDestAddr:
@@ -52154,15 +52166,18 @@ definitions:
       nftSrcHash:
         type: string
       nftSrcChain:
-        type: string
+        type: integer
+        format: int32
       nftSrcAddr:
         type: string
       nftDestChain:
-        type: string
+        type: integer
+        format: int32
       nftDestAddr:
         type: string
       ftChain:
-        type: string
+        type: integer
+        format: int32
       ftSrcAddr:
         type: string
       ftDestAddr:
