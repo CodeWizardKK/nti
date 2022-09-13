@@ -5,7 +5,7 @@ option go_package = "nti/x/nti/types";
 
 message ReservedNftTransfer {
   string reservedKey = 1; 
-  string nftSrcHash = 2; 
+  string nftTokenId = 2; 
   int32 nftSrcChain = 3; 
   string nftSrcAddr = 4; 
   int32 nftDestChain = 5; 
