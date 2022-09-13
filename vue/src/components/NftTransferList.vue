@@ -1,6 +1,7 @@
 <template>
   <div>
     <h3>NFT Transfer List</h3>
+    {{ items }}
     <table>
         <thead>
             <tr>
@@ -59,6 +60,7 @@ export default {
                 })?.nftTransfer ?? []
             )
         })
+        console.log(items)
 
         return {
             headers,

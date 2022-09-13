@@ -1,56 +1,73 @@
 <template>
   <div>
-    <table>
-        <thead>
-            <tr>
-                <th v-for="(key, index) in headers" :key="index">
-                    {{ key }}
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="(item, itemIndex) in items" :key="itemIndex">
-                <td v-for="(key, columnIndex) in columns" :key="columnIndex">
-                    <div>
-                        {{ item[key] }}
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <a-table :dataSource="items" :columns="columns" />
   </div>
 </template>
 
 <script>
-const headers = [
-    'Reserved Key',
-    'NFT Source Hash',
-    'NFT Source Chain',
-    'NFT Source Address',
-    'NFT Destination Chain',
-    'NFT Destination Address',
-    'Fungible Token',
-    'FT Chain',
-    'FT Source Address',
-    'FT Destination Address',
-    'Block Height',
-    'Created At'
-]
 
 const columns = [
-    "reservedKey",
-    "nftSrcHash",
-    "nftSrcChain",
-    "nftSrcAddr",
-    "nftDestChain",
-    "nftDestAddr",
-    "fungibleToken",
-    "ftChain",
-    "ftSrcAddr",
-    "ftDestAddr",
-    "blockHeight",
-    "createdAt"
-]
+    {
+        title: 'Reserved key',
+        dataIndex: 'reservedKey',
+        key: 'reservedKey',
+    },
+    {
+        title: 'NFT token ID',
+        dataIndex: 'nftTokenId',
+        key: 'nftTokenId',
+    },
+    {
+        title: 'NFT source chain',
+        dataIndex: 'nftSrcChain',
+        key: 'nftSrcChain',
+    },
+    {
+        title: 'NFT source address',
+        dataIndex: 'nftSrcAddr',
+        key: 'nftSrcAddr',
+    },
+    {
+        title: 'NFT destination chain',
+        dataIndex: 'nftDestChain',
+        key: 'nftDestChain',
+    },
+    {
+        title: 'NFT destination address',
+        dataIndex: 'nftDestAddr',
+        key: 'nftDestAddr',
+    },
+    {
+        title: 'Fungible token',
+        dataIndex: 'fungibleToken',
+        key: 'fungibleToken',
+    },
+    {
+        title: 'FT chain',
+        dataIndex: 'ftChain',
+        key: 'ftChain',
+    },
+    {
+        title: 'FT source address',
+        dataIndex: 'ftSrcAddr',
+        key: 'ftSrcAddr',
+    },
+    {
+        title: 'FT destination address',
+        dataIndex: 'ftDestAddr',
+        key: 'ftDestAddr',
+    },
+    {
+        title: 'Block height',
+        dataIndex: 'blockHeight',
+        key: 'blockHeight',
+    },
+    {
+        title: 'Created at',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
+    },
+];
 
 export default {
     props: {
@@ -60,7 +77,6 @@ export default {
         const items = props.items
 
         return {
-            headers,
             columns,
             items,
         }
