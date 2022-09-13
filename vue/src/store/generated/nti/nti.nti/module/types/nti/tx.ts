@@ -6,11 +6,11 @@ export const protobufPackage = "nti.nti";
 export interface MsgReserveNftTransfer {
   creator: string;
   nftSrcHash: string;
-  nftSrcChain: string;
+  nftSrcChain: number;
   nftSrcAddr: string;
-  nftDestChain: string;
+  nftDestChain: number;
   nftDestAddr: string;
-  ftChain: string;
+  ftChain: number;
   ftSrcAddr: string;
   ftDestAddr: string;
   fungibleToken: number;
@@ -34,11 +34,11 @@ export interface MsgTransferNftResponse {}
 const baseMsgReserveNftTransfer: object = {
   creator: "",
   nftSrcHash: "",
-  nftSrcChain: "",
+  nftSrcChain: 0,
   nftSrcAddr: "",
-  nftDestChain: "",
+  nftDestChain: 0,
   nftDestAddr: "",
-  ftChain: "",
+  ftChain: 0,
   ftSrcAddr: "",
   ftDestAddr: "",
   fungibleToken: 0,
@@ -56,20 +56,20 @@ export const MsgReserveNftTransfer = {
     if (message.nftSrcHash !== "") {
       writer.uint32(18).string(message.nftSrcHash);
     }
-    if (message.nftSrcChain !== "") {
-      writer.uint32(26).string(message.nftSrcChain);
+    if (message.nftSrcChain !== 0) {
+      writer.uint32(24).int32(message.nftSrcChain);
     }
     if (message.nftSrcAddr !== "") {
       writer.uint32(34).string(message.nftSrcAddr);
     }
-    if (message.nftDestChain !== "") {
-      writer.uint32(42).string(message.nftDestChain);
+    if (message.nftDestChain !== 0) {
+      writer.uint32(40).int32(message.nftDestChain);
     }
     if (message.nftDestAddr !== "") {
       writer.uint32(50).string(message.nftDestAddr);
     }
-    if (message.ftChain !== "") {
-      writer.uint32(58).string(message.ftChain);
+    if (message.ftChain !== 0) {
+      writer.uint32(56).int32(message.ftChain);
     }
     if (message.ftSrcAddr !== "") {
       writer.uint32(66).string(message.ftSrcAddr);
@@ -100,19 +100,19 @@ export const MsgReserveNftTransfer = {
           message.nftSrcHash = reader.string();
           break;
         case 3:
-          message.nftSrcChain = reader.string();
+          message.nftSrcChain = reader.int32();
           break;
         case 4:
           message.nftSrcAddr = reader.string();
           break;
         case 5:
-          message.nftDestChain = reader.string();
+          message.nftDestChain = reader.int32();
           break;
         case 6:
           message.nftDestAddr = reader.string();
           break;
         case 7:
-          message.ftChain = reader.string();
+          message.ftChain = reader.int32();
           break;
         case 8:
           message.ftSrcAddr = reader.string();
@@ -147,9 +147,9 @@ export const MsgReserveNftTransfer = {
       message.nftSrcHash = "";
     }
     if (object.nftSrcChain !== undefined && object.nftSrcChain !== null) {
-      message.nftSrcChain = String(object.nftSrcChain);
+      message.nftSrcChain = Number(object.nftSrcChain);
     } else {
-      message.nftSrcChain = "";
+      message.nftSrcChain = 0;
     }
     if (object.nftSrcAddr !== undefined && object.nftSrcAddr !== null) {
       message.nftSrcAddr = String(object.nftSrcAddr);
@@ -157,9 +157,9 @@ export const MsgReserveNftTransfer = {
       message.nftSrcAddr = "";
     }
     if (object.nftDestChain !== undefined && object.nftDestChain !== null) {
-      message.nftDestChain = String(object.nftDestChain);
+      message.nftDestChain = Number(object.nftDestChain);
     } else {
-      message.nftDestChain = "";
+      message.nftDestChain = 0;
     }
     if (object.nftDestAddr !== undefined && object.nftDestAddr !== null) {
       message.nftDestAddr = String(object.nftDestAddr);
@@ -167,9 +167,9 @@ export const MsgReserveNftTransfer = {
       message.nftDestAddr = "";
     }
     if (object.ftChain !== undefined && object.ftChain !== null) {
-      message.ftChain = String(object.ftChain);
+      message.ftChain = Number(object.ftChain);
     } else {
-      message.ftChain = "";
+      message.ftChain = 0;
     }
     if (object.ftSrcAddr !== undefined && object.ftSrcAddr !== null) {
       message.ftSrcAddr = String(object.ftSrcAddr);
@@ -232,7 +232,7 @@ export const MsgReserveNftTransfer = {
     if (object.nftSrcChain !== undefined && object.nftSrcChain !== null) {
       message.nftSrcChain = object.nftSrcChain;
     } else {
-      message.nftSrcChain = "";
+      message.nftSrcChain = 0;
     }
     if (object.nftSrcAddr !== undefined && object.nftSrcAddr !== null) {
       message.nftSrcAddr = object.nftSrcAddr;
@@ -242,7 +242,7 @@ export const MsgReserveNftTransfer = {
     if (object.nftDestChain !== undefined && object.nftDestChain !== null) {
       message.nftDestChain = object.nftDestChain;
     } else {
-      message.nftDestChain = "";
+      message.nftDestChain = 0;
     }
     if (object.nftDestAddr !== undefined && object.nftDestAddr !== null) {
       message.nftDestAddr = object.nftDestAddr;
@@ -252,7 +252,7 @@ export const MsgReserveNftTransfer = {
     if (object.ftChain !== undefined && object.ftChain !== null) {
       message.ftChain = object.ftChain;
     } else {
-      message.ftChain = "";
+      message.ftChain = 0;
     }
     if (object.ftSrcAddr !== undefined && object.ftSrcAddr !== null) {
       message.ftSrcAddr = object.ftSrcAddr;
