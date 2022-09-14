@@ -1,10 +1,34 @@
 <template>
-  <div>
-    <a-table :dataSource="items" :columns="columns" />
-  </div>
+    <div>
+        <a-table :dataSource="items" :columns="columns">
+            <template #bodyCell="{ column, record }">
+                <template v-if="isChainColumn(column.key)">
+                    {{ blockchainLabel(record[column.key]) }}
+                </template>
+            </template>
+        </a-table>
+    </div>
 </template>
 
-<script>
+<script lang="ts">
+
+enum Blockchain {
+  ETH,
+  BTC,
+  AVAX
+}
+
+const blockchainOpts = [
+  { value: Blockchain.ETH, label: "ETH" },
+  { value: Blockchain.BTC, label: "BTC" },
+  { value: Blockchain.AVAX, label: "AVAX" },
+]
+
+const blockchainProps = [
+    "nftSrcChain",
+    "nftDestChain",
+    "ftChain"
+]
 
 const columns = [
     {
@@ -73,12 +97,27 @@ export default {
     props: {
         items: Object
     },
-    setup(props) {
+    setup(props: any) {
         const items = props.items
+
+        const isChainColumn = (prop: string) => {
+            return blockchainProps.includes(prop)
+        }
+
+        const blockchainLabel = (value: number) => {
+            for (const blockchainOpt of blockchainOpts) {
+                if (blockchainOpt.value == value) {
+                    return blockchainOpt.label
+                }
+            }
+            return null
+        }
 
         return {
             columns,
             items,
+            isChainColumn,
+            blockchainLabel
         }
     }
 };
