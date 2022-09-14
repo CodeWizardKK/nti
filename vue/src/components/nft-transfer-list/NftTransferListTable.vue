@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a-table :dataSource="items" :columns="columns">
+        <a-table :dataSource="items" :columns="columns" :scroll="{ x: 0 }">
             <template #bodyCell="{ column, record }">
                 <template v-if="isChainColumn(column.key)">
                     {{ blockchainLabel(record[column.key]) }}
