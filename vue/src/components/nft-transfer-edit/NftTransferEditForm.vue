@@ -86,6 +86,8 @@
     </a-card>
     <br />
 
+    <a-switch :checked="isFtEnabled" @change="onChangeFtEnabled" /> 
+
     <a-card title="Fungible Token">
       <Field name="fungibleToken" v-slot="{ value, handleChange, errorMessage }">
         <a-form-item
@@ -160,6 +162,7 @@
 
 <script setup lang="ts">
 import { Field, Form } from 'vee-validate';
+import { ref } from 'vue';
 import * as yup from 'yup';
 import useAccount from '../../composables/useAccount';
 
@@ -187,6 +190,13 @@ const schema = yup.object({
     ftDestAddr: yup.string().required().label('Destination address'),
     blockHeight: yup.number().required().label('Block height'),
 });
+
+const isFtEnabled = ref(false)
+const onChangeFtEnabled = (checked: boolean, e: any) => {
+  console.log(checked)
+  console.log(e)
+  isFtEnabled.value = checked
+}
 
 const emits = defineEmits(['reserveNftTransfer'])
 const { currentAccount } = useAccount()
