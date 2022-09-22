@@ -88,7 +88,7 @@
 
     <a-switch :checked="isFtEnabled" @change="onChangeFtEnabled" /> 
 
-    <a-card title="Fungible Token">
+    <a-card title="Fungible Token" v-if="isFtEnabled">
       <Field name="fungibleToken" v-slot="{ value, handleChange, errorMessage }">
         <a-form-item
           label="Amount"
@@ -178,7 +178,7 @@ const blockchainOpts = [
   { value: Blockchain.AVAX, label: "AVAX" },
 ]
 
-const schema = yup.object({
+const schemaWithFt = yup.object({
     nftTokenId: yup.string().required().label('Token ID'),
     nftSrcChain: yup.number().required().label('Blockchain'),
     nftSrcAddr: yup.string().required().label('Address'),
@@ -191,11 +191,25 @@ const schema = yup.object({
     blockHeight: yup.number().required().label('Block height'),
 });
 
+const schemaWoFt = yup.object({
+    nftTokenId: yup.string().required().label('Token ID'),
+    nftSrcChain: yup.number().required().label('Blockchain'),
+    nftSrcAddr: yup.string().required().label('Address'),
+    nftDestChain: yup.number().required().label('Blockchain'),
+    nftDestAddr: yup.string().required().label('Address'),
+    fungibleToken: yup.number().label('Amount'),
+    ftChain: yup.number().label('Blockchain'),
+    ftSrcAddr: yup.string().label('Source address'),
+    ftDestAddr: yup.string().label('Destination address'),
+    blockHeight: yup.number().label('Block height'),
+});
+
 const isFtEnabled = ref(false)
+const schema = ref(schemaWoFt)
 const onChangeFtEnabled = (checked: boolean, e: any) => {
-  console.log(checked)
   console.log(e)
   isFtEnabled.value = checked
+  schema.value = checked ? schemaWithFt : schemaWoFt
 }
 
 const emits = defineEmits(['reserveNftTransfer'])
