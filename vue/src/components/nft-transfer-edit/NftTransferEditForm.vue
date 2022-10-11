@@ -86,6 +86,7 @@
     </a-card>
     <br />
 
+    <!--
     <a-card title="Fungible Token">
       <a-form-item label="Set fungible token">
         <a-switch :checked="isFtEnabled" @change="onChangeFtEnabled" /> 
@@ -156,6 +157,7 @@
         </Field>
       </div>
     </a-card>
+    -->
     <br />
 
     <a-form-item>
