@@ -4,17 +4,6 @@
     <!-- Do this if you have only one or a few places that need validation -->
 
     <a-card title="NFT Source">
-      <Field name="nftTokenId" v-slot="{ value, handleChange, errorMessage }">
-        <a-form-item
-          label="Token ID"
-          :has-feedback="!!errorMessage"
-          :help="errorMessage"
-          :validate-status="errorMessage ? 'error' : undefined"
-        >
-          <a-input :value="value" @update:value="handleChange" />
-        </a-form-item>
-      </Field>
-
       <Field name="nftSrcChain" v-slot="{ value, handleChange, errorMessage }">
         <a-form-item
           label="Blockchain"
@@ -40,6 +29,17 @@
       <Field name="nftSrcAddr" v-slot="{ value, handleChange, errorMessage }">
         <a-form-item
           label="Address"
+          :has-feedback="!!errorMessage"
+          :help="errorMessage"
+          :validate-status="errorMessage ? 'error' : undefined"
+        >
+          <a-input :value="value" @update:value="handleChange" />
+        </a-form-item>
+      </Field>
+
+      <Field name="nftTokenId" v-slot="{ value, handleChange, errorMessage }">
+        <a-form-item
+          label="Token ID"
           :has-feedback="!!errorMessage"
           :help="errorMessage"
           :validate-status="errorMessage ? 'error' : undefined"
