@@ -29992,6 +29992,59 @@ paths:
           type: string
       tags:
         - Query
+  /nti/nti/nft_transfer_status:
+    get:
+      summary: Queries a NftTransferStatus by index.
+      operationId: NtiNtiNftTransferStatus
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              NftTransferStatus:
+                type: object
+                properties:
+                  reserved:
+                    type: array
+                    items:
+                      type: string
+                  confirmed:
+                    type: array
+                    items:
+                      type: string
+                  expired:
+                    type: array
+                    items:
+                      type: string
+                  waiting:
+                    type: array
+                    items:
+                      type: string
+                  completed:
+                    type: array
+                    items:
+                      type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
   /nti/nti/params:
     get:
       summary: Parameters queries the parameters of the module.
@@ -51976,6 +52029,29 @@ definitions:
       createdAt:
         type: integer
         format: int32
+  nti.nti.NftTransferStatus:
+    type: object
+    properties:
+      reserved:
+        type: array
+        items:
+          type: string
+      confirmed:
+        type: array
+        items:
+          type: string
+      expired:
+        type: array
+        items:
+          type: string
+      waiting:
+        type: array
+        items:
+          type: string
+      completed:
+        type: array
+        items:
+          type: string
   nti.nti.Params:
     type: object
     description: Params defines the parameters for the module.
@@ -52115,6 +52191,32 @@ definitions:
           createdAt:
             type: integer
             format: int32
+  nti.nti.QueryGetNftTransferStatusResponse:
+    type: object
+    properties:
+      NftTransferStatus:
+        type: object
+        properties:
+          reserved:
+            type: array
+            items:
+              type: string
+          confirmed:
+            type: array
+            items:
+              type: string
+          expired:
+            type: array
+            items:
+              type: string
+          waiting:
+            type: array
+            items:
+              type: string
+          completed:
+            type: array
+            items:
+              type: string
   nti.nti.QueryGetReservedNftTransferResponse:
     type: object
     properties:

@@ -38,6 +38,13 @@ func TestGenesisState_Validate(t *testing.T) {
 						ReservedKey: "1",
 					},
 				},
+				NftTransferStatus: &types.NftTransferStatus{
+					Reserved:  []string{"59"},
+					Confirmed: []string{"11"},
+					Expired:   []string{"51"},
+					Waiting:   []string{"39"},
+					Completed: []string{"34"},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,

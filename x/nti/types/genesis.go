@@ -12,6 +12,7 @@ func DefaultGenesis() *GenesisState {
 	return &GenesisState{
 		NftTransferList:         []NftTransfer{},
 		ReservedNftTransferList: []ReservedNftTransfer{},
+		NftTransferStatus:       nil,
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}

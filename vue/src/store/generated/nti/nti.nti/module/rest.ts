@@ -26,6 +26,14 @@ export interface NtiNftTransfer {
   createdAt?: number;
 }
 
+export interface NtiNftTransferStatus {
+  reserved?: string[];
+  confirmed?: string[];
+  expired?: string[];
+  waiting?: string[];
+  completed?: string[];
+}
+
 /**
  * Params defines the parameters for the module.
  */
@@ -63,6 +71,10 @@ export interface NtiQueryAllReservedNftTransferResponse {
 
 export interface NtiQueryGetNftTransferResponse {
   nftTransfer?: NtiNftTransfer;
+}
+
+export interface NtiQueryGetNftTransferStatusResponse {
+  NftTransferStatus?: NtiNftTransferStatus;
 }
 
 export interface NtiQueryGetReservedNftTransferResponse {
@@ -411,6 +423,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryNftTransfer = (index: string, params: RequestParams = {}) =>
     this.request<NtiQueryGetNftTransferResponse, RpcStatus>({
       path: `/nti/nti/nft_transfer/${index}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryNftTransferStatus
+   * @summary Queries a NftTransferStatus by index.
+   * @request GET:/nti/nti/nft_transfer_status
+   */
+  queryNftTransferStatus = (params: RequestParams = {}) =>
+    this.request<NtiQueryGetNftTransferStatusResponse, RpcStatus>({
+      path: `/nti/nti/nft_transfer_status`,
       method: "GET",
       format: "json",
       ...params,

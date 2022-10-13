@@ -1,11 +1,12 @@
 import { txClient, queryClient, MissingWalletError , registry} from './module'
 
 import { NftTransfer } from "./module/types/nti/nft_transfer"
+import { NftTransferStatus } from "./module/types/nti/nft_transfer_status"
 import { Params } from "./module/types/nti/params"
 import { ReservedNftTransfer } from "./module/types/nti/reserved_nft_transfer"
 
 
-export { NftTransfer, Params, ReservedNftTransfer };
+export { NftTransfer, NftTransferStatus, Params, ReservedNftTransfer };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -48,9 +49,11 @@ const getDefaultState = () => {
 				NftTransferAll: {},
 				ReservedNftTransfer: {},
 				ReservedNftTransferAll: {},
+				NftTransferStatus: {},
 				
 				_Structure: {
 						NftTransfer: getStructure(NftTransfer.fromPartial({})),
+						NftTransferStatus: getStructure(NftTransferStatus.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
 						ReservedNftTransfer: getStructure(ReservedNftTransfer.fromPartial({})),
 						
@@ -110,6 +113,12 @@ export default {
 						(<any> params).query=null
 					}
 			return state.ReservedNftTransferAll[JSON.stringify(params)] ?? {}
+		},
+				getNftTransferStatus: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.NftTransferStatus[JSON.stringify(params)] ?? {}
 		},
 				
 		getTypeStructure: (state) => (type) => {
@@ -258,6 +267,28 @@ export default {
 				return getters['getReservedNftTransferAll']( { params: {...key}, query}) ?? {}
 			} catch (e) {
 				throw new Error('QueryClient:QueryReservedNftTransferAll API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryNftTransferStatus({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryNftTransferStatus()).data
+				
+					
+				commit('QUERY', { query: 'NftTransferStatus', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryNftTransferStatus', payload: { options: { all }, params: {...key},query }})
+				return getters['getNftTransferStatus']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryNftTransferStatus API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},

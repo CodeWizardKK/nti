@@ -7,6 +7,7 @@ import "cosmos/base/query/v1beta1/pagination.proto";
 import "nti/params.proto";
 import "nti/nft_transfer.proto";
 import "nti/reserved_nft_transfer.proto";
+import "nti/nft_transfer_status.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "nti/x/nti/types";
@@ -37,6 +38,10 @@ service Query {
 		option (google.api.http).get = "/nti/nti/reserved_nft_transfer";
 	}
 
+// Queries a NftTransferStatus by index.
+	rpc NftTransferStatus(QueryGetNftTransferStatusRequest) returns (QueryGetNftTransferStatusResponse) {
+		option (google.api.http).get = "/nti/nti/nft_transfer_status";
+	}
 // this line is used by starport scaffolding # 2
 }
 
@@ -85,4 +90,9 @@ message QueryAllReservedNftTransferResponse {
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
+message QueryGetNftTransferStatusRequest {}
+
+message QueryGetNftTransferStatusResponse {
+	NftTransferStatus NftTransferStatus = 1 [(gogoproto.nullable) = false];
+}
 // this line is used by starport scaffolding # 3

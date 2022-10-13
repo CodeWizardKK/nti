@@ -7,6 +7,7 @@ import {
   PageResponse,
 } from "../cosmos/base/query/v1beta1/pagination";
 import { ReservedNftTransfer } from "../nti/reserved_nft_transfer";
+import { NftTransferStatus } from "../nti/nft_transfer_status";
 
 export const protobufPackage = "nti.nti";
 
@@ -51,6 +52,12 @@ export interface QueryAllReservedNftTransferRequest {
 export interface QueryAllReservedNftTransferResponse {
   reservedNftTransfer: ReservedNftTransfer[];
   pagination: PageResponse | undefined;
+}
+
+export interface QueryGetNftTransferStatusRequest {}
+
+export interface QueryGetNftTransferStatusResponse {
+  NftTransferStatus: NftTransferStatus | undefined;
 }
 
 const baseQueryParamsRequest: object = {};
@@ -806,6 +813,146 @@ export const QueryAllReservedNftTransferResponse = {
   },
 };
 
+const baseQueryGetNftTransferStatusRequest: object = {};
+
+export const QueryGetNftTransferStatusRequest = {
+  encode(
+    _: QueryGetNftTransferStatusRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetNftTransferStatusRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetNftTransferStatusRequest,
+    } as QueryGetNftTransferStatusRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): QueryGetNftTransferStatusRequest {
+    const message = {
+      ...baseQueryGetNftTransferStatusRequest,
+    } as QueryGetNftTransferStatusRequest;
+    return message;
+  },
+
+  toJSON(_: QueryGetNftTransferStatusRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<QueryGetNftTransferStatusRequest>
+  ): QueryGetNftTransferStatusRequest {
+    const message = {
+      ...baseQueryGetNftTransferStatusRequest,
+    } as QueryGetNftTransferStatusRequest;
+    return message;
+  },
+};
+
+const baseQueryGetNftTransferStatusResponse: object = {};
+
+export const QueryGetNftTransferStatusResponse = {
+  encode(
+    message: QueryGetNftTransferStatusResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.NftTransferStatus !== undefined) {
+      NftTransferStatus.encode(
+        message.NftTransferStatus,
+        writer.uint32(10).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetNftTransferStatusResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetNftTransferStatusResponse,
+    } as QueryGetNftTransferStatusResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.NftTransferStatus = NftTransferStatus.decode(
+            reader,
+            reader.uint32()
+          );
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetNftTransferStatusResponse {
+    const message = {
+      ...baseQueryGetNftTransferStatusResponse,
+    } as QueryGetNftTransferStatusResponse;
+    if (
+      object.NftTransferStatus !== undefined &&
+      object.NftTransferStatus !== null
+    ) {
+      message.NftTransferStatus = NftTransferStatus.fromJSON(
+        object.NftTransferStatus
+      );
+    } else {
+      message.NftTransferStatus = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetNftTransferStatusResponse): unknown {
+    const obj: any = {};
+    message.NftTransferStatus !== undefined &&
+      (obj.NftTransferStatus = message.NftTransferStatus
+        ? NftTransferStatus.toJSON(message.NftTransferStatus)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetNftTransferStatusResponse>
+  ): QueryGetNftTransferStatusResponse {
+    const message = {
+      ...baseQueryGetNftTransferStatusResponse,
+    } as QueryGetNftTransferStatusResponse;
+    if (
+      object.NftTransferStatus !== undefined &&
+      object.NftTransferStatus !== null
+    ) {
+      message.NftTransferStatus = NftTransferStatus.fromPartial(
+        object.NftTransferStatus
+      );
+    } else {
+      message.NftTransferStatus = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -826,6 +973,10 @@ export interface Query {
   ReservedNftTransferAll(
     request: QueryAllReservedNftTransferRequest
   ): Promise<QueryAllReservedNftTransferResponse>;
+  /** Queries a NftTransferStatus by index. */
+  NftTransferStatus(
+    request: QueryGetNftTransferStatusRequest
+  ): Promise<QueryGetNftTransferStatusResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -884,6 +1035,20 @@ export class QueryClientImpl implements Query {
     );
     return promise.then((data) =>
       QueryAllReservedNftTransferResponse.decode(new Reader(data))
+    );
+  }
+
+  NftTransferStatus(
+    request: QueryGetNftTransferStatusRequest
+  ): Promise<QueryGetNftTransferStatusResponse> {
+    const data = QueryGetNftTransferStatusRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "nti.nti.Query",
+      "NftTransferStatus",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetNftTransferStatusResponse.decode(new Reader(data))
     );
   }
 }

@@ -2,6 +2,7 @@
 import { Params } from "../nti/params";
 import { NftTransfer } from "../nti/nft_transfer";
 import { ReservedNftTransfer } from "../nti/reserved_nft_transfer";
+import { NftTransferStatus } from "../nti/nft_transfer_status";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "nti.nti";
@@ -10,8 +11,9 @@ export const protobufPackage = "nti.nti";
 export interface GenesisState {
   params: Params | undefined;
   nftTransferList: NftTransfer[];
-  /** this line is used by starport scaffolding # genesis/proto/state */
   reservedNftTransferList: ReservedNftTransfer[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  nftTransferStatus: NftTransferStatus | undefined;
 }
 
 const baseGenesisState: object = {};
@@ -26,6 +28,12 @@ export const GenesisState = {
     }
     for (const v of message.reservedNftTransferList) {
       ReservedNftTransfer.encode(v!, writer.uint32(26).fork()).ldelim();
+    }
+    if (message.nftTransferStatus !== undefined) {
+      NftTransferStatus.encode(
+        message.nftTransferStatus,
+        writer.uint32(34).fork()
+      ).ldelim();
     }
     return writer;
   },
@@ -50,6 +58,12 @@ export const GenesisState = {
         case 3:
           message.reservedNftTransferList.push(
             ReservedNftTransfer.decode(reader, reader.uint32())
+          );
+          break;
+        case 4:
+          message.nftTransferStatus = NftTransferStatus.decode(
+            reader,
+            reader.uint32()
           );
           break;
         default:
@@ -85,6 +99,16 @@ export const GenesisState = {
         message.reservedNftTransferList.push(ReservedNftTransfer.fromJSON(e));
       }
     }
+    if (
+      object.nftTransferStatus !== undefined &&
+      object.nftTransferStatus !== null
+    ) {
+      message.nftTransferStatus = NftTransferStatus.fromJSON(
+        object.nftTransferStatus
+      );
+    } else {
+      message.nftTransferStatus = undefined;
+    }
     return message;
   },
 
@@ -106,6 +130,10 @@ export const GenesisState = {
     } else {
       obj.reservedNftTransferList = [];
     }
+    message.nftTransferStatus !== undefined &&
+      (obj.nftTransferStatus = message.nftTransferStatus
+        ? NftTransferStatus.toJSON(message.nftTransferStatus)
+        : undefined);
     return obj;
   },
 
@@ -135,6 +163,16 @@ export const GenesisState = {
           ReservedNftTransfer.fromPartial(e)
         );
       }
+    }
+    if (
+      object.nftTransferStatus !== undefined &&
+      object.nftTransferStatus !== null
+    ) {
+      message.nftTransferStatus = NftTransferStatus.fromPartial(
+        object.nftTransferStatus
+      );
+    } else {
+      message.nftTransferStatus = undefined;
     }
     return message;
   },

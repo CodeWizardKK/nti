@@ -30,6 +30,13 @@ func TestGenesis(t *testing.T) {
 				ReservedKey: "1",
 			},
 		},
+		NftTransferStatus: &types.NftTransferStatus{
+			Reserved:  []string{"93"},
+			Confirmed: []string{"82"},
+			Expired:   []string{"92"},
+			Waiting:   []string{"83"},
+			Completed: []string{"11"},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -43,5 +50,6 @@ func TestGenesis(t *testing.T) {
 
 	require.ElementsMatch(t, genesisState.NftTransferList, got.NftTransferList)
 	require.ElementsMatch(t, genesisState.ReservedNftTransferList, got.ReservedNftTransferList)
+	require.Equal(t, genesisState.NftTransferStatus, got.NftTransferStatus)
 	// this line is used by starport scaffolding # genesis/test/assert
 }
