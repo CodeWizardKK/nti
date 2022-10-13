@@ -31,6 +31,15 @@ export interface MsgTransferNft {
 
 export interface MsgTransferNftResponse {}
 
+export interface MsgChangeStatus {
+  creator: string;
+  reservedKey: string;
+  from: string;
+  to: string;
+}
+
+export interface MsgChangeStatusResponse {}
+
 const baseMsgReserveNftTransfer: object = {
   creator: "",
   nftTokenId: "",
@@ -534,13 +543,172 @@ export const MsgTransferNftResponse = {
   },
 };
 
+const baseMsgChangeStatus: object = {
+  creator: "",
+  reservedKey: "",
+  from: "",
+  to: "",
+};
+
+export const MsgChangeStatus = {
+  encode(message: MsgChangeStatus, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.reservedKey !== "") {
+      writer.uint32(18).string(message.reservedKey);
+    }
+    if (message.from !== "") {
+      writer.uint32(26).string(message.from);
+    }
+    if (message.to !== "") {
+      writer.uint32(34).string(message.to);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgChangeStatus {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgChangeStatus } as MsgChangeStatus;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.reservedKey = reader.string();
+          break;
+        case 3:
+          message.from = reader.string();
+          break;
+        case 4:
+          message.to = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgChangeStatus {
+    const message = { ...baseMsgChangeStatus } as MsgChangeStatus;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.reservedKey !== undefined && object.reservedKey !== null) {
+      message.reservedKey = String(object.reservedKey);
+    } else {
+      message.reservedKey = "";
+    }
+    if (object.from !== undefined && object.from !== null) {
+      message.from = String(object.from);
+    } else {
+      message.from = "";
+    }
+    if (object.to !== undefined && object.to !== null) {
+      message.to = String(object.to);
+    } else {
+      message.to = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgChangeStatus): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.reservedKey !== undefined &&
+      (obj.reservedKey = message.reservedKey);
+    message.from !== undefined && (obj.from = message.from);
+    message.to !== undefined && (obj.to = message.to);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgChangeStatus>): MsgChangeStatus {
+    const message = { ...baseMsgChangeStatus } as MsgChangeStatus;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.reservedKey !== undefined && object.reservedKey !== null) {
+      message.reservedKey = object.reservedKey;
+    } else {
+      message.reservedKey = "";
+    }
+    if (object.from !== undefined && object.from !== null) {
+      message.from = object.from;
+    } else {
+      message.from = "";
+    }
+    if (object.to !== undefined && object.to !== null) {
+      message.to = object.to;
+    } else {
+      message.to = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgChangeStatusResponse: object = {};
+
+export const MsgChangeStatusResponse = {
+  encode(_: MsgChangeStatusResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgChangeStatusResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgChangeStatusResponse,
+    } as MsgChangeStatusResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgChangeStatusResponse {
+    const message = {
+      ...baseMsgChangeStatusResponse,
+    } as MsgChangeStatusResponse;
+    return message;
+  },
+
+  toJSON(_: MsgChangeStatusResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgChangeStatusResponse>
+  ): MsgChangeStatusResponse {
+    const message = {
+      ...baseMsgChangeStatusResponse,
+    } as MsgChangeStatusResponse;
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   ReserveNftTransfer(
     request: MsgReserveNftTransfer
   ): Promise<MsgReserveNftTransferResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   TransferNft(request: MsgTransferNft): Promise<MsgTransferNftResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  ChangeStatus(request: MsgChangeStatus): Promise<MsgChangeStatusResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -563,6 +731,14 @@ export class MsgClientImpl implements Msg {
     const promise = this.rpc.request("nti.nti.Msg", "TransferNft", data);
     return promise.then((data) =>
       MsgTransferNftResponse.decode(new Reader(data))
+    );
+  }
+
+  ChangeStatus(request: MsgChangeStatus): Promise<MsgChangeStatusResponse> {
+    const data = MsgChangeStatus.encode(request).finish();
+    const promise = this.rpc.request("nti.nti.Msg", "ChangeStatus", data);
+    return promise.then((data) =>
+      MsgChangeStatusResponse.decode(new Reader(data))
     );
   }
 }

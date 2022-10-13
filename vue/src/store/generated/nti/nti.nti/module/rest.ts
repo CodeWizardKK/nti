@@ -9,6 +9,8 @@
  * ---------------------------------------------------------------
  */
 
+export type NtiMsgChangeStatusResponse = object;
+
 export type NtiMsgReserveNftTransferResponse = object;
 
 export type NtiMsgTransferNftResponse = object;

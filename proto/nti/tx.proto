@@ -9,6 +9,7 @@ option go_package = "nti/x/nti/types";
 service Msg {
       rpc ReserveNftTransfer(MsgReserveNftTransfer) returns (MsgReserveNftTransferResponse);
   rpc TransferNft(MsgTransferNft) returns (MsgTransferNftResponse);
+  rpc ChangeStatus(MsgChangeStatus) returns (MsgChangeStatusResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -40,6 +41,16 @@ message MsgTransferNft {
 }
 
 message MsgTransferNftResponse {
+}
+
+message MsgChangeStatus {
+  string creator = 1;
+  string reservedKey = 2;
+  string from = 3;
+  string to = 4;
+}
+
+message MsgChangeStatusResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message
