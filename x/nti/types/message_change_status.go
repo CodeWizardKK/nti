@@ -9,7 +9,7 @@ const TypeMsgChangeStatus = "change_status"
 
 var _ sdk.Msg = &MsgChangeStatus{}
 
-func NewMsgChangeStatus(creator string, reservedKey string, from string, to string) *MsgChangeStatus {
+func NewMsgChangeStatus(creator string, reservedKey string, from int32, to int32) *MsgChangeStatus {
 	return &MsgChangeStatus{
 		Creator:     creator,
 		ReservedKey: reservedKey,

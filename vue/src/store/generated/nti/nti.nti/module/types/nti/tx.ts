@@ -34,8 +34,8 @@ export interface MsgTransferNftResponse {}
 export interface MsgChangeStatus {
   creator: string;
   reservedKey: string;
-  from: string;
-  to: string;
+  from: number;
+  to: number;
 }
 
 export interface MsgChangeStatusResponse {}
@@ -546,8 +546,8 @@ export const MsgTransferNftResponse = {
 const baseMsgChangeStatus: object = {
   creator: "",
   reservedKey: "",
-  from: "",
-  to: "",
+  from: 0,
+  to: 0,
 };
 
 export const MsgChangeStatus = {
@@ -558,11 +558,11 @@ export const MsgChangeStatus = {
     if (message.reservedKey !== "") {
       writer.uint32(18).string(message.reservedKey);
     }
-    if (message.from !== "") {
-      writer.uint32(26).string(message.from);
+    if (message.from !== 0) {
+      writer.uint32(24).int32(message.from);
     }
-    if (message.to !== "") {
-      writer.uint32(34).string(message.to);
+    if (message.to !== 0) {
+      writer.uint32(32).int32(message.to);
     }
     return writer;
   },
@@ -581,10 +581,10 @@ export const MsgChangeStatus = {
           message.reservedKey = reader.string();
           break;
         case 3:
-          message.from = reader.string();
+          message.from = reader.int32();
           break;
         case 4:
-          message.to = reader.string();
+          message.to = reader.int32();
           break;
         default:
           reader.skipType(tag & 7);
@@ -607,14 +607,14 @@ export const MsgChangeStatus = {
       message.reservedKey = "";
     }
     if (object.from !== undefined && object.from !== null) {
-      message.from = String(object.from);
+      message.from = Number(object.from);
     } else {
-      message.from = "";
+      message.from = 0;
     }
     if (object.to !== undefined && object.to !== null) {
-      message.to = String(object.to);
+      message.to = Number(object.to);
     } else {
-      message.to = "";
+      message.to = 0;
     }
     return message;
   },
@@ -644,12 +644,12 @@ export const MsgChangeStatus = {
     if (object.from !== undefined && object.from !== null) {
       message.from = object.from;
     } else {
-      message.from = "";
+      message.from = 0;
     }
     if (object.to !== undefined && object.to !== null) {
       message.to = object.to;
     } else {
-      message.to = "";
+      message.to = 0;
     }
     return message;
   },

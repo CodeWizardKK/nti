@@ -52005,6 +52005,8 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
+  nti.nti.MsgChangeStatusResponse:
+    type: object
   nti.nti.MsgReserveNftTransferResponse:
     type: object
   nti.nti.MsgTransferNftResponse:

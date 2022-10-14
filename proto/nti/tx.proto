@@ -46,8 +46,8 @@ message MsgTransferNftResponse {
 message MsgChangeStatus {
   string creator = 1;
   string reservedKey = 2;
-  string from = 3;
-  string to = 4;
+  int32 from = 3;
+  int32 to = 4;
 }
 
 message MsgChangeStatusResponse {
