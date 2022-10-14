@@ -49,5 +49,10 @@ func (k msgServer) ReserveNftTransfer(goCtx context.Context, msg *types.MsgReser
 
 	k.Keeper.SetReservedNftTransfer(ctx, reservedNftTransfer)
 
+	// ステータスリストに追加
+	nftTransferStatus, _ := k.Keeper.GetNftTransferStatus(ctx)
+	nftTransferStatus.Reserved = append(nftTransferStatus.Reserved, reservedKey)
+	k.Keeper.SetNftTransferStatus(ctx, nftTransferStatus)
+
 	return &types.MsgReserveNftTransferResponse{}, nil
 }

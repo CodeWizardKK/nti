@@ -3,11 +3,13 @@ package cli
 import (
 	"strconv"
 
+	"nti/x/nti/types"
+
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
+	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
-	"nti/x/nti/types"
 )
 
 var _ = strconv.Itoa(0)
@@ -19,8 +21,14 @@ func CmdChangeStatus() *cobra.Command {
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argReservedKey := args[0]
-			argFrom := args[1]
-			argTo := args[2]
+			argFrom, err := cast.ToInt32E(args[1])
+			if err != nil {
+				return err
+			}
+			argTo, err := cast.ToInt32E(args[2])
+			if err != nil {
+				return err
+			}
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
