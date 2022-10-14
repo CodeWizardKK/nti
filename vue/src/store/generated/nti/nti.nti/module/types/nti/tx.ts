@@ -34,7 +34,6 @@ export interface MsgTransferNftResponse {}
 export interface MsgChangeStatus {
   creator: string;
   reservedKey: string;
-  from: number;
   to: number;
 }
 
@@ -543,12 +542,7 @@ export const MsgTransferNftResponse = {
   },
 };
 
-const baseMsgChangeStatus: object = {
-  creator: "",
-  reservedKey: "",
-  from: 0,
-  to: 0,
-};
+const baseMsgChangeStatus: object = { creator: "", reservedKey: "", to: 0 };
 
 export const MsgChangeStatus = {
   encode(message: MsgChangeStatus, writer: Writer = Writer.create()): Writer {
@@ -558,11 +552,8 @@ export const MsgChangeStatus = {
     if (message.reservedKey !== "") {
       writer.uint32(18).string(message.reservedKey);
     }
-    if (message.from !== 0) {
-      writer.uint32(24).int32(message.from);
-    }
     if (message.to !== 0) {
-      writer.uint32(32).int32(message.to);
+      writer.uint32(24).int32(message.to);
     }
     return writer;
   },
@@ -581,9 +572,6 @@ export const MsgChangeStatus = {
           message.reservedKey = reader.string();
           break;
         case 3:
-          message.from = reader.int32();
-          break;
-        case 4:
           message.to = reader.int32();
           break;
         default:
@@ -606,11 +594,6 @@ export const MsgChangeStatus = {
     } else {
       message.reservedKey = "";
     }
-    if (object.from !== undefined && object.from !== null) {
-      message.from = Number(object.from);
-    } else {
-      message.from = 0;
-    }
     if (object.to !== undefined && object.to !== null) {
       message.to = Number(object.to);
     } else {
@@ -624,7 +607,6 @@ export const MsgChangeStatus = {
     message.creator !== undefined && (obj.creator = message.creator);
     message.reservedKey !== undefined &&
       (obj.reservedKey = message.reservedKey);
-    message.from !== undefined && (obj.from = message.from);
     message.to !== undefined && (obj.to = message.to);
     return obj;
   },
@@ -640,11 +622,6 @@ export const MsgChangeStatus = {
       message.reservedKey = object.reservedKey;
     } else {
       message.reservedKey = "";
-    }
-    if (object.from !== undefined && object.from !== null) {
-      message.from = object.from;
-    } else {
-      message.from = 0;
     }
     if (object.to !== undefined && object.to !== null) {
       message.to = object.to;

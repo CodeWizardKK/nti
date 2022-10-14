@@ -16,16 +16,12 @@ var _ = strconv.Itoa(0)
 
 func CmdChangeStatus() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "change-status [reserved-key] [from] [to]",
+		Use:   "change-status [reserved-key] [to]",
 		Short: "Broadcast message changeStatus",
-		Args:  cobra.ExactArgs(3),
+		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argReservedKey := args[0]
-			argFrom, err := cast.ToInt32E(args[1])
-			if err != nil {
-				return err
-			}
-			argTo, err := cast.ToInt32E(args[2])
+			argTo, err := cast.ToInt32E(args[1])
 			if err != nil {
 				return err
 			}
@@ -38,7 +34,6 @@ func CmdChangeStatus() *cobra.Command {
 			msg := types.NewMsgChangeStatus(
 				clientCtx.GetFromAddress().String(),
 				argReservedKey,
-				argFrom,
 				argTo,
 			)
 			if err := msg.ValidateBasic(); err != nil {
