@@ -50,9 +50,13 @@ func (k msgServer) ChangeStatus(goCtx context.Context, msg *types.MsgChangeStatu
 	keysTo := nftTransferStatusPointer.FieldByName(statusTo)
 
 	// 現在のステータスから当該キーを削除
-	for i := 0; i < keysFrom.Len(); i++ {
+	keysFromLen := keysFrom.Len()
+	for i := 0; i < keysFromLen; i++ {
 		if keysFrom.Index(i).String() == msg.ReservedKey {
-			keysFromUpdated := reflect.AppendSlice(keysFrom.Slice(0, i), keysFrom.Slice(i+1, -1))
+			keysFromUpdated := reflect.AppendSlice(
+				keysFrom.Slice(0, i),
+				keysFrom.Slice(i+1, keysFromLen),
+			)
 			keysFrom.Set(keysFromUpdated)
 			break
 		}
