@@ -196,6 +196,7 @@ const srcAddrPrefix = ref("")
 const destAddrPrefix = ref("")
 const onSelectSrcChain = (value: any) => {
   setAddrPrefix(srcAddrPrefix, value)
+  fetchTokenIds()
 }
 const onSelectDestChain = (value: any) => {
   setAddrPrefix(destAddrPrefix, value)
@@ -212,6 +213,11 @@ const setAddrPrefix = (addrPrefix: Ref<string>, blockchain: Blockchain) => {
 const formatAddr = (value: any) => {
   const addr = value ? value : ""
   return addr.startsWith("0x") ? addr.slice(2) : addr
+}
+
+// イーサリアムの場合、アドレスから所有するトークンのIDリストを取得する
+const fetchTokenIds = () => {
+  console.log('fetch')
 }
 
 const schemaWithFt = yup.object({
