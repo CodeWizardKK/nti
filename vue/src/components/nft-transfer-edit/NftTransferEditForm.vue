@@ -15,7 +15,8 @@
             :value="value"
             style="width: 120px"
             @focus="focus"
-            @change="handleChange">
+            @change="handleChange"
+            @select="onSelectSrcChain">
             <a-select-option
               v-for="blockchain in blockchainOpts"
               :key="blockchain.label"
@@ -33,7 +34,10 @@
           :help="errorMessage"
           :validate-status="errorMessage ? 'error' : undefined"
         >
-          <a-input :value="value" @update:value="handleChange" />
+          <a-input
+            :value="value"
+            @update:value="handleChange"
+            :addon-before="srcAddrPrefix"/>
         </a-form-item>
       </Field>
 
@@ -62,7 +66,8 @@
             :value="value"
             style="width: 120px"
             @focus="focus"
-            @change="handleChange">
+            @change="handleChange"
+            @select="onSelectDestChain">
             <a-select-option
               v-for="blockchain in blockchainOpts"
               :key="blockchain.label"
@@ -80,7 +85,10 @@
           :help="errorMessage"
           :validate-status="errorMessage ? 'error' : undefined"
         >
-          <a-input :value="value" @update:value="handleChange" />
+          <a-input
+            :value="value"
+            @update:value="handleChange"
+            :addon-before="destAddrPrefix"/>
         </a-form-item>
       </Field>
     </a-card>
@@ -168,7 +176,7 @@
 
 <script setup lang="ts">
 import { Field, Form } from 'vee-validate';
-import { ref } from 'vue';
+import { ref, Ref } from 'vue';
 import * as yup from 'yup';
 import useAccount from '../../composables/useAccount';
 
@@ -179,10 +187,26 @@ enum Blockchain {
 }
 
 const blockchainOpts = [
-  { value: Blockchain.ETH, label: "ETH" },
-  { value: Blockchain.BTC, label: "BTC" },
-  { value: Blockchain.AVAX, label: "AVAX" },
+  { value: Blockchain.ETH, label: "ETH", prefix: "0x" },
+  { value: Blockchain.BTC, label: "BTC", prefix: "" },
+  { value: Blockchain.AVAX, label: "AVAX", prefix: "" },
 ]
+
+const srcAddrPrefix = ref("")
+const destAddrPrefix = ref("")
+const onSelectSrcChain = (value: any) => {
+  setAddrPrefix(srcAddrPrefix, value)
+}
+const onSelectDestChain = (value: any) => {
+  setAddrPrefix(destAddrPrefix, value)
+}
+const setAddrPrefix = (addrPrefix: Ref<string>, blockchain: Blockchain) => {
+  for (const blockchainOpt of blockchainOpts) {
+    if (blockchainOpt.value == blockchain) {
+      addrPrefix.value = blockchainOpt.prefix
+    }
+  }
+}
 
 const schemaWithFt = yup.object({
     nftTokenId: yup.string().required().label('Token ID'),
