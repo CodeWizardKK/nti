@@ -35,7 +35,7 @@
           :validate-status="errorMessage ? 'error' : undefined"
         >
           <a-input
-            :value="value"
+            :value="formatAddr(value)"
             @update:value="handleChange"
             :addon-before="srcAddrPrefix"/>
         </a-form-item>
@@ -86,7 +86,7 @@
           :validate-status="errorMessage ? 'error' : undefined"
         >
           <a-input
-            :value="value"
+            :value="formatAddr(value)"
             @update:value="handleChange"
             :addon-before="destAddrPrefix"/>
         </a-form-item>
@@ -200,12 +200,18 @@ const onSelectSrcChain = (value: any) => {
 const onSelectDestChain = (value: any) => {
   setAddrPrefix(destAddrPrefix, value)
 }
+// 選択されたブロックチェーンに応じたアドレスの接頭辞を表示する
 const setAddrPrefix = (addrPrefix: Ref<string>, blockchain: Blockchain) => {
   for (const blockchainOpt of blockchainOpts) {
     if (blockchainOpt.value == blockchain) {
       addrPrefix.value = blockchainOpt.prefix
     }
   }
+}
+// アドレスの先頭に"0x"が付いている場合除く
+const formatAddr = (value: any) => {
+  const addr = value ? value : ""
+  return addr.startsWith("0x") ? addr.slice(2) : addr
 }
 
 const schemaWithFt = yup.object({
