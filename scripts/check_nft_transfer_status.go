@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
 
 	"google.golang.org/grpc"
+
+	"nti/x/nti/types"
 )
 
 func checkReservedList() error {
@@ -19,6 +22,17 @@ func checkReservedList() error {
 		return err
 	}
 	defer grpcConn.Close()
+
+	// This creates a gRPC client to query the x/nti service.
+	queryClient := types.NewQueryClient(grpcConn)
+	params := &types.QueryGetNftTransferStatusRequest{}
+	res, err := queryClient.NftTransferStatus(context.Background(), params)
+	if err != nil {
+		return err
+	}
+
+	reservedKeys := res.GetNftTransferStatus().Reserved
+	fmt.Println(reservedKeys)
 
 	return nil
 }
