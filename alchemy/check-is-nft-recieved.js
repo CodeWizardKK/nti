@@ -16,8 +16,6 @@ async function main() {
     // cmd: node file-path.js from-address token-id
     const fromAddress = process.argv[2]
     const tokenId = process.argv[3]
-    console.log(fromAddress)
-    console.log(tokenId)
     
     // NFT送付元からNTIへのトランザクション履歴を取得
     const data = await alchemy.core.getAssetTransfers({
