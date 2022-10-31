@@ -9,10 +9,9 @@ import (
 	"nti/x/nti/types"
 )
 
-func getReservedKeys(grpcConn *grpc.ClientConn) ([]string, error) {
+func getReservedKeys(queryClient types.QueryClient) ([]string, error) {
 	fmt.Println("Get reserved keys...")
-	// This creates a gRPC client to query the x/nti service.
-	queryClient := types.NewQueryClient(grpcConn)
+
 	params := &types.QueryGetNftTransferStatusRequest{}
 	res, err := queryClient.NftTransferStatus(context.Background(), params)
 	if err != nil {
@@ -23,8 +22,24 @@ func getReservedKeys(grpcConn *grpc.ClientConn) ([]string, error) {
 	return reservedKeys, nil
 }
 
-func checkIsConfirmed(reservedKey string) (bool, error) {
-	fmt.Println("Check is confirmed...")
+func getReservedNftTransfer(reservedKey string, queryClient types.QueryClient) (types.ReservedNftTransfer, error) {
+	fmt.Println("Get the reserved NFT transfer...")
+
+	// Get the source address of the reserved NFT transfer.
+	params := &types.QueryGetReservedNftTransferRequest{
+		ReservedKey: reservedKey,
+	}
+	res, err := queryClient.ReservedNftTransfer(context.Background(), params)
+	if err != nil {
+		return types.ReservedNftTransfer{}, err
+	}
+
+	return res.GetReservedNftTransfer(), nil
+}
+
+func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, error) {
+	fmt.Println("Check is the NFT recieved...")
+
 	return true, nil
 }
 
@@ -46,13 +61,21 @@ func main() {
 	}
 	defer grpcConn.Close()
 
-	reservedKeys, err := getReservedKeys(grpcConn)
+	// This creates a gRPC client to query the x/nti service.
+	queryClient := types.NewQueryClient(grpcConn)
+
+	reservedKeys, err := getReservedKeys(queryClient)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	for _, reservedKey := range reservedKeys {
-		isConfirmed, err := checkIsConfirmed(reservedKey)
+		reservedNftTransfer, err := getReservedNftTransfer(reservedKey, queryClient)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		isConfirmed, err := checkIsNftRecieved(reservedNftTransfer)
 		if err != nil {
 			fmt.Println(err)
 		}
