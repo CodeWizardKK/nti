@@ -3,11 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
+	"os/exec"
 
 	"google.golang.org/grpc"
 
 	"nti/x/nti/types"
 )
+
+const checkIsNftRecievedPath = "/Users/rika/work/src/adon/nti/alchemy/check-is-nft-recieved.js"
 
 func getReservedKeys(queryClient types.QueryClient) ([]string, error) {
 	fmt.Println("Get reserved keys...")
@@ -38,6 +41,18 @@ func getReservedNftTransfer(reservedKey string, queryClient types.QueryClient) (
 
 func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, error) {
 	fmt.Println("Check is the NFT recieved...")
+
+	out, err := exec.Command(
+		"node",
+		checkIsNftRecievedPath,
+		reservedNftTransfer.NftSrcAddr,
+		reservedNftTransfer.NftTokenId,
+	).Output()
+	if err != nil {
+		fmt.Println(err)
+		return false, err
+	}
+	fmt.Printf("Check result is %s\n", out)
 
 	return true, nil
 }

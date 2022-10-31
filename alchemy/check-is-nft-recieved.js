@@ -14,12 +14,11 @@ const ownerAddress = "0x8aec564ef5a37bcb5fbd54ee22d6c151579c8628";
 
 async function main() {
     // cmd: node file-path.js from-address token-id
-    // const fromAddress = process.argv[2]
-    // const tokenId = process.argv[3]
+    const fromAddress = process.argv[2]
+    const tokenId = process.argv[3]
+    console.log(fromAddress)
+    console.log(tokenId)
     
-    const fromAddress = "0x1f52d5f7bd5a5e48ad593adc1b7cc278d8cb32ef";
-    const tokenId = "0x000000000000000000000000000000000000000000000000000000000000121c";
-
     // NFT送付元からNTIへのトランザクション履歴を取得
     const data = await alchemy.core.getAssetTransfers({
         fromBlock: "0x0",
