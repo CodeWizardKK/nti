@@ -30,6 +30,18 @@ func checkReservedList(grpcConn *grpc.ClientConn) error {
 }
 
 func changeStatus(grpcConn *grpc.ClientConn) error {
+    // Choose your codec: Amino or Protobuf. Here, we use Protobuf, given by the following function.
+    app := simapp.NewSimApp(...)
+
+    // Create a new TxBuilder.
+    txBuilder := app.TxConfig().NewTxBuilder()
+
+	// Generated Protobuf-encoded bytes.
+	txBytes, err := encCfg.TxConfig.TxEncoder()(txBuilder.GetTx())
+	if err != nil {
+		return err
+	}
+
 	// Broadcast the tx via gRPC. We create a new client for the Protobuf Tx
 	// service.
 	txClient := tx.NewServiceClient(grpcConn)
