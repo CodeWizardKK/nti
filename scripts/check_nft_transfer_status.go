@@ -25,7 +25,6 @@ func getReservedKeys(queryClient types.QueryClient) ([]string, error) {
 func getReservedNftTransfer(reservedKey string, queryClient types.QueryClient) (types.ReservedNftTransfer, error) {
 	fmt.Println("Get the reserved NFT transfer...")
 
-	// Get the source address of the reserved NFT transfer.
 	params := &types.QueryGetReservedNftTransferRequest{
 		ReservedKey: reservedKey,
 	}
