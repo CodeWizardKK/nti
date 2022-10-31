@@ -110,11 +110,13 @@ func main() {
 		reservedNftTransfer, err := getReservedNftTransfer(reservedKey, queryClient)
 		if err != nil {
 			fmt.Println(err)
+			continue
 		}
 
 		isConfirmed, err := checkIsNftRecieved(reservedNftTransfer)
 		if err != nil {
 			fmt.Println(err)
+			continue
 		}
 		fmt.Printf("Check result is %v.\n", isConfirmed)
 
@@ -122,6 +124,7 @@ func main() {
 			err = changeStatus(reservedKey, grpcConn)
 			if err != nil {
 				fmt.Println(err)
+				continue
 			}
 		}
 	}
