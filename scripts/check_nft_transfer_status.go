@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"os/exec"
+	"strconv"
+	"strings"
 
 	"google.golang.org/grpc"
 
@@ -11,6 +13,13 @@ import (
 )
 
 const checkIsNftRecievedPath = "/Users/rika/work/src/adon/nti/alchemy/check-is-nft-recieved.js"
+
+type IsConfirmed int
+
+const (
+	False IsConfirmed = iota
+	True
+)
 
 func getReservedKeys(queryClient types.QueryClient) ([]string, error) {
 	fmt.Println("Get reserved keys...")
@@ -40,7 +49,7 @@ func getReservedNftTransfer(reservedKey string, queryClient types.QueryClient) (
 }
 
 func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, error) {
-	fmt.Println("Check is the NFT recieved...")
+	fmt.Println("Check whether the NFT is recieved...")
 
 	out, err := exec.Command(
 		"node",
@@ -52,9 +61,23 @@ func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, er
 		fmt.Println(err)
 		return false, err
 	}
-	fmt.Printf("Check result is %s\n", out)
 
-	return true, nil
+	outString := strings.TrimRight(string(out), "\n")
+	outInt, err := strconv.Atoi(outString)
+	if err != nil {
+		fmt.Println(err)
+		return false, err
+	}
+
+	switch IsConfirmed(outInt) {
+	case False:
+		return false, nil
+	case True:
+		return true, nil
+	default:
+		// TODO: エラーを生成
+		return false, err
+	}
 }
 
 func changeStatus(reservedKey string, grpcConn *grpc.ClientConn) error {
@@ -93,6 +116,7 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 		}
+		fmt.Printf("Check result is %v.\n", isConfirmed)
 
 		if isConfirmed {
 			err = changeStatus(reservedKey, grpcConn)
