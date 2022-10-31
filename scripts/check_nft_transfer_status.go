@@ -4,60 +4,34 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/cosmos/cosmos-sdk/types/tx"
 	"google.golang.org/grpc"
 
 	"nti/x/nti/types"
 )
 
-func checkReservedList(grpcConn *grpc.ClientConn) error {
+func getReservedKeys(grpcConn *grpc.ClientConn) ([]string, error) {
+	fmt.Println("Get reserved keys...")
 	// This creates a gRPC client to query the x/nti service.
 	queryClient := types.NewQueryClient(grpcConn)
 	params := &types.QueryGetNftTransferStatusRequest{}
 	res, err := queryClient.NftTransferStatus(context.Background(), params)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	reservedKeys := res.GetNftTransferStatus().Reserved
-	fmt.Println(reservedKeys)
-
-	// TODO: AlchemyでNFTを受信済みか確認
-	confirmedKeys := []string{}
-	fmt.Println(confirmedKeys)
-
-	return nil
+	return reservedKeys, nil
 }
 
-func changeStatus(grpcConn *grpc.ClientConn) error {
-    // Choose your codec: Amino or Protobuf. Here, we use Protobuf, given by the following function.
-    app := simapp.NewSimApp(...)
+func checkIsConfirmed(reservedKey string) (bool, error) {
+	fmt.Println("Check is confirmed...")
+	return true, nil
+}
 
-    // Create a new TxBuilder.
-    txBuilder := app.TxConfig().NewTxBuilder()
-
-	// Generated Protobuf-encoded bytes.
-	txBytes, err := encCfg.TxConfig.TxEncoder()(txBuilder.GetTx())
-	if err != nil {
-		return err
-	}
-
-	// Broadcast the tx via gRPC. We create a new client for the Protobuf Tx
-	// service.
-	txClient := tx.NewServiceClient(grpcConn)
-	// We then call the BroadcastTx method on this client.
-	grpcRes, err := txClient.BroadcastTx(
-		context.Background(),
-		&tx.BroadcastTxRequest{
-			Mode:    tx.BroadcastMode_BROADCAST_MODE_SYNC,
-			TxBytes: txBytes, // Proto-binary of the signed transaction, see previous step.
-		},
-	)
-	if err != nil {
-		return err
-	}
-
-	fmt.Println(grpcRes.TxResponse.Code) // Should be `0` if the tx is successful
+func changeStatus(reservedKey string, grpcConn *grpc.ClientConn) error {
+	_ = grpcConn
+	fmt.Println("Change status...")
+	fmt.Println(reservedKey)
 	return nil
 }
 
@@ -72,13 +46,22 @@ func main() {
 	}
 	defer grpcConn.Close()
 
-	err = checkReservedList(grpcConn)
+	reservedKeys, err := getReservedKeys(grpcConn)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	err = changeStatus(grpcConn)
-	if err != nil {
-		fmt.Println(err)
+	for _, reservedKey := range reservedKeys {
+		isConfirmed, err := checkIsConfirmed(reservedKey)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		if isConfirmed {
+			err = changeStatus(reservedKey, grpcConn)
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
 	}
 }
