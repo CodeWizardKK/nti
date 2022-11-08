@@ -32,7 +32,7 @@ export default {
         // Send fungible tokens
         const amount = '10';
         // Admin's wallet address
-        const recipient = "cosmos1wkegxmag86j8xjd0f4pnjgykagdz8xvpjemlve";
+        const recipient = "cosmos1tjq4a090lk3jqs42smueez34m92l3vu74z6y4d";
         const chainId = "nti"; // Project name
 
         await window.keplr.enable(chainId);
@@ -49,11 +49,12 @@ export default {
             denom: 'token',
             amount,
         }
+        const feeAmount = [{
+            denom: 'stake',
+            amount: '16000000000',
+        }]
         const fee = {
-            amount: [{
-                denom: 'token',
-                amount: '1',
-            }, ],
+            amount: feeAmount,
             gas: '200000',
         }
 
@@ -74,7 +75,7 @@ export default {
         console.log('Send msg reserve nft transer...')
         await $s.dispatch("nti.nti/sendMsgReserveNftTransfer", {
             value,
-            fee: [],
+            fee: feeAmount,
         });
       } catch (err) {
           console.log(err)

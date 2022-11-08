@@ -2,7 +2,7 @@ accounts:
   - name: alice
     coins: ["20000token", "200000000stake"]
   - name: bob
-    coins: ["10000token", "100000000stake"]
+    coins: ["10000token", "1000000000000stake"]
   - name: admin
     coins: ["10000token", "100000000stake"]
 validator:
@@ -16,3 +16,5 @@ client:
 faucet:
   name: bob
   coins: ["5token", "100000stake"]
+build:
+  main: "cmd/ntid"
