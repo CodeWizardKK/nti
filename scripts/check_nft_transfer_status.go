@@ -9,10 +9,12 @@ import (
 
 	"google.golang.org/grpc"
 
+	"nti/x/nti/keeper"
 	"nti/x/nti/types"
 )
 
 const checkIsNftRecievedPath = "/Users/rika/work/src/adon/nti/alchemy/check-is-nft-recieved.js"
+const fees = "16000000000stake"
 
 type IsConfirmed int
 
@@ -80,10 +82,27 @@ func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, er
 	}
 }
 
-func changeStatus(reservedKey string, grpcConn *grpc.ClientConn) error {
-	_ = grpcConn
+func changeStatus(reservedKey string) error {
 	fmt.Println("Change status...")
-	fmt.Println(reservedKey)
+
+	err := exec.Command(
+		"ntid",
+		"tx",
+		"nti",
+		"change-status",
+		reservedKey,
+		strconv.Itoa(int(keeper.Confirmed)),
+		"--fees",
+		fees,
+		"--from",
+		"bob",
+		"-y",
+	).Run()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
 	return nil
 }
 
@@ -121,7 +140,7 @@ func main() {
 		fmt.Printf("Check result is %v.\n", isConfirmed)
 
 		if isConfirmed {
-			err = changeStatus(reservedKey, grpcConn)
+			err = changeStatus(reservedKey)
 			if err != nil {
 				fmt.Println(err)
 				continue
