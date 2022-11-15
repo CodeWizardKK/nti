@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
+	"time"
 
 	"google.golang.org/grpc"
 
@@ -15,6 +16,7 @@ import (
 
 const checkIsNftRecievedPath = "/Users/rika/work/src/adon/nti/alchemy/check-is-nft-recieved.js"
 const fees = "16000000000stake"
+const validSecond = 10 * 60
 
 type IsConfirmed int
 
@@ -82,7 +84,14 @@ func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, er
 	}
 }
 
-func changeStatus(reservedKey string) error {
+func isReserveExpired(reserveNftTransfer types.ReservedNftTransfer) bool {
+	fmt.Println("Check whether the reserve is expired...")
+
+	// 現在時刻が予約の有効期限を過ぎているか
+	return int(time.Now().Unix()) > int(reserveNftTransfer.CreatedAt)+validSecond
+}
+
+func changeStatus(reservedKey string, to keeper.TransferStatus) error {
 	fmt.Println("Change status...")
 
 	err := exec.Command(
@@ -91,7 +100,7 @@ func changeStatus(reservedKey string) error {
 		"nti",
 		"change-status",
 		reservedKey,
-		strconv.Itoa(int(keeper.Confirmed)),
+		strconv.Itoa(int(to)),
 		"--fees",
 		fees,
 		"--from",
@@ -140,10 +149,22 @@ func main() {
 		fmt.Printf("Check result is %v.\n", isConfirmed)
 
 		if isConfirmed {
-			err = changeStatus(reservedKey)
+			err = changeStatus(reservedKey, keeper.Confirmed)
 			if err != nil {
 				fmt.Println(err)
 				continue
+			}
+		} else {
+			// 期限切れの場合
+			isExpired := isReserveExpired(reservedNftTransfer)
+			fmt.Printf("Check result is %v.\n", isExpired)
+
+			if isExpired {
+				err = changeStatus(reservedKey, keeper.Expired)
+				if err != nil {
+					fmt.Println(err)
+					continue
+				}
 			}
 		}
 	}
