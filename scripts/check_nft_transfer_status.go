@@ -16,6 +16,8 @@ import (
 )
 
 const checkIsNftRecievedPath = "/Users/rika/work/src/adon/nti/alchemy/check-is-nft-recieved.js"
+const mintNftDir = "/Users/rika/work/src/learn/eth/my-nft"
+const mintNftPath = mintNftDir + "/scripts/mint-nft.js"
 const fees = "16000000000stake"
 const validSecond = 10 * 60
 
@@ -98,6 +100,25 @@ func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, er
 
 func mintNft(reservedNftTransfer types.ReservedNftTransfer) error {
 	fmt.Println("Mint NFT...")
+	fmt.Println(reservedNftTransfer.NftDestAddr)
+
+	// destAddr := "0x001d3f1ef827552ae1114027bd3ecf1f086ba0f9"
+
+	cmd := exec.Command(
+		"node",
+		mintNftPath,
+		// TODO: prefixの扱い
+		reservedNftTransfer.NftDestAddr,
+		// destAddr,
+	)
+	cmd.Dir = mintNftDir
+	out, err := cmd.Output()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	fmt.Println(string(out))
+
 	return nil
 }
 
@@ -208,6 +229,8 @@ func main() {
 			fmt.Println(err)
 			continue
 		}
+
+		break
 
 		// err = changeStatus(reservedKey, keeper.Waiting)
 		// if err != nil {
