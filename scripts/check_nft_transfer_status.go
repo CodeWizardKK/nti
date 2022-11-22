@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os/exec"
+	"reflect"
 	"strconv"
 	"strings"
 	"time"
@@ -25,16 +26,27 @@ const (
 	True
 )
 
-func getReservedKeys(queryClient types.QueryClient) ([]string, error) {
-	fmt.Println("Get reserved keys...")
+func getReservedKeysOf(status keeper.TransferStatus, queryClient types.QueryClient) ([]string, error) {
+	fmt.Println("Get reserved keys of status xx...")
 
+	// Get NFT transfer status.
 	params := &types.QueryGetNftTransferStatusRequest{}
 	res, err := queryClient.NftTransferStatus(context.Background(), params)
 	if err != nil {
 		return nil, err
 	}
 
-	reservedKeys := res.GetNftTransferStatus().Reserved
+	nftTransferStatusValue := reflect.ValueOf(res.GetNftTransferStatus())
+	reservedKeysValue := nftTransferStatusValue.FieldByName(status.String())
+
+	reservedKeys := []string{}
+	keysLen := reservedKeysValue.Len()
+	for i := 0; i < keysLen; i++ {
+		reservedKey := reservedKeysValue.Index(i).String()
+		reservedKeys = append(reservedKeys, reservedKey)
+		fmt.Println(reservedKey)
+	}
+
 	return reservedKeys, nil
 }
 
@@ -129,7 +141,9 @@ func main() {
 	// This creates a gRPC client to query the x/nti service.
 	queryClient := types.NewQueryClient(grpcConn)
 
-	reservedKeys, err := getReservedKeys(queryClient)
+	// Check reserved keys.
+	fmt.Println("Check reserved keys...")
+	reservedKeys, err := getReservedKeysOf(keeper.Reserved, queryClient)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -168,4 +182,12 @@ func main() {
 			}
 		}
 	}
+
+	// Mint NFT for the confirmed reserves.
+	fmt.Println("Mint NFTs...")
+	confirmedKeys, err := getReservedKeysOf(keeper.Confirmed, queryClient)
+	if err != nil {
+		fmt.Println(err)
+	}
+	_ = confirmedKeys
 }
