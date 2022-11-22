@@ -102,14 +102,10 @@ func mintNft(reservedNftTransfer types.ReservedNftTransfer) error {
 	fmt.Println("Mint NFT...")
 	fmt.Println(reservedNftTransfer.NftDestAddr)
 
-	// destAddr := "0x001d3f1ef827552ae1114027bd3ecf1f086ba0f9"
-
 	cmd := exec.Command(
 		"node",
 		mintNftPath,
-		// TODO: prefixの扱い
 		reservedNftTransfer.NftDestAddr,
-		// destAddr,
 	)
 	cmd.Dir = mintNftDir
 	out, err := cmd.Output()
@@ -230,13 +226,10 @@ func main() {
 			continue
 		}
 
-		break
-
-		// err = changeStatus(reservedKey, keeper.Waiting)
-		// if err != nil {
-		// fmt.Println(err)
-		// continue
-		// }
-
+		err = changeStatus(reservedKey, keeper.Waiting)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
 	}
 }

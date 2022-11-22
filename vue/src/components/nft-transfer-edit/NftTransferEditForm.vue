@@ -261,6 +261,7 @@ const onSubmit = (values: any) => {
     console.log('Success:', values)
     values.creator = currentAccount.value
     values.nftSrcAddr = srcAddrPrefix.value + values.nftSrcAddr
+    values.nftDestAddr = destAddrPrefix.value + values.nftDestAddr
     emits('reserveNftTransfer', values)
 }
 
