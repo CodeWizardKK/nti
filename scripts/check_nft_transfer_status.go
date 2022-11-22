@@ -96,6 +96,11 @@ func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, er
 	}
 }
 
+func mintNft(reservedNftTransfer types.ReservedNftTransfer) error {
+	fmt.Println("Mint NFT...")
+	return nil
+}
+
 func isReserveExpired(reserveNftTransfer types.ReservedNftTransfer) bool {
 	fmt.Println("Check whether the reserve is expired...")
 
@@ -189,5 +194,26 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	_ = confirmedKeys
+
+	for _, reservedKey := range confirmedKeys {
+		reservedNftTransfer, err := getReservedNftTransfer(reservedKey, queryClient)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+
+		// Mint NFT
+		err = mintNft(reservedNftTransfer)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+
+		// err = changeStatus(reservedKey, keeper.Waiting)
+		// if err != nil {
+		// fmt.Println(err)
+		// continue
+		// }
+
+	}
 }
