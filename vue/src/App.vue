@@ -41,8 +41,6 @@ const menuItems = [
   { name: 'Portfolio', url: '/portfolio' },
   { name: 'NFT Transfer Edit', url: '/nft_transfer_edit' },
   { name: 'NFT Transfer List', url: '/nft_transfer_list' },
-  { name: 'Data', url: '/data' },
-  { name: 'Keplr', url: '/keplr' },
 ]
 
 export default {
