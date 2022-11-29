@@ -28,6 +28,7 @@ async function main() {
     // 予約のトークンIDと一致すれば、Confirmedステータスに更新
     for (const transfer of data.transfers) {
         if (transfer.tokenId == tokenId) {
+            console.log(transfer)
             console.log("1");
             return
         }

@@ -5,14 +5,14 @@ import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
 import { MsgChangeStatus } from "./types/nti/tx";
-import { MsgTransferNft } from "./types/nti/tx";
 import { MsgReserveNftTransfer } from "./types/nti/tx";
+import { MsgTransferNft } from "./types/nti/tx";
 
 
 const types = [
   ["/nti.nti.MsgChangeStatus", MsgChangeStatus],
-  ["/nti.nti.MsgTransferNft", MsgTransferNft],
   ["/nti.nti.MsgReserveNftTransfer", MsgReserveNftTransfer],
+  ["/nti.nti.MsgTransferNft", MsgTransferNft],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -46,8 +46,8 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
     msgChangeStatus: (data: MsgChangeStatus): EncodeObject => ({ typeUrl: "/nti.nti.MsgChangeStatus", value: MsgChangeStatus.fromPartial( data ) }),
-    msgTransferNft: (data: MsgTransferNft): EncodeObject => ({ typeUrl: "/nti.nti.MsgTransferNft", value: MsgTransferNft.fromPartial( data ) }),
     msgReserveNftTransfer: (data: MsgReserveNftTransfer): EncodeObject => ({ typeUrl: "/nti.nti.MsgReserveNftTransfer", value: MsgReserveNftTransfer.fromPartial( data ) }),
+    msgTransferNft: (data: MsgTransferNft): EncodeObject => ({ typeUrl: "/nti.nti.MsgTransferNft", value: MsgTransferNft.fromPartial( data ) }),
     
   };
 };
