@@ -1,40 +1,31 @@
-// Setup: npm install alchemy-sdk
-const { Network, Alchemy } = require("alchemy-sdk");
-
-// Optional Config object, but defaults to demo api-key and eth-mainnet.
-const settings = {
-  apiKey: "5go2eKfHJofdLEFdONmkBpiz_XsSwN7O", // Replace with your Alchemy API Key.
-  network: Network.ETH_MAINNET, // Replace with your network.
-};
-
-const alchemy = new Alchemy(settings);
+import { alchemy } from './alchemy.js'
 
 // TODO: NTIのアドレスを発行する
 const ownerAddress = "0x8aec564ef5a37bcb5fbd54ee22d6c151579c8628";
 
-async function main() {
-    // cmd: node file-path.js from-address token-id
-    const fromAddress = process.argv[2]
-    const tokenId = process.argv[3]
-    
-    // NFT送付元からNTIへのトランザクション履歴を取得
-    const data = await alchemy.core.getAssetTransfers({
-        fromBlock: "0x0",
-        fromAddress: fromAddress,
-        toAddress: ownerAddress,
-        category: ["erc721"],
-    });
+// cmd: node file-path.js from-address token-id
+const fromAddress = process.argv[2]
+const tokenId = process.argv[3]
 
-    // 予約のトークンIDと一致すれば、Confirmedステータスに更新
-    for (const transfer of data.transfers) {
-        if (transfer.tokenId == tokenId) {
-            console.log(transfer)
-            console.log("1");
-            return
-        }
+// NFT送付元からNTIへのトランザクション履歴を取得
+const data = await alchemy.core.getAssetTransfers({
+    fromBlock: "0x0",
+    fromAddress: fromAddress,
+    toAddress: ownerAddress,
+    category: ["erc721"],
+});
+
+// 予約のトークンIDと一致すれば、Confirmedステータスに更新
+let isConfirmed = false;
+for (const transfer of data.transfers) {
+    if (transfer.tokenId == tokenId) {
+        isConfirmed = true;
+        break;
     }
-
-    console.log("0");
 }
 
-main();
+if (isConfirmed) {
+    console.log("1");
+} else {
+    console.log("0");
+}
