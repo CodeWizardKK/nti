@@ -13,7 +13,6 @@ func DefaultGenesis() *GenesisState {
 		NftTransferList:         []NftTransfer{},
 		ReservedNftTransferList: []ReservedNftTransfer{},
 		NftTransferStatus:       nil,
-		NftMintList:             []NftMint{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -41,16 +40,6 @@ func (gs GenesisState) Validate() error {
 			return fmt.Errorf("duplicated index for reservedNftTransfer")
 		}
 		reservedNftTransferIndexMap[index] = struct{}{}
-	}
-	// Check for duplicated index in nftMint
-	nftMintIndexMap := make(map[string]struct{})
-
-	for _, elem := range gs.NftMintList {
-		index := string(NftMintKey(elem.ReservedKeys))
-		if _, ok := nftMintIndexMap[index]; ok {
-			return fmt.Errorf("duplicated index for nftMint")
-		}
-		nftMintIndexMap[index] = struct{}{}
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

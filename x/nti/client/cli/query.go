@@ -30,8 +30,6 @@ func GetQueryCmd(queryRoute string) *cobra.Command {
 	cmd.AddCommand(CmdListReservedNftTransfer())
 	cmd.AddCommand(CmdShowReservedNftTransfer())
 	cmd.AddCommand(CmdShowNftTransferStatus())
-	cmd.AddCommand(CmdListNftMint())
-	cmd.AddCommand(CmdShowNftMint())
 	// this line is used by starport scaffolding # 1
 
 	return cmd
