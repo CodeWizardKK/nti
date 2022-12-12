@@ -1,6 +1,7 @@
 syntax = "proto3";
 package nti.nti;
 
+import "nti/nft_mint.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "nti/x/nti/types";
@@ -10,6 +11,9 @@ service Msg {
       rpc ReserveNftTransfer(MsgReserveNftTransfer) returns (MsgReserveNftTransferResponse);
   rpc TransferNft(MsgTransferNft) returns (MsgTransferNftResponse);
   rpc ChangeStatus(MsgChangeStatus) returns (MsgChangeStatusResponse);
+  rpc CreateNftMint(MsgCreateNftMint) returns (MsgCreateNftMintResponse);
+  rpc UpdateNftMint(MsgUpdateNftMint) returns (MsgUpdateNftMintResponse);
+  rpc DeleteNftMint(MsgDeleteNftMint) returns (MsgDeleteNftMintResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -51,5 +55,27 @@ message MsgChangeStatus {
 
 message MsgChangeStatusResponse {
 }
+
+message MsgCreateNftMint {
+  string creator = 1;
+  string reservedKey = 2;
+
+  string transactionHash = 3;
+}
+message MsgCreateNftMintResponse {}
+
+message MsgUpdateNftMint {
+  string creator = 1;
+  string reservedKey = 2;
+
+  string transactionHash = 3;
+}
+message MsgUpdateNftMintResponse {}
+
+message MsgDeleteNftMint {
+  string creator = 1;
+  string reservedKey = 2;
+}
+message MsgDeleteNftMintResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message

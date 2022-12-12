@@ -45,6 +45,14 @@ func TestGenesisState_Validate(t *testing.T) {
 					Waiting:   []string{"39"},
 					Completed: []string{"34"},
 				},
+				NftMintList: []types.NftMint{
+					{
+						ReservedKey: "0",
+					},
+					{
+						ReservedKey: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
@@ -67,6 +75,20 @@ func TestGenesisState_Validate(t *testing.T) {
 			desc: "duplicated reservedNftTransfer",
 			genState: &types.GenesisState{
 				ReservedNftTransferList: []types.ReservedNftTransfer{
+					{
+						ReservedKey: "0",
+					},
+					{
+						ReservedKey: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated nftMint",
+			genState: &types.GenesisState{
+				NftMintList: []types.NftMint{
 					{
 						ReservedKey: "0",
 					},

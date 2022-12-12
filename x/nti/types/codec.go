@@ -11,6 +11,9 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgReserveNftTransfer{}, "nti/ReserveNftTransfer", nil)
 	cdc.RegisterConcrete(&MsgTransferNft{}, "nti/TransferNft", nil)
 	cdc.RegisterConcrete(&MsgChangeStatus{}, "nti/ChangeStatus", nil)
+	cdc.RegisterConcrete(&MsgCreateNftMint{}, "nti/CreateNftMint", nil)
+	cdc.RegisterConcrete(&MsgUpdateNftMint{}, "nti/UpdateNftMint", nil)
+	cdc.RegisterConcrete(&MsgDeleteNftMint{}, "nti/DeleteNftMint", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -23,6 +26,11 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgChangeStatus{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgCreateNftMint{},
+		&MsgUpdateNftMint{},
+		&MsgDeleteNftMint{},
 	)
 	// this line is used by starport scaffolding # 3
 

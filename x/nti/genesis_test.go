@@ -37,6 +37,14 @@ func TestGenesis(t *testing.T) {
 			Waiting:   []string{"83"},
 			Completed: []string{"11"},
 		},
+		NftMintList: []types.NftMint{
+			{
+				ReservedKey: "0",
+			},
+			{
+				ReservedKey: "1",
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -51,5 +59,6 @@ func TestGenesis(t *testing.T) {
 	require.ElementsMatch(t, genesisState.NftTransferList, got.NftTransferList)
 	require.ElementsMatch(t, genesisState.ReservedNftTransferList, got.ReservedNftTransferList)
 	require.Equal(t, genesisState.NftTransferStatus, got.NftTransferStatus)
+	require.ElementsMatch(t, genesisState.NftMintList, got.NftMintList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

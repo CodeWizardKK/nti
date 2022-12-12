@@ -6,12 +6,18 @@ import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "
 import { Api } from "./rest";
 import { MsgTransferNft } from "./types/nti/tx";
 import { MsgChangeStatus } from "./types/nti/tx";
+import { MsgUpdateNftMint } from "./types/nti/tx";
+import { MsgDeleteNftMint } from "./types/nti/tx";
+import { MsgCreateNftMint } from "./types/nti/tx";
 import { MsgReserveNftTransfer } from "./types/nti/tx";
 
 
 const types = [
   ["/nti.nti.MsgTransferNft", MsgTransferNft],
   ["/nti.nti.MsgChangeStatus", MsgChangeStatus],
+  ["/nti.nti.MsgUpdateNftMint", MsgUpdateNftMint],
+  ["/nti.nti.MsgDeleteNftMint", MsgDeleteNftMint],
+  ["/nti.nti.MsgCreateNftMint", MsgCreateNftMint],
   ["/nti.nti.MsgReserveNftTransfer", MsgReserveNftTransfer],
   
 ];
@@ -47,6 +53,9 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
     msgTransferNft: (data: MsgTransferNft): EncodeObject => ({ typeUrl: "/nti.nti.MsgTransferNft", value: MsgTransferNft.fromPartial( data ) }),
     msgChangeStatus: (data: MsgChangeStatus): EncodeObject => ({ typeUrl: "/nti.nti.MsgChangeStatus", value: MsgChangeStatus.fromPartial( data ) }),
+    msgUpdateNftMint: (data: MsgUpdateNftMint): EncodeObject => ({ typeUrl: "/nti.nti.MsgUpdateNftMint", value: MsgUpdateNftMint.fromPartial( data ) }),
+    msgDeleteNftMint: (data: MsgDeleteNftMint): EncodeObject => ({ typeUrl: "/nti.nti.MsgDeleteNftMint", value: MsgDeleteNftMint.fromPartial( data ) }),
+    msgCreateNftMint: (data: MsgCreateNftMint): EncodeObject => ({ typeUrl: "/nti.nti.MsgCreateNftMint", value: MsgCreateNftMint.fromPartial( data ) }),
     msgReserveNftTransfer: (data: MsgReserveNftTransfer): EncodeObject => ({ typeUrl: "/nti.nti.MsgReserveNftTransfer", value: MsgReserveNftTransfer.fromPartial( data ) }),
     
   };

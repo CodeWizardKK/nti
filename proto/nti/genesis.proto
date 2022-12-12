@@ -6,6 +6,7 @@ import "nti/params.proto";
 import "nti/nft_transfer.proto";
 import "nti/reserved_nft_transfer.proto";
 import "nti/nft_transfer_status.proto";
+import "nti/nft_mint.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "nti/x/nti/types";
@@ -16,5 +17,6 @@ message GenesisState {
   repeated NftTransfer nftTransferList = 2 [(gogoproto.nullable) = false];
   repeated ReservedNftTransfer reservedNftTransferList = 3 [(gogoproto.nullable) = false];
   NftTransferStatus nftTransferStatus = 4;
+  repeated NftMint nftMintList = 5 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }
