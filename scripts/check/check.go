@@ -50,6 +50,20 @@ func GetReservedNftTransfer(reservedKey string, queryClient types.QueryClient) (
 	return res.GetReservedNftTransfer(), nil
 }
 
+func GetNftMint(reservedKey string, queryClient types.QueryClient) (types.NftMint, error) {
+	fmt.Println("Get the NFT mint...")
+
+	params := &types.QueryGetNftMintRequest{
+		ReservedKey: reservedKey,
+	}
+	res, err := queryClient.NftMint(context.Background(), params)
+	if err != nil {
+		return types.NftMint{}, err
+	}
+
+	return res.GetNftMint(), nil
+}
+
 func ChangeStatus(reservedKey string, to keeper.TransferStatus) error {
 	fmt.Println("Change status...")
 

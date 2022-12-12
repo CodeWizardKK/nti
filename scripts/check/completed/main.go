@@ -22,13 +22,13 @@ const (
 	True
 )
 
-func checkIsNftMinted(reservedNftTransfer types.ReservedNftTransfer) (bool, error) {
+func checkIsNftMinted(nftMint types.NftMint) (bool, error) {
 	fmt.Println("Check whether the NFT is minted...")
 
 	out, err := exec.Command(
 		"node",
 		checkIsNftMintedPath,
-		reservedNftTransfer.TransactionHash,
+		nftMint.TransactionHash,
 	).Output()
 	if err != nil {
 		fmt.Println(err)
@@ -75,13 +75,13 @@ func main() {
 	}
 
 	for _, reservedKey := range waitingKeys {
-		reservedNftTransfer, err := check.GetReservedNftTransfer(reservedKey, queryClient)
+		nftMint, err := check.GetNftMint(reservedKey, queryClient)
 		if err != nil {
 			fmt.Println(err)
 			continue
 		}
 
-		isCompleted, err := checkIsNftMinted(reservedNftTransfer)
+		isCompleted, err := checkIsNftMinted(nftMint)
 		if err != nil {
 			fmt.Println(err)
 			continue
