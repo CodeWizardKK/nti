@@ -26,6 +26,13 @@ const (
 	True
 )
 
+func isReserveExpired(reserveNftTransfer types.ReservedNftTransfer) bool {
+	fmt.Println("Check whether the reserve is expired...")
+
+	// 現在時刻が予約の有効期限を過ぎているか
+	return int(time.Now().Unix()) > int(reserveNftTransfer.CreatedAt)+validSecond
+}
+
 func outToString(out []byte) string {
 	return strings.TrimRight(string(out), "\n")
 }
@@ -78,16 +85,33 @@ func mintNft(reservedNftTransfer types.ReservedNftTransfer) (string, error) {
 	}
 
 	transactionHash := outToString(out)
-	fmt.Printf("NFT Minted! Check it out at: https://goerli.etherscan.io/tx/%s", transactionHash)
+	fmt.Printf("NFT Minted! Check it out at: https://goerli.etherscan.io/tx/%s\n", transactionHash)
 
 	return transactionHash, nil
 }
 
-func isReserveExpired(reserveNftTransfer types.ReservedNftTransfer) bool {
-	fmt.Println("Check whether the reserve is expired...")
+func createNftMint(reservedKey, transactionHash string) error {
+	fmt.Println("Create NFT mint...")
 
-	// 現在時刻が予約の有効期限を過ぎているか
-	return int(time.Now().Unix()) > int(reserveNftTransfer.CreatedAt)+validSecond
+	err := exec.Command(
+		"ntid",
+		"tx",
+		"nti",
+		"create-nft-mint",
+		reservedKey,
+		transactionHash,
+		"--fees",
+		check.Fees,
+		"--from",
+		"bob",
+		"-y",
+	).Run()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	return nil
 }
 
 func main() {
@@ -167,7 +191,12 @@ func main() {
 			continue
 		}
 
-		// Set transaction hash
+		// Create NFT mint
+		err = createNftMint(reservedKey, transactionHash)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
 
 		err = check.ChangeStatus(reservedKey, keeper.Waiting)
 		if err != nil {

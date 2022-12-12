@@ -10,7 +10,7 @@ import (
 	"strconv"
 )
 
-const fees = "16000000000stake"
+const Fees = "16000000000stake"
 
 func GetReservedKeysOf(status keeper.TransferStatus, queryClient types.QueryClient) ([]string, error) {
 	fmt.Println("Get reserved keys of status xx...")
@@ -61,7 +61,7 @@ func ChangeStatus(reservedKey string, to keeper.TransferStatus) error {
 		reservedKey,
 		strconv.Itoa(int(to)),
 		"--fees",
-		fees,
+		Fees,
 		"--from",
 		"bob",
 		"-y",
