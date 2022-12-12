@@ -14,7 +14,9 @@ import (
 	"nti/x/nti/types"
 )
 
-const checkIsNftRecievedPath = "/Users/rika/work/src/adon/nti/alchemy/check-is-nft-recieved.js"
+const alchemyDir = "/Users/rika/work/src/adon/nti/alchemy"
+const checkIsNftRecievedPath = alchemyDir + "/check-is-nft-recieved.js"
+const getNftTokenUriPath = alchemyDir + "/get-nft-token-uri.js"
 const mintNftDir = "/Users/rika/work/src/learn/eth/my-nft"
 const mintNftPath = mintNftDir + "/scripts/mint-nft.js"
 const validSecond = 10 * 60
@@ -68,14 +70,33 @@ func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, er
 	}
 }
 
-func mintNft(reservedNftTransfer types.ReservedNftTransfer) (string, error) {
+func getTokenUri(reservedNftTransfer types.ReservedNftTransfer) (string, error) {
+	fmt.Println("Get token URI...")
+
+	out, err := exec.Command(
+		"node",
+		getNftTokenUriPath,
+		reservedNftTransfer.NftTokenId,
+	).Output()
+	if err != nil {
+		fmt.Println(err)
+		return "", err
+	}
+
+	tokenUri := outToString(out)
+	fmt.Printf("Token URI: %s\n", tokenUri)
+
+	return tokenUri, nil
+}
+
+func mintNft(reservedNftTransfer types.ReservedNftTransfer, tokenUri string) (string, error) {
 	fmt.Println("Mint NFT...")
-	fmt.Println(reservedNftTransfer.NftDestAddr)
 
 	cmd := exec.Command(
 		"node",
 		mintNftPath,
 		reservedNftTransfer.NftDestAddr,
+		tokenUri,
 	)
 	cmd.Dir = mintNftDir
 	out, err := cmd.Output()
@@ -184,8 +205,14 @@ func main() {
 			continue
 		}
 
+		tokenUri, err := getTokenUri(reservedNftTransfer)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+
 		// Mint NFT
-		transactionHash, err := mintNft(reservedNftTransfer)
+		transactionHash, err := mintNft(reservedNftTransfer, tokenUri)
 		if err != nil {
 			fmt.Println(err)
 			continue
