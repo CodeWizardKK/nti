@@ -26,6 +26,10 @@ const (
 	True
 )
 
+func outToString(out []byte) string {
+	return strings.TrimRight(string(out), "\n")
+}
+
 func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, error) {
 	fmt.Println("Check whether the NFT is recieved...")
 
@@ -40,8 +44,7 @@ func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, er
 		return false, err
 	}
 
-	outString := strings.TrimRight(string(out), "\n")
-	outInt, err := strconv.Atoi(outString)
+	outInt, err := strconv.Atoi(outToString(out))
 	if err != nil {
 		fmt.Println(err)
 		return false, err
@@ -58,7 +61,7 @@ func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, er
 	}
 }
 
-func mintNft(reservedNftTransfer types.ReservedNftTransfer) error {
+func mintNft(reservedNftTransfer types.ReservedNftTransfer) (string, error) {
 	fmt.Println("Mint NFT...")
 	fmt.Println(reservedNftTransfer.NftDestAddr)
 
@@ -71,11 +74,13 @@ func mintNft(reservedNftTransfer types.ReservedNftTransfer) error {
 	out, err := cmd.Output()
 	if err != nil {
 		fmt.Println(err)
-		return err
+		return "", err
 	}
-	fmt.Println(string(out))
 
-	return nil
+	transactionHash := outToString(out)
+	fmt.Printf("NFT Minted! Check it out at: https://goerli.etherscan.io/tx/%s", transactionHash)
+
+	return transactionHash, nil
 }
 
 func isReserveExpired(reserveNftTransfer types.ReservedNftTransfer) bool {
@@ -156,11 +161,13 @@ func main() {
 		}
 
 		// Mint NFT
-		err = mintNft(reservedNftTransfer)
+		transactionHash, err := mintNft(reservedNftTransfer)
 		if err != nil {
 			fmt.Println(err)
 			continue
 		}
+
+		// Set transaction hash
 
 		err = check.ChangeStatus(reservedKey, keeper.Waiting)
 		if err != nil {
