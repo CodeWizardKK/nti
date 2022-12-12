@@ -15,10 +15,10 @@ import (
 
 const checkIsNftMintedPath = "/Users/rika/work/src/adon/nti/alchemy/check-is-nft-minted.js"
 
-type IsConfirmed int
+type IsCompleted int
 
 const (
-	False IsConfirmed = iota
+	False IsCompleted = iota
 	True
 )
 
@@ -28,8 +28,7 @@ func checkIsNftMinted(reservedNftTransfer types.ReservedNftTransfer) (bool, erro
 	out, err := exec.Command(
 		"node",
 		checkIsNftMintedPath,
-		reservedNftTransfer.NftSrcAddr,
-		reservedNftTransfer.NftTokenId,
+		reservedNftTransfer.TransactionHash,
 	).Output()
 	if err != nil {
 		fmt.Println(err)
@@ -43,7 +42,7 @@ func checkIsNftMinted(reservedNftTransfer types.ReservedNftTransfer) (bool, erro
 		return false, err
 	}
 
-	switch IsConfirmed(outInt) {
+	switch IsCompleted(outInt) {
 	case False:
 		return false, nil
 	case True:
