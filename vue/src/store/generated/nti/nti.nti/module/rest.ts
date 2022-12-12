@@ -15,6 +15,11 @@ export type NtiMsgReserveNftTransferResponse = object;
 
 export type NtiMsgTransferNftResponse = object;
 
+export interface NtiNftMint {
+  reservedKeys?: string;
+  transactionHash?: string;
+}
+
 export interface NtiNftTransfer {
   index?: string;
   srcNftHash?: string;
@@ -40,6 +45,21 @@ export interface NtiNftTransferStatus {
  * Params defines the parameters for the module.
  */
 export type NtiParams = object;
+
+export interface NtiQueryAllNftMintResponse {
+  nftMint?: NtiNftMint[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
 
 export interface NtiQueryAllNftTransferResponse {
   nftTransfer?: NtiNftTransfer[];
@@ -69,6 +89,10 @@ export interface NtiQueryAllReservedNftTransferResponse {
    *  }
    */
   pagination?: V1Beta1PageResponse;
+}
+
+export interface NtiQueryGetNftMintResponse {
+  nftMint?: NtiNftMint;
 }
 
 export interface NtiQueryGetNftTransferResponse {
@@ -388,6 +412,48 @@ export class HttpClient<SecurityDataType = unknown> {
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryNftMintAll
+   * @summary Queries a list of NftMint items.
+   * @request GET:/nti/nti/nft_mint
+   */
+  queryNftMintAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<NtiQueryAllNftMintResponse, RpcStatus>({
+      path: `/nti/nti/nft_mint`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryNftMint
+   * @summary Queries a NftMint by index.
+   * @request GET:/nti/nti/nft_mint/{reservedKeys}
+   */
+  queryNftMint = (reservedKeys: string, params: RequestParams = {}) =>
+    this.request<NtiQueryGetNftMintResponse, RpcStatus>({
+      path: `/nti/nti/nft_mint/${reservedKeys}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
   /**
    * No description
    *

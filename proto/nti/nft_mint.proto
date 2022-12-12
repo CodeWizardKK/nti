@@ -1,0 +1,11 @@
+syntax = "proto3";
+package nti.nti;
+
+option go_package = "nti/x/nti/types";
+
+message NftMint {
+  string reservedKeys = 1; 
+  string transactionHash = 2; 
+  
+}
+

@@ -8,6 +8,7 @@ import "nti/params.proto";
 import "nti/nft_transfer.proto";
 import "nti/reserved_nft_transfer.proto";
 import "nti/nft_transfer_status.proto";
+import "nti/nft_mint.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "nti/x/nti/types";
@@ -42,6 +43,16 @@ service Query {
 	rpc NftTransferStatus(QueryGetNftTransferStatusRequest) returns (QueryGetNftTransferStatusResponse) {
 		option (google.api.http).get = "/nti/nti/nft_transfer_status";
 	}
+// Queries a NftMint by index.
+	rpc NftMint(QueryGetNftMintRequest) returns (QueryGetNftMintResponse) {
+		option (google.api.http).get = "/nti/nti/nft_mint/{reservedKeys}";
+	}
+
+	// Queries a list of NftMint items.
+	rpc NftMintAll(QueryAllNftMintRequest) returns (QueryAllNftMintResponse) {
+		option (google.api.http).get = "/nti/nti/nft_mint";
+	}
+
 // this line is used by starport scaffolding # 2
 }
 
@@ -95,4 +106,22 @@ message QueryGetNftTransferStatusRequest {}
 message QueryGetNftTransferStatusResponse {
 	NftTransferStatus NftTransferStatus = 1 [(gogoproto.nullable) = false];
 }
+message QueryGetNftMintRequest {
+	  string reservedKeys = 1;
+
+}
+
+message QueryGetNftMintResponse {
+	NftMint nftMint = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllNftMintRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllNftMintResponse {
+	repeated NftMint nftMint = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
 // this line is used by starport scaffolding # 3
