@@ -97,6 +97,7 @@ func mintNft(reservedNftTransfer types.ReservedNftTransfer, tokenUri string) (st
 		mintNftPath,
 		reservedNftTransfer.NftDestAddr,
 		tokenUri,
+		"1", // contract-address-type [ 0: source, 1: dest ]
 	)
 	cmd.Dir = mintNftDir
 	out, err := cmd.Output()

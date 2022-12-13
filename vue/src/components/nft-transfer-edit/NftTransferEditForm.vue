@@ -3,7 +3,7 @@
     <!-- You can use the field component to wrap a q-* component -->
     <!-- Do this if you have only one or a few places that need validation -->
 
-    <a-card title="NFT Source">
+    <a-card title="Source: ADON（NFT）">
       <Field name="nftSrcChain" v-slot="{ value, handleChange, errorMessage }">
         <a-form-item
           label="Blockchain"
@@ -54,7 +54,7 @@
     </a-card>
     <br />
 
-    <a-card title="NFT Destination">
+    <a-card title="Destination: ONFET（NFT）">
       <Field name="nftDestChain" v-slot="{ value, handleChange, errorMessage }">
         <a-form-item
           label="Blockchain"

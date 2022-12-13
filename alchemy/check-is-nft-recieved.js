@@ -1,7 +1,7 @@
-import { alchemy } from './alchemy.js'
+import { alchemy } from './alchemy-goerli.js'
 
 // TODO: NTIのアドレスを発行する
-const ownerAddress = "0x8aec564ef5a37bcb5fbd54ee22d6c151579c8628";
+const ownerAddress = "0x9a83D048DAc86C865c0cc18c0ECd1292236B86C7";
 
 // cmd: node file-path.js from-address token-id
 const fromAddress = process.argv[2]
@@ -18,7 +18,9 @@ const data = await alchemy.core.getAssetTransfers({
 // 予約のトークンIDと一致すれば、Confirmedステータスに更新
 let isConfirmed = false;
 for (const transfer of data.transfers) {
-    if (transfer.tokenId == tokenId) {
+    // ex: 0x000000000002 → 2
+    const tokenIdFormatted = Number(transfer.tokenId.slice(2))
+    if (tokenIdFormatted == tokenId) {
         isConfirmed = true;
         break;
     }
