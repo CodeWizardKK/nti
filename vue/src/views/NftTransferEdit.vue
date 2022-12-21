@@ -2,7 +2,7 @@
   <!-- Uncomment the following component to add a form for a `modelName` -->
   <!-- <SpCrud store-name="org.repo.module" item-name="modelName" /> -->
   <div>
-    <page-title title="NFT Transfer Edit"></page-title>
+    <page-title title="NFT Transfer Reservation Form"></page-title>
     <nft-transfer-edit-form
     @reserveNftTransfer="reserveNftTransfer"></nft-transfer-edit-form>
   </div>

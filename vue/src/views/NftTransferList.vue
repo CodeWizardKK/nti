@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-title title="NFT Transfer List"></page-title>
+    <page-title title="NFT Transfer Reservations"></page-title>
     <nft-transfer-list-table
     :items="items"></nft-transfer-list-table>
   </div>
