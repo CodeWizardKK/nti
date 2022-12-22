@@ -9,6 +9,7 @@ import {
 import { ReservedNftTransfer } from "../nti/reserved_nft_transfer";
 import { NftTransferStatus } from "../nti/nft_transfer_status";
 import { NftMint } from "../nti/nft_mint";
+import { NftTransferStatusDetail } from "../nti/nft_transfer_status_detail";
 
 export const protobufPackage = "nti.nti";
 
@@ -86,6 +87,7 @@ export interface QueryNftTransferStatusOfTokenRequest {
 }
 
 export interface QueryNftTransferStatusOfTokenResponse {
+  nftTransferStatusDetail: NftTransferStatusDetail[];
   pagination: PageResponse | undefined;
 }
 
@@ -1408,10 +1410,13 @@ export const QueryNftTransferStatusOfTokenResponse = {
     message: QueryNftTransferStatusOfTokenResponse,
     writer: Writer = Writer.create()
   ): Writer {
+    for (const v of message.nftTransferStatusDetail) {
+      NftTransferStatusDetail.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
     if (message.pagination !== undefined) {
       PageResponse.encode(
         message.pagination,
-        writer.uint32(10).fork()
+        writer.uint32(18).fork()
       ).ldelim();
     }
     return writer;
@@ -1426,10 +1431,16 @@ export const QueryNftTransferStatusOfTokenResponse = {
     const message = {
       ...baseQueryNftTransferStatusOfTokenResponse,
     } as QueryNftTransferStatusOfTokenResponse;
+    message.nftTransferStatusDetail = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          message.nftTransferStatusDetail.push(
+            NftTransferStatusDetail.decode(reader, reader.uint32())
+          );
+          break;
+        case 2:
           message.pagination = PageResponse.decode(reader, reader.uint32());
           break;
         default:
@@ -1444,6 +1455,17 @@ export const QueryNftTransferStatusOfTokenResponse = {
     const message = {
       ...baseQueryNftTransferStatusOfTokenResponse,
     } as QueryNftTransferStatusOfTokenResponse;
+    message.nftTransferStatusDetail = [];
+    if (
+      object.nftTransferStatusDetail !== undefined &&
+      object.nftTransferStatusDetail !== null
+    ) {
+      for (const e of object.nftTransferStatusDetail) {
+        message.nftTransferStatusDetail.push(
+          NftTransferStatusDetail.fromJSON(e)
+        );
+      }
+    }
     if (object.pagination !== undefined && object.pagination !== null) {
       message.pagination = PageResponse.fromJSON(object.pagination);
     } else {
@@ -1454,6 +1476,13 @@ export const QueryNftTransferStatusOfTokenResponse = {
 
   toJSON(message: QueryNftTransferStatusOfTokenResponse): unknown {
     const obj: any = {};
+    if (message.nftTransferStatusDetail) {
+      obj.nftTransferStatusDetail = message.nftTransferStatusDetail.map((e) =>
+        e ? NftTransferStatusDetail.toJSON(e) : undefined
+      );
+    } else {
+      obj.nftTransferStatusDetail = [];
+    }
     message.pagination !== undefined &&
       (obj.pagination = message.pagination
         ? PageResponse.toJSON(message.pagination)
@@ -1467,6 +1496,17 @@ export const QueryNftTransferStatusOfTokenResponse = {
     const message = {
       ...baseQueryNftTransferStatusOfTokenResponse,
     } as QueryNftTransferStatusOfTokenResponse;
+    message.nftTransferStatusDetail = [];
+    if (
+      object.nftTransferStatusDetail !== undefined &&
+      object.nftTransferStatusDetail !== null
+    ) {
+      for (const e of object.nftTransferStatusDetail) {
+        message.nftTransferStatusDetail.push(
+          NftTransferStatusDetail.fromPartial(e)
+        );
+      }
+    }
     if (object.pagination !== undefined && object.pagination !== null) {
       message.pagination = PageResponse.fromPartial(object.pagination);
     } else {

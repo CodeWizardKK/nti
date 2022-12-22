@@ -48,6 +48,15 @@ export interface NtiNftTransferStatus {
   completed?: string[];
 }
 
+export interface NtiNftTransferStatusDetail {
+  reservedKey?: string;
+  reservedData?: NtiReservedNftTransfer;
+
+  /** @format int32 */
+  transferStatus?: number;
+  transactionHash?: string;
+}
+
 /**
  * Params defines the parameters for the module.
  */
@@ -115,6 +124,8 @@ export interface NtiQueryGetReservedNftTransferResponse {
 }
 
 export interface NtiQueryNftTransferStatusOfTokenResponse {
+  nftTransferStatusDetail?: NtiNftTransferStatusDetail[];
+
   /**
    * PageResponse is to be embedded in gRPC response messages where the
    * corresponding request message has used PageRequest.
