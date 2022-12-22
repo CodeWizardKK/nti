@@ -8,8 +8,8 @@ import { MsgTransferNft } from "./types/nti/tx";
 import { MsgCreateNftMint } from "./types/nti/tx";
 import { MsgUpdateNftMint } from "./types/nti/tx";
 import { MsgChangeStatus } from "./types/nti/tx";
-import { MsgReserveNftTransfer } from "./types/nti/tx";
 import { MsgDeleteNftMint } from "./types/nti/tx";
+import { MsgReserveNftTransfer } from "./types/nti/tx";
 
 
 const types = [
@@ -17,8 +17,8 @@ const types = [
   ["/nti.nti.MsgCreateNftMint", MsgCreateNftMint],
   ["/nti.nti.MsgUpdateNftMint", MsgUpdateNftMint],
   ["/nti.nti.MsgChangeStatus", MsgChangeStatus],
-  ["/nti.nti.MsgReserveNftTransfer", MsgReserveNftTransfer],
   ["/nti.nti.MsgDeleteNftMint", MsgDeleteNftMint],
+  ["/nti.nti.MsgReserveNftTransfer", MsgReserveNftTransfer],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -55,8 +55,8 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
     msgCreateNftMint: (data: MsgCreateNftMint): EncodeObject => ({ typeUrl: "/nti.nti.MsgCreateNftMint", value: MsgCreateNftMint.fromPartial( data ) }),
     msgUpdateNftMint: (data: MsgUpdateNftMint): EncodeObject => ({ typeUrl: "/nti.nti.MsgUpdateNftMint", value: MsgUpdateNftMint.fromPartial( data ) }),
     msgChangeStatus: (data: MsgChangeStatus): EncodeObject => ({ typeUrl: "/nti.nti.MsgChangeStatus", value: MsgChangeStatus.fromPartial( data ) }),
-    msgReserveNftTransfer: (data: MsgReserveNftTransfer): EncodeObject => ({ typeUrl: "/nti.nti.MsgReserveNftTransfer", value: MsgReserveNftTransfer.fromPartial( data ) }),
     msgDeleteNftMint: (data: MsgDeleteNftMint): EncodeObject => ({ typeUrl: "/nti.nti.MsgDeleteNftMint", value: MsgDeleteNftMint.fromPartial( data ) }),
+    msgReserveNftTransfer: (data: MsgReserveNftTransfer): EncodeObject => ({ typeUrl: "/nti.nti.MsgReserveNftTransfer", value: MsgReserveNftTransfer.fromPartial( data ) }),
     
   };
 };
