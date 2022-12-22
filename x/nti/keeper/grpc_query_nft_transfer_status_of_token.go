@@ -3,10 +3,11 @@ package keeper
 import (
 	"context"
 
+	"nti/x/nti/types"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"nti/x/nti/types"
 )
 
 func (k Keeper) NftTransferStatusOfToken(goCtx context.Context, req *types.QueryNftTransferStatusOfTokenRequest) (*types.QueryNftTransferStatusOfTokenResponse, error) {
@@ -17,7 +18,14 @@ func (k Keeper) NftTransferStatusOfToken(goCtx context.Context, req *types.Query
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// TODO: Process the query
+	var nftTransferStatusList []types.NftTransferStatusDetail
 	_ = ctx
 
-	return &types.QueryNftTransferStatusOfTokenResponse{}, nil
+	// reservedKey := ""
+
+	// status := ""
+
+	return &types.QueryNftTransferStatusOfTokenResponse{
+		NftTransferStatusDetail: nftTransferStatusList,
+	}, nil
 }

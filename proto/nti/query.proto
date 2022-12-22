@@ -9,6 +9,7 @@ import "nti/nft_transfer.proto";
 import "nti/reserved_nft_transfer.proto";
 import "nti/nft_transfer_status.proto";
 import "nti/nft_mint.proto";
+import "nti/nft_transfer_status_detail.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "nti/x/nti/types";
@@ -130,14 +131,15 @@ message QueryAllNftMintResponse {
 }
 
 message QueryNftTransferStatusOfTokenRequest {
-  string chain = 1;
-  string contractAddr = 2;
-  string tokenId = 3;
+	string chain = 1;
+	string contractAddr = 2;
+	string tokenId = 3;
 cosmos.base.query.v1beta1.PageRequest pagination = 4;
 }
 
 message QueryNftTransferStatusOfTokenResponse {
-cosmos.base.query.v1beta1.PageResponse pagination = 1;
+	repeated NftTransferStatusDetail nftTransferStatusDetail = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3
