@@ -53,6 +53,11 @@ service Query {
 		option (google.api.http).get = "/nti/nti/nft_mint";
 	}
 
+// Queries a list of NftTransferStatusOfToken items.
+	rpc NftTransferStatusOfToken(QueryNftTransferStatusOfTokenRequest) returns (QueryNftTransferStatusOfTokenResponse) {
+		option (google.api.http).get = "/nti/nti/nft_transfer_status_of_token/{chain}/{contractAddr}/{tokenId}";
+	}
+
 // this line is used by starport scaffolding # 2
 }
 
@@ -122,6 +127,17 @@ message QueryAllNftMintRequest {
 message QueryAllNftMintResponse {
 	repeated NftMint nftMint = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryNftTransferStatusOfTokenRequest {
+  string chain = 1;
+  string contractAddr = 2;
+  string tokenId = 3;
+cosmos.base.query.v1beta1.PageRequest pagination = 4;
+}
+
+message QueryNftTransferStatusOfTokenResponse {
+cosmos.base.query.v1beta1.PageResponse pagination = 1;
 }
 
 // this line is used by starport scaffolding # 3

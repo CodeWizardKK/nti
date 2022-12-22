@@ -78,6 +78,17 @@ export interface QueryAllNftMintResponse {
   pagination: PageResponse | undefined;
 }
 
+export interface QueryNftTransferStatusOfTokenRequest {
+  chain: string;
+  contractAddr: string;
+  tokenId: string;
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryNftTransferStatusOfTokenResponse {
+  pagination: PageResponse | undefined;
+}
+
 const baseQueryParamsRequest: object = {};
 
 export const QueryParamsRequest = {
@@ -1262,6 +1273,209 @@ export const QueryAllNftMintResponse = {
   },
 };
 
+const baseQueryNftTransferStatusOfTokenRequest: object = {
+  chain: "",
+  contractAddr: "",
+  tokenId: "",
+};
+
+export const QueryNftTransferStatusOfTokenRequest = {
+  encode(
+    message: QueryNftTransferStatusOfTokenRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.chain !== "") {
+      writer.uint32(10).string(message.chain);
+    }
+    if (message.contractAddr !== "") {
+      writer.uint32(18).string(message.contractAddr);
+    }
+    if (message.tokenId !== "") {
+      writer.uint32(26).string(message.tokenId);
+    }
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(34).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryNftTransferStatusOfTokenRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryNftTransferStatusOfTokenRequest,
+    } as QueryNftTransferStatusOfTokenRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.chain = reader.string();
+          break;
+        case 2:
+          message.contractAddr = reader.string();
+          break;
+        case 3:
+          message.tokenId = reader.string();
+          break;
+        case 4:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryNftTransferStatusOfTokenRequest {
+    const message = {
+      ...baseQueryNftTransferStatusOfTokenRequest,
+    } as QueryNftTransferStatusOfTokenRequest;
+    if (object.chain !== undefined && object.chain !== null) {
+      message.chain = String(object.chain);
+    } else {
+      message.chain = "";
+    }
+    if (object.contractAddr !== undefined && object.contractAddr !== null) {
+      message.contractAddr = String(object.contractAddr);
+    } else {
+      message.contractAddr = "";
+    }
+    if (object.tokenId !== undefined && object.tokenId !== null) {
+      message.tokenId = String(object.tokenId);
+    } else {
+      message.tokenId = "";
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryNftTransferStatusOfTokenRequest): unknown {
+    const obj: any = {};
+    message.chain !== undefined && (obj.chain = message.chain);
+    message.contractAddr !== undefined &&
+      (obj.contractAddr = message.contractAddr);
+    message.tokenId !== undefined && (obj.tokenId = message.tokenId);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryNftTransferStatusOfTokenRequest>
+  ): QueryNftTransferStatusOfTokenRequest {
+    const message = {
+      ...baseQueryNftTransferStatusOfTokenRequest,
+    } as QueryNftTransferStatusOfTokenRequest;
+    if (object.chain !== undefined && object.chain !== null) {
+      message.chain = object.chain;
+    } else {
+      message.chain = "";
+    }
+    if (object.contractAddr !== undefined && object.contractAddr !== null) {
+      message.contractAddr = object.contractAddr;
+    } else {
+      message.contractAddr = "";
+    }
+    if (object.tokenId !== undefined && object.tokenId !== null) {
+      message.tokenId = object.tokenId;
+    } else {
+      message.tokenId = "";
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryNftTransferStatusOfTokenResponse: object = {};
+
+export const QueryNftTransferStatusOfTokenResponse = {
+  encode(
+    message: QueryNftTransferStatusOfTokenResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(10).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryNftTransferStatusOfTokenResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryNftTransferStatusOfTokenResponse,
+    } as QueryNftTransferStatusOfTokenResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryNftTransferStatusOfTokenResponse {
+    const message = {
+      ...baseQueryNftTransferStatusOfTokenResponse,
+    } as QueryNftTransferStatusOfTokenResponse;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryNftTransferStatusOfTokenResponse): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryNftTransferStatusOfTokenResponse>
+  ): QueryNftTransferStatusOfTokenResponse {
+    const message = {
+      ...baseQueryNftTransferStatusOfTokenResponse,
+    } as QueryNftTransferStatusOfTokenResponse;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -1290,6 +1504,10 @@ export interface Query {
   NftMint(request: QueryGetNftMintRequest): Promise<QueryGetNftMintResponse>;
   /** Queries a list of NftMint items. */
   NftMintAll(request: QueryAllNftMintRequest): Promise<QueryAllNftMintResponse>;
+  /** Queries a list of NftTransferStatusOfToken items. */
+  NftTransferStatusOfToken(
+    request: QueryNftTransferStatusOfTokenRequest
+  ): Promise<QueryNftTransferStatusOfTokenResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -1380,6 +1598,20 @@ export class QueryClientImpl implements Query {
     const promise = this.rpc.request("nti.nti.Query", "NftMintAll", data);
     return promise.then((data) =>
       QueryAllNftMintResponse.decode(new Reader(data))
+    );
+  }
+
+  NftTransferStatusOfToken(
+    request: QueryNftTransferStatusOfTokenRequest
+  ): Promise<QueryNftTransferStatusOfTokenResponse> {
+    const data = QueryNftTransferStatusOfTokenRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "nti.nti.Query",
+      "NftTransferStatusOfToken",
+      data
+    );
+    return promise.then((data) =>
+      QueryNftTransferStatusOfTokenResponse.decode(new Reader(data))
     );
   }
 }
