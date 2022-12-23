@@ -426,18 +426,18 @@ export default {
 		},
 		
 		
-		async sendMsgUpdateNftMint({ rootGetters }, { value, fee = [], memo = '' }) {
+		async sendMsgChangeStatus({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgUpdateNftMint(value)
+				const msg = await txClient.msgChangeStatus(value)
 				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgUpdateNftMint:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgChangeStatus:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgUpdateNftMint:Send Could not broadcast Tx: '+ e.message)
+					throw new Error('TxClient:MsgChangeStatus:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -456,21 +456,6 @@ export default {
 				}
 			}
 		},
-		async sendMsgReserveNftTransfer({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgReserveNftTransfer(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgReserveNftTransfer:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgReserveNftTransfer:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
 		async sendMsgDeleteNftMint({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -486,18 +471,18 @@ export default {
 				}
 			}
 		},
-		async sendMsgChangeStatus({ rootGetters }, { value, fee = [], memo = '' }) {
+		async sendMsgUpdateNftMint({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgChangeStatus(value)
+				const msg = await txClient.msgUpdateNftMint(value)
 				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgChangeStatus:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgUpdateNftMint:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgChangeStatus:Send Could not broadcast Tx: '+ e.message)
+					throw new Error('TxClient:MsgUpdateNftMint:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -516,17 +501,32 @@ export default {
 				}
 			}
 		},
-		
-		async MsgUpdateNftMint({ rootGetters }, { value }) {
+		async sendMsgReserveNftTransfer({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgUpdateNftMint(value)
+				const msg = await txClient.msgReserveNftTransfer(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgReserveNftTransfer:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgReserveNftTransfer:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		
+		async MsgChangeStatus({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgChangeStatus(value)
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgUpdateNftMint:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgChangeStatus:Init Could not initialize signing client. Wallet is required.')
 				} else{
-					throw new Error('TxClient:MsgUpdateNftMint:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgChangeStatus:Create Could not create message: ' + e.message)
 				}
 			}
 		},
@@ -543,19 +543,6 @@ export default {
 				}
 			}
 		},
-		async MsgReserveNftTransfer({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgReserveNftTransfer(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgReserveNftTransfer:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgReserveNftTransfer:Create Could not create message: ' + e.message)
-				}
-			}
-		},
 		async MsgDeleteNftMint({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -569,16 +556,16 @@ export default {
 				}
 			}
 		},
-		async MsgChangeStatus({ rootGetters }, { value }) {
+		async MsgUpdateNftMint({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgChangeStatus(value)
+				const msg = await txClient.msgUpdateNftMint(value)
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgChangeStatus:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgUpdateNftMint:Init Could not initialize signing client. Wallet is required.')
 				} else{
-					throw new Error('TxClient:MsgChangeStatus:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgUpdateNftMint:Create Could not create message: ' + e.message)
 				}
 			}
 		},
@@ -592,6 +579,19 @@ export default {
 					throw new Error('TxClient:MsgCreateNftMint:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgCreateNftMint:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgReserveNftTransfer({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgReserveNftTransfer(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgReserveNftTransfer:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgReserveNftTransfer:Create Could not create message: ' + e.message)
 				}
 			}
 		},

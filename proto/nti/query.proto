@@ -154,7 +154,7 @@ cosmos.base.query.v1beta1.PageRequest pagination = 3;
 }
 
 message QueryNftTransferStatusOfAddressResponse {
-	string nftTransferStatusDetail = 1;
+	repeated NftTransferStatusDetail nftTransferStatusDetail = 1 [(gogoproto.nullable) = false];
 cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

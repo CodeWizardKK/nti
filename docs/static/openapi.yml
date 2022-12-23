@@ -30310,7 +30310,50 @@ paths:
             type: object
             properties:
               nftTransferStatusDetail:
-                type: string
+                type: array
+                items:
+                  type: object
+                  properties:
+                    reservedKey:
+                      type: string
+                    reservedData:
+                      type: object
+                      properties:
+                        reservedKey:
+                          type: string
+                        nftTokenId:
+                          type: string
+                        nftSrcChain:
+                          type: integer
+                          format: int32
+                        nftSrcAddr:
+                          type: string
+                        nftDestChain:
+                          type: integer
+                          format: int32
+                        nftDestAddr:
+                          type: string
+                        ftChain:
+                          type: integer
+                          format: int32
+                        ftSrcAddr:
+                          type: string
+                        ftDestAddr:
+                          type: string
+                        fungibleToken:
+                          type: integer
+                          format: int32
+                        blockHeight:
+                          type: integer
+                          format: int32
+                        createdAt:
+                          type: integer
+                          format: int32
+                    transferStatus:
+                      type: integer
+                      format: int32
+                    transactionHash:
+                      type: string
               pagination:
                 type: object
                 properties:
@@ -53125,7 +53168,50 @@ definitions:
     type: object
     properties:
       nftTransferStatusDetail:
-        type: string
+        type: array
+        items:
+          type: object
+          properties:
+            reservedKey:
+              type: string
+            reservedData:
+              type: object
+              properties:
+                reservedKey:
+                  type: string
+                nftTokenId:
+                  type: string
+                nftSrcChain:
+                  type: integer
+                  format: int32
+                nftSrcAddr:
+                  type: string
+                nftDestChain:
+                  type: integer
+                  format: int32
+                nftDestAddr:
+                  type: string
+                ftChain:
+                  type: integer
+                  format: int32
+                ftSrcAddr:
+                  type: string
+                ftDestAddr:
+                  type: string
+                fungibleToken:
+                  type: integer
+                  format: int32
+                blockHeight:
+                  type: integer
+                  format: int32
+                createdAt:
+                  type: integer
+                  format: int32
+            transferStatus:
+              type: integer
+              format: int32
+            transactionHash:
+              type: string
       pagination:
         type: object
         properties:

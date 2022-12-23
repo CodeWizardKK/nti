@@ -124,7 +124,7 @@ export interface NtiQueryGetReservedNftTransferResponse {
 }
 
 export interface NtiQueryNftTransferStatusOfAddressResponse {
-  nftTransferStatusDetail?: string;
+  nftTransferStatusDetail?: NtiNftTransferStatusDetail[];
 
   /**
    * PageResponse is to be embedded in gRPC response messages where the
