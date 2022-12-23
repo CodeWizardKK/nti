@@ -59,6 +59,11 @@ service Query {
 		option (google.api.http).get = "/nti/nti/nft_transfer_status_of_token/{chain}/{contractAddr}/{tokenId}";
 	}
 
+// Queries a list of NftTransferStatusOfAddress items.
+	rpc NftTransferStatusOfAddress(QueryNftTransferStatusOfAddressRequest) returns (QueryNftTransferStatusOfAddressResponse) {
+		option (google.api.http).get = "/nti/nti/nft_transfer_status_of_address/{chain}/{walletAddr}";
+	}
+
 // this line is used by starport scaffolding # 2
 }
 
@@ -140,6 +145,17 @@ cosmos.base.query.v1beta1.PageRequest pagination = 4;
 message QueryNftTransferStatusOfTokenResponse {
 	repeated NftTransferStatusDetail nftTransferStatusDetail = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryNftTransferStatusOfAddressRequest {
+	string chain = 1;
+	string walletAddr = 2;
+cosmos.base.query.v1beta1.PageRequest pagination = 3;
+}
+
+message QueryNftTransferStatusOfAddressResponse {
+	string nftTransferStatusDetail = 1;
+cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3
