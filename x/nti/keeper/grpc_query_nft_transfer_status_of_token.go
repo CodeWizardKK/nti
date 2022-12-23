@@ -13,10 +13,10 @@ import (
 
 func getTransferStatus(reservedKey string, nftTransferStatus types.NftTransferStatus) TransferStatus {
 	var transferStatus TransferStatus
-	nftTransferStatusValue := reflect.ValueOf(&nftTransferStatus)
+	nftTransferStatusValue := reflect.ValueOf(&nftTransferStatus).Elem()
 
-	// 各ステータスのリストから検索
-	for ts := 0; ts < int(Completed); ts++ {
+	// 各ステータス（Reserved, ... , Completed）のリストから検索
+	for ts := int(Reserved); ts < int(Completed)+1; ts++ {
 		targetStatus := TransferStatus(ts).String()
 		reservedKeyList := nftTransferStatusValue.FieldByName(targetStatus)
 
@@ -52,19 +52,29 @@ func (k Keeper) NftTransferStatusOfToken(goCtx context.Context, req *types.Query
 	// 全予約を取得
 	reservedNftTransferList := k.GetAllReservedNftTransfer(ctx)
 	// ステータスリストを取得
-	nftTransferStatus, _ := k.GetNftTransferStatus(ctx)
+	nftTransferStatus, found := k.GetNftTransferStatus(ctx)
+	if !found {
+		return nil, status.Error(codes.NotFound, "not found")
+	}
 
+	// リクエストのトークンIDと一致する予約を探す
+	// TODO: Check req.Chain, req.ContractAddr
 	for _, reservedNftTransfer := range reservedNftTransferList {
-		// TODO: Check req.Chain, req.ContractAddr
+		// トークンIDが一致した場合
 		if reservedNftTransfer.NftTokenId == req.TokenId {
 			reservedKey := reservedNftTransfer.ReservedKey
 
+			// 予約のステータスを検索する
 			transferStatus := getTransferStatus(reservedKey, nftTransferStatus)
 
-			// トランザクションハッシュを取得
+			// NFTミント後の場合は、トランザクションハッシュを取得
 			transactionHash := ""
-			if transferStatus >= Waiting {
-				nftMint, _ := k.GetNftMint(ctx, reservedKey)
+			if int(transferStatus) >= int(Waiting) {
+				nftMint, found := k.GetNftMint(ctx, reservedKey)
+				if !found {
+					return nil, status.Error(codes.NotFound, "not found")
+				}
+
 				transactionHash = nftMint.TransactionHash
 			}
 
