@@ -39,9 +39,9 @@ import { useStore } from 'vuex'
 
 const menuItems = [
   { name: 'Portfolio', url: '/portfolio' },
-  { name: 'NFT Transfer Search', url: '/nft_transfer_search' },
-  { name: 'NFT Transfer Edit', url: '/nft_transfer_edit' },
-  { name: 'NFT Transfer List', url: '/nft_transfer_list' },
+  { name: 'NFT Transfer Status', url: '/nft_transfer_status_list' },
+  { name: 'NFT Transfer Reservation Form', url: '/nft_transfer_edit' },
+  { name: 'NFT Transfer Reservations', url: '/nft_transfer_list' },
 ]
 
 export default {

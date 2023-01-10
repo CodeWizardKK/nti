@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-title title="NFT Transfer Search"></page-title>
+    <page-title title="NFT Transfer Status"></page-title>
   </div>
 </template>
 
