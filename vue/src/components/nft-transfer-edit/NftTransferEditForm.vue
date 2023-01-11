@@ -94,80 +94,6 @@
     </a-card>
     <br />
 
-    <!--
-    <a-card title="Fungible Token">
-      <a-form-item label="Set fungible token">
-        <a-switch :checked="isFtEnabled" @change="onChangeFtEnabled" /> 
-      </a-form-item>
-
-      <div v-if="isFtEnabled">
-        <Field name="fungibleToken" v-slot="{ value, handleChange, errorMessage }">
-          <a-form-item
-            label="Amount"
-            :has-feedback="!!errorMessage"
-            :help="errorMessage"
-            :validate-status="errorMessage ? 'error' : undefined">
-              <a-input-number :value="value" @change="handleChange"/>
-          </a-form-item>
-        </Field>
-
-        <Field name="ftChain" v-slot="{ value, handleChange, errorMessage }">
-          <a-form-item
-            label="Blockchain"
-            :has-feedback="!!errorMessage"
-            :help="errorMessage"
-            :validate-status="errorMessage ? 'error' : undefined">
-            <a-select
-              ref="select"
-              :value="value"
-              style="width: 120px"
-              @focus="focus"
-              @change="handleChange">
-              <a-select-option
-                v-for="blockchain in blockchainOpts"
-                :key="blockchain.label"
-                :value="blockchain.value">
-                {{ blockchain.label }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-        </Field>
-
-        <Field name="ftSrcAddr" v-slot="{ value, handleChange, errorMessage }">
-          <a-form-item
-            label="Source address"
-            :has-feedback="!!errorMessage"
-            :help="errorMessage"
-            :validate-status="errorMessage ? 'error' : undefined"
-          >
-            <a-input :value="value" @update:value="handleChange" />
-          </a-form-item>
-        </Field>
-        <Field name="ftDestAddr" v-slot="{ value, handleChange, errorMessage }">
-          <a-form-item
-            label="Destination address"
-            :has-feedback="!!errorMessage"
-            :help="errorMessage"
-            :validate-status="errorMessage ? 'error' : undefined"
-          >
-            <a-input :value="value" @update:value="handleChange" />
-          </a-form-item>
-        </Field>
-
-        <Field name="blockHeight" v-slot="{ value, handleChange, errorMessage }">
-          <a-form-item
-            label="Block height"
-            :has-feedback="!!errorMessage"
-            :help="errorMessage"
-            :validate-status="errorMessage ? 'error' : undefined">
-              <a-input-number :value="value" @change="handleChange"/>
-          </a-form-item>
-        </Field>
-      </div>
-    </a-card>
-    -->
-    <br />
-
     <a-form-item>
       <a-button type="primary" html-type="submit">Submit</a-button>
     </a-form-item>
@@ -206,20 +132,7 @@ const fetchTokenIds = () => {
   console.log('fetch')
 }
 
-const schemaWithFt = yup.object({
-    nftTokenId: yup.string().required().label('Token ID'),
-    nftSrcChain: yup.number().required().label('Blockchain'),
-    nftSrcAddr: yup.string().required().label('Address'),
-    nftDestChain: yup.number().required().label('Blockchain'),
-    nftDestAddr: yup.string().required().label('Address'),
-    fungibleToken: yup.number().required().label('Amount'),
-    ftChain: yup.number().required().label('Blockchain'),
-    ftSrcAddr: yup.string().required().label('Source address'),
-    ftDestAddr: yup.string().required().label('Destination address'),
-    blockHeight: yup.number().required().label('Block height'),
-});
-
-const schemaWoFt = yup.object({
+const schema = yup.object({
     nftTokenId: yup.string().required().label('Token ID'),
     nftSrcChain: yup.number().required().label('Blockchain'),
     nftSrcAddr: yup.string().required().label('Address'),
@@ -231,14 +144,6 @@ const schemaWoFt = yup.object({
     ftDestAddr: yup.string().label('Destination address'),
     blockHeight: yup.number().label('Block height'),
 });
-
-const isFtEnabled = ref(false)
-const schema = ref(schemaWoFt)
-const onChangeFtEnabled = (checked: boolean, e: any) => {
-  console.log(e)
-  isFtEnabled.value = checked
-  schema.value = checked ? schemaWithFt : schemaWoFt
-}
 
 const emits = defineEmits(['reserveNftTransfer'])
 const { currentAccount } = useAccount()
