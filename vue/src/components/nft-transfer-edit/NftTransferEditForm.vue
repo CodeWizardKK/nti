@@ -35,7 +35,7 @@
           :validate-status="errorMessage ? 'error' : undefined"
         >
           <a-input
-            :value="formatAddr(value)"
+            :value="removeSrcAddrPrefix(value)"
             @update:value="handleChange"
             :addon-before="srcAddrPrefix"/>
         </a-form-item>
@@ -86,7 +86,7 @@
           :validate-status="errorMessage ? 'error' : undefined"
         >
           <a-input
-            :value="formatAddr(value)"
+            :value="removeDestAddrPrefix(value)"
             @update:value="handleChange"
             :addon-before="destAddrPrefix"/>
         </a-form-item>
@@ -110,8 +110,15 @@ import { blockchainOpts } from '../../const';
 
 const srcChain = ref(NaN)
 const destChain = ref(NaN)
-const { addrPrefix: srcAddrPrefix } = useAddress(srcChain)
-const { addrPrefix: destAddrPrefix } = useAddress(destChain)
+
+const {
+  addrPrefix: srcAddrPrefix,
+  removePrefix: removeSrcAddrPrefix,
+} = useAddress(srcChain)
+const {
+  addrPrefix: destAddrPrefix,
+  removePrefix: removeDestAddrPrefix,
+} = useAddress(destChain)
 
 const onSelectSrcChain = (value: any) => {
   srcChain.value = value
@@ -119,12 +126,6 @@ const onSelectSrcChain = (value: any) => {
 }
 const onSelectDestChain = (value: any) => {
   destChain.value = value
-}
-
-// アドレスの先頭に"0x"が付いている場合除く
-const formatAddr = (value: any) => {
-  const addr = value ? value : ""
-  return addr.startsWith("0x") ? addr.slice(2) : addr
 }
 
 // イーサリアムの場合、アドレスから所有するトークンのIDリストを取得する
@@ -149,10 +150,8 @@ const emits = defineEmits(['reserveNftTransfer'])
 const { currentAccount } = useAccount()
 
 const onSubmit = (values: any) => {
-    console.log('Success:', values)
     values.creator = currentAccount.value
-    values.nftSrcAddr = srcAddrPrefix.value + values.nftSrcAddr
-    values.nftDestAddr = destAddrPrefix.value + values.nftDestAddr
+    console.log('Success:', values)
     emits('reserveNftTransfer', values)
 }
 

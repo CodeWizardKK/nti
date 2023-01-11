@@ -15,7 +15,13 @@ export default function useAddress(chain: Ref<number>) {
 
     watch(chain, setAddrPrefix)
 
+    const removePrefix = (value: any) => {
+        value = value ? value : ""
+        return value.startsWith(addrPrefix.value) ? value.slice(addrPrefix.value.length) : value
+    }
+
     return {
-        addrPrefix
+        addrPrefix,
+        removePrefix,
     }
 }
