@@ -179,25 +179,22 @@ import { Field, Form } from 'vee-validate';
 import { ref, Ref } from 'vue';
 import * as yup from 'yup';
 import useAccount from '../../composables/useAccount';
-import { Blockchain, blockchainOpts } from '../../const';
+import useAddress from '../../composables/useAddress';
+import { blockchainOpts } from '../../const';
 
-const srcAddrPrefix = ref("")
-const destAddrPrefix = ref("")
+const srcChain = ref(NaN)
+const destChain = ref(NaN)
+const { addrPrefix: srcAddrPrefix } = useAddress(srcChain)
+const { addrPrefix: destAddrPrefix } = useAddress(destChain)
+
 const onSelectSrcChain = (value: any) => {
-  setAddrPrefix(srcAddrPrefix, value)
+  srcChain.value = value
   fetchTokenIds()
 }
 const onSelectDestChain = (value: any) => {
-  setAddrPrefix(destAddrPrefix, value)
+  destChain.value = value
 }
-// 選択されたブロックチェーンに応じたアドレスの接頭辞を表示する
-const setAddrPrefix = (addrPrefix: Ref<string>, blockchain: Blockchain) => {
-  for (const blockchainOpt of blockchainOpts) {
-    if (blockchainOpt.value == blockchain) {
-      addrPrefix.value = blockchainOpt.prefix
-    }
-  }
-}
+
 // アドレスの先頭に"0x"が付いている場合除く
 const formatAddr = (value: any) => {
   const addr = value ? value : ""
