@@ -11,18 +11,7 @@
 </template>
 
 <script lang="ts">
-
-enum Blockchain {
-  ETH,
-  BTC,
-  AVAX
-}
-
-const blockchainOpts = [
-  { value: Blockchain.ETH, label: "ETH" },
-  { value: Blockchain.BTC, label: "BTC" },
-  { value: Blockchain.AVAX, label: "AVAX" },
-]
+import { blockchainOpts } from '../../const';
 
 const blockchainProps = [
     "nftSrcChain",

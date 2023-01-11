@@ -179,18 +179,7 @@ import { Field, Form } from 'vee-validate';
 import { ref, Ref } from 'vue';
 import * as yup from 'yup';
 import useAccount from '../../composables/useAccount';
-
-enum Blockchain {
-  ETH,
-  BTC,
-  AVAX
-}
-
-const blockchainOpts = [
-  { value: Blockchain.ETH, label: "ETH", prefix: "0x" },
-  { value: Blockchain.BTC, label: "BTC", prefix: "" },
-  { value: Blockchain.AVAX, label: "AVAX", prefix: "" },
-]
+import { Blockchain, blockchainOpts } from '../../const';
 
 const srcAddrPrefix = ref("")
 const destAddrPrefix = ref("")
