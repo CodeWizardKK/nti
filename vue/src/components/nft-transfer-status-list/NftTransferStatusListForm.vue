@@ -63,7 +63,7 @@ const schema = yup.object({
 });
 
 const chain = ref(NaN)
-const { addrPrefix, removePrefix } = useAddress(chain)
+const { addrPrefix, removePrefix, addPrefix } = useAddress(chain)
 
 const onSelectChain = (value: any) => {
   chain.value = value
@@ -72,6 +72,7 @@ const onSelectChain = (value: any) => {
 const emits = defineEmits(['getNftTransferStatus'])
 
 const onSubmit = (values: any) => {
+    values.walletAddr = addPrefix(values.walletAddr)
     console.log('Success:', values)
     emits('getNftTransferStatus', values)
 }

@@ -20,8 +20,13 @@ export default function useAddress(chain: Ref<number>) {
         return value.startsWith(addrPrefix.value) ? value.slice(addrPrefix.value.length) : value
     }
 
+    const addPrefix = (value: any) => {
+        return addrPrefix.value + value
+    }
+
     return {
         addrPrefix,
         removePrefix,
+        addPrefix
     }
 }

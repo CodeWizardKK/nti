@@ -114,10 +114,12 @@ const destChain = ref(NaN)
 const {
   addrPrefix: srcAddrPrefix,
   removePrefix: removeSrcAddrPrefix,
+  addPrefix: addSrcAddrPrefix,
 } = useAddress(srcChain)
 const {
   addrPrefix: destAddrPrefix,
   removePrefix: removeDestAddrPrefix,
+  addPrefix: addDestAddrPrefix,
 } = useAddress(destChain)
 
 const onSelectSrcChain = (value: any) => {
@@ -151,6 +153,8 @@ const { currentAccount } = useAccount()
 
 const onSubmit = (values: any) => {
     values.creator = currentAccount.value
+    values.nftSrcAddr = addSrcAddrPrefix(values.nftSrcAddr)
+    values.nftDestAddr = addDestAddrPrefix(values.nftDestAddr)
     console.log('Success:', values)
     emits('reserveNftTransfer', values)
 }
