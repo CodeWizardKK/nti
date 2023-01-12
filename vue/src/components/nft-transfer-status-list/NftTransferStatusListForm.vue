@@ -16,7 +16,7 @@
             style="width: 120px"
             @focus="focus"
             @change="handleChange"
-            @select="onSelectSrcChain">
+            @select="onSelectChain">
             <a-select-option
               v-for="blockchain in blockchainOpts"
               :key="blockchain.label"
@@ -26,6 +26,21 @@
           </a-select>
         </a-form-item>
       </Field>
+
+      <Field name="walletAddr" v-slot="{ value, handleChange, errorMessage }">
+        <a-form-item
+          label="Wallet address"
+          :has-feedback="!!errorMessage"
+          :help="errorMessage"
+          :validate-status="errorMessage ? 'error' : undefined"
+        >
+          <a-input
+            :value="removePrefix(value)"
+            @update:value="handleChange"
+            :addon-before="addrPrefix"/>
+        </a-form-item>
+      </Field>
+
     </a-card>
     <br />
 
@@ -37,14 +52,22 @@
 
 <script setup lang="ts">
 import { Field, Form } from 'vee-validate';
-import { ref, Ref } from 'vue';
+import { ref } from 'vue';
 import * as yup from 'yup';
-import { Blockchain, blockchainOpts } from '../../const';
+import useAddress from '../../composables/useAddress';
+import { blockchainOpts } from '../../const';
 
 const schema = yup.object({
-    chain: yup.number().required().label('Chain'),
+    chain: yup.number().required().label('Blockchain'),
     walletAddr: yup.string().required().label('Wallet address'),
 });
+
+const chain = ref(NaN)
+const { addrPrefix, removePrefix } = useAddress(chain)
+
+const onSelectChain = (value: any) => {
+  chain.value = value
+}
 
 const emits = defineEmits(['getNftTransferStatus'])
 
