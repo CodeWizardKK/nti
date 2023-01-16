@@ -73,7 +73,6 @@ const emits = defineEmits(['getNftTransferStatus'])
 
 const onSubmit = (values: any) => {
     values.walletAddr = addPrefix(values.walletAddr)
-    console.log('Success:', values)
     emits('getNftTransferStatus', values)
 }
 
