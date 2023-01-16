@@ -19,7 +19,7 @@ const checkIsNftRecievedPath = alchemyDir + "/check-is-nft-recieved.js"
 const getNftTokenUriPath = alchemyDir + "/get-nft-token-uri.js"
 const mintNftDir = "/Users/rika/work/src/learn/eth/my-nft"
 const mintNftPath = mintNftDir + "/scripts/mint-nft.js"
-const validSecond = 10 * 60
+const validSecond = 60 * 60 * 1000
 
 type IsConfirmed int
 
