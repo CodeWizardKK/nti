@@ -1,8 +1,13 @@
 <template>
   <div>
     <page-title title="NFT Transfer Status Explorer"></page-title>
-    <nft-transfer-status-list-form
-    @getNftTransferStatus="getNftTransferStatus"></nft-transfer-status-list-form>
+    <a-tabs v-model:activeKey="activeKey">
+        <a-tab-pane key="1" tab="Search by Address">
+            <nft-transfer-status-list-form
+            @getNftTransferStatus="getNftTransferStatus"></nft-transfer-status-list-form>
+        </a-tab-pane>
+        <a-tab-pane key="2" tab="Search by Token">Content of Tab Pane 2</a-tab-pane>
+    </a-tabs>
     <nft-transfer-status-list-table
     :items="nftTransferStatusList"></nft-transfer-status-list-table>
   </div>
@@ -22,6 +27,7 @@ export default {
         NftTransferStatusListTable
     },
     setup() {
+        const activeKey = ref('1')
         const nftTransferStatusList = ref([])
 
         // store
@@ -36,21 +42,11 @@ export default {
                     params: values
                 })?.nftTransferStatusDetail ?? []
             )
-            console.log(data)
             nftTransferStatusList.value = data
-            // nftTransferStatusList.value = {
-                // reservedKey: data.reservedKey,
-                // transferStatus: data.transferStatus,
-                // transactionHash: data.transactionHash,
-                // tokenId: data.reservedData.nftTokenId,
-                // srcChain: data.reservedData.nftSrcChain,
-                // srcAddr: data.reservedData.nftSrcAddr,
-                // destChain: data.reservedData.nftDestChain,
-                // destAddr: data.reservedData.nftDestAddr,
-            // }
         }
 
         return {
+            activeKey,
             nftTransferStatusList,
             getNftTransferStatus,
         }
