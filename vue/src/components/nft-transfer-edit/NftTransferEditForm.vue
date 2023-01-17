@@ -3,7 +3,15 @@
     <!-- You can use the field component to wrap a q-* component -->
     <!-- Do this if you have only one or a few places that need validation -->
 
-    <a-card title="Source: ADON（NFT）">
+    <a-card title="Source: ADON Kitties（NFT）">
+      <template #extra>Contract: 
+        <a
+        target="_blank"
+        rel="noopener noreferrer"
+        :href="contractUrl(srcContractAddr)">
+          {{ srcContractAddr }}
+        </a>
+      </template>
       <Field name="nftSrcChain" v-slot="{ value, handleChange, errorMessage }">
         <a-form-item
           label="Blockchain"
@@ -29,7 +37,7 @@
 
       <Field name="nftSrcAddr" v-slot="{ value, handleChange, errorMessage }">
         <a-form-item
-          label="Address"
+          label="Wallet address"
           :has-feedback="!!errorMessage"
           :help="errorMessage"
           :validate-status="errorMessage ? 'error' : undefined"
@@ -54,7 +62,15 @@
     </a-card>
     <br />
 
-    <a-card title="Destination: ONFET（NFT）">
+    <a-card title="Destination: ONFET Kitties（NFT）">
+      <template #extra>Contract: 
+        <a
+        target="_blank"
+        rel="noopener noreferrer"
+        :href="contractUrl(destContractAddr)">
+          {{ destContractAddr }}
+        </a>
+      </template>
       <Field name="nftDestChain" v-slot="{ value, handleChange, errorMessage }">
         <a-form-item
           label="Blockchain"
@@ -80,7 +96,7 @@
 
       <Field name="nftDestAddr" v-slot="{ value, handleChange, errorMessage }">
         <a-form-item
-          label="Address"
+          label="Wallet address"
           :has-feedback="!!errorMessage"
           :help="errorMessage"
           :validate-status="errorMessage ? 'error' : undefined"
@@ -106,7 +122,7 @@ import { ref, Ref } from 'vue';
 import * as yup from 'yup';
 import useAccount from '../../composables/useAccount';
 import useAddress from '../../composables/useAddress';
-import { blockchainOpts } from '../../const';
+import { blockchainOpts, destContractAddr, srcContractAddr } from '../../const';
 
 const srcChain = ref(NaN)
 const destChain = ref(NaN)
@@ -133,6 +149,10 @@ const onSelectDestChain = (value: any) => {
 // イーサリアムの場合、アドレスから所有するトークンのIDリストを取得する
 const fetchTokenIds = () => {
   console.log('fetch')
+}
+
+const contractUrl = (addr: any) => {
+  return "https://goerli.etherscan.io/address/" + addr
 }
 
 const schema = yup.object({

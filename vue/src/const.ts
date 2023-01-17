@@ -1,3 +1,6 @@
+export const srcContractAddr = "0x48a192ca68E88B0A8De87aa713B6f8C87A42EbdA"
+export const destContractAddr = "0xCebd7f0340683c627F00d992378AfF3fE69A6Ba8"
+
 export enum Blockchain {
   ETH,
   BTC,

@@ -33,7 +33,6 @@ export default {
         // store
         let $s = useStore()
 
-        // computed
         const getNftTransferStatus = async (values) => {
             console.log(values)
             await $s.dispatch("nti.nti/QueryNftTransferStatusOfAddress", { options:{}, params:values })
