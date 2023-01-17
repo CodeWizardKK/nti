@@ -1,20 +1,30 @@
 /* eslint-disable */
-import { ReservedNftTransfer } from "../nti/reserved_nft_transfer";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "nti.nti";
 
 export interface NftTransferStatusDetail {
   reservedKey: string;
-  reservedData: ReservedNftTransfer | undefined;
   transferStatus: number;
   transactionHash: string;
+  nftTokenId: string;
+  nftSrcChain: number;
+  nftSrcAddr: string;
+  nftDestChain: number;
+  nftDestAddr: string;
+  reservedAt: number;
 }
 
 const baseNftTransferStatusDetail: object = {
   reservedKey: "",
   transferStatus: 0,
   transactionHash: "",
+  nftTokenId: "",
+  nftSrcChain: 0,
+  nftSrcAddr: "",
+  nftDestChain: 0,
+  nftDestAddr: "",
+  reservedAt: 0,
 };
 
 export const NftTransferStatusDetail = {
@@ -25,17 +35,29 @@ export const NftTransferStatusDetail = {
     if (message.reservedKey !== "") {
       writer.uint32(10).string(message.reservedKey);
     }
-    if (message.reservedData !== undefined) {
-      ReservedNftTransfer.encode(
-        message.reservedData,
-        writer.uint32(18).fork()
-      ).ldelim();
-    }
     if (message.transferStatus !== 0) {
-      writer.uint32(24).int32(message.transferStatus);
+      writer.uint32(16).int32(message.transferStatus);
     }
     if (message.transactionHash !== "") {
-      writer.uint32(34).string(message.transactionHash);
+      writer.uint32(26).string(message.transactionHash);
+    }
+    if (message.nftTokenId !== "") {
+      writer.uint32(34).string(message.nftTokenId);
+    }
+    if (message.nftSrcChain !== 0) {
+      writer.uint32(40).int32(message.nftSrcChain);
+    }
+    if (message.nftSrcAddr !== "") {
+      writer.uint32(50).string(message.nftSrcAddr);
+    }
+    if (message.nftDestChain !== 0) {
+      writer.uint32(56).int32(message.nftDestChain);
+    }
+    if (message.nftDestAddr !== "") {
+      writer.uint32(66).string(message.nftDestAddr);
+    }
+    if (message.reservedAt !== 0) {
+      writer.uint32(72).int32(message.reservedAt);
     }
     return writer;
   },
@@ -53,16 +75,28 @@ export const NftTransferStatusDetail = {
           message.reservedKey = reader.string();
           break;
         case 2:
-          message.reservedData = ReservedNftTransfer.decode(
-            reader,
-            reader.uint32()
-          );
-          break;
-        case 3:
           message.transferStatus = reader.int32();
           break;
-        case 4:
+        case 3:
           message.transactionHash = reader.string();
+          break;
+        case 4:
+          message.nftTokenId = reader.string();
+          break;
+        case 5:
+          message.nftSrcChain = reader.int32();
+          break;
+        case 6:
+          message.nftSrcAddr = reader.string();
+          break;
+        case 7:
+          message.nftDestChain = reader.int32();
+          break;
+        case 8:
+          message.nftDestAddr = reader.string();
+          break;
+        case 9:
+          message.reservedAt = reader.int32();
           break;
         default:
           reader.skipType(tag & 7);
@@ -81,11 +115,6 @@ export const NftTransferStatusDetail = {
     } else {
       message.reservedKey = "";
     }
-    if (object.reservedData !== undefined && object.reservedData !== null) {
-      message.reservedData = ReservedNftTransfer.fromJSON(object.reservedData);
-    } else {
-      message.reservedData = undefined;
-    }
     if (object.transferStatus !== undefined && object.transferStatus !== null) {
       message.transferStatus = Number(object.transferStatus);
     } else {
@@ -99,6 +128,36 @@ export const NftTransferStatusDetail = {
     } else {
       message.transactionHash = "";
     }
+    if (object.nftTokenId !== undefined && object.nftTokenId !== null) {
+      message.nftTokenId = String(object.nftTokenId);
+    } else {
+      message.nftTokenId = "";
+    }
+    if (object.nftSrcChain !== undefined && object.nftSrcChain !== null) {
+      message.nftSrcChain = Number(object.nftSrcChain);
+    } else {
+      message.nftSrcChain = 0;
+    }
+    if (object.nftSrcAddr !== undefined && object.nftSrcAddr !== null) {
+      message.nftSrcAddr = String(object.nftSrcAddr);
+    } else {
+      message.nftSrcAddr = "";
+    }
+    if (object.nftDestChain !== undefined && object.nftDestChain !== null) {
+      message.nftDestChain = Number(object.nftDestChain);
+    } else {
+      message.nftDestChain = 0;
+    }
+    if (object.nftDestAddr !== undefined && object.nftDestAddr !== null) {
+      message.nftDestAddr = String(object.nftDestAddr);
+    } else {
+      message.nftDestAddr = "";
+    }
+    if (object.reservedAt !== undefined && object.reservedAt !== null) {
+      message.reservedAt = Number(object.reservedAt);
+    } else {
+      message.reservedAt = 0;
+    }
     return message;
   },
 
@@ -106,14 +165,19 @@ export const NftTransferStatusDetail = {
     const obj: any = {};
     message.reservedKey !== undefined &&
       (obj.reservedKey = message.reservedKey);
-    message.reservedData !== undefined &&
-      (obj.reservedData = message.reservedData
-        ? ReservedNftTransfer.toJSON(message.reservedData)
-        : undefined);
     message.transferStatus !== undefined &&
       (obj.transferStatus = message.transferStatus);
     message.transactionHash !== undefined &&
       (obj.transactionHash = message.transactionHash);
+    message.nftTokenId !== undefined && (obj.nftTokenId = message.nftTokenId);
+    message.nftSrcChain !== undefined &&
+      (obj.nftSrcChain = message.nftSrcChain);
+    message.nftSrcAddr !== undefined && (obj.nftSrcAddr = message.nftSrcAddr);
+    message.nftDestChain !== undefined &&
+      (obj.nftDestChain = message.nftDestChain);
+    message.nftDestAddr !== undefined &&
+      (obj.nftDestAddr = message.nftDestAddr);
+    message.reservedAt !== undefined && (obj.reservedAt = message.reservedAt);
     return obj;
   },
 
@@ -128,13 +192,6 @@ export const NftTransferStatusDetail = {
     } else {
       message.reservedKey = "";
     }
-    if (object.reservedData !== undefined && object.reservedData !== null) {
-      message.reservedData = ReservedNftTransfer.fromPartial(
-        object.reservedData
-      );
-    } else {
-      message.reservedData = undefined;
-    }
     if (object.transferStatus !== undefined && object.transferStatus !== null) {
       message.transferStatus = object.transferStatus;
     } else {
@@ -147,6 +204,36 @@ export const NftTransferStatusDetail = {
       message.transactionHash = object.transactionHash;
     } else {
       message.transactionHash = "";
+    }
+    if (object.nftTokenId !== undefined && object.nftTokenId !== null) {
+      message.nftTokenId = object.nftTokenId;
+    } else {
+      message.nftTokenId = "";
+    }
+    if (object.nftSrcChain !== undefined && object.nftSrcChain !== null) {
+      message.nftSrcChain = object.nftSrcChain;
+    } else {
+      message.nftSrcChain = 0;
+    }
+    if (object.nftSrcAddr !== undefined && object.nftSrcAddr !== null) {
+      message.nftSrcAddr = object.nftSrcAddr;
+    } else {
+      message.nftSrcAddr = "";
+    }
+    if (object.nftDestChain !== undefined && object.nftDestChain !== null) {
+      message.nftDestChain = object.nftDestChain;
+    } else {
+      message.nftDestChain = 0;
+    }
+    if (object.nftDestAddr !== undefined && object.nftDestAddr !== null) {
+      message.nftDestAddr = object.nftDestAddr;
+    } else {
+      message.nftDestAddr = "";
+    }
+    if (object.reservedAt !== undefined && object.reservedAt !== null) {
+      message.reservedAt = object.reservedAt;
+    } else {
+      message.reservedAt = 0;
     }
     return message;
   },

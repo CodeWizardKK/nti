@@ -7,7 +7,12 @@ import "nti/reserved_nft_transfer.proto";
 message NftTransferStatusDetail {
   
   string reservedKey = 1; 
-  ReservedNftTransfer reservedData = 2; 
-  int32 transferStatus = 3; 
-  string transactionHash = 4; 
+  int32 transferStatus = 2; 
+  string transactionHash = 3; 
+  string nftTokenId = 4; 
+  int32 nftSrcChain = 5;
+  string nftSrcAddr = 6; 
+  int32 nftDestChain = 7; 
+  string nftDestAddr = 8; 
+  int32 reservedAt = 9; 
 }

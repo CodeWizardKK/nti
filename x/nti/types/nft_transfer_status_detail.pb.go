@@ -23,10 +23,15 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type NftTransferStatusDetail struct {
-	ReservedKey     string               `protobuf:"bytes,1,opt,name=reservedKey,proto3" json:"reservedKey,omitempty"`
-	ReservedData    *ReservedNftTransfer `protobuf:"bytes,2,opt,name=reservedData,proto3" json:"reservedData,omitempty"`
-	TransferStatus  int32                `protobuf:"varint,3,opt,name=transferStatus,proto3" json:"transferStatus,omitempty"`
-	TransactionHash string               `protobuf:"bytes,4,opt,name=transactionHash,proto3" json:"transactionHash,omitempty"`
+	ReservedKey     string `protobuf:"bytes,1,opt,name=reservedKey,proto3" json:"reservedKey,omitempty"`
+	TransferStatus  int32  `protobuf:"varint,2,opt,name=transferStatus,proto3" json:"transferStatus,omitempty"`
+	TransactionHash string `protobuf:"bytes,3,opt,name=transactionHash,proto3" json:"transactionHash,omitempty"`
+	NftTokenId      string `protobuf:"bytes,4,opt,name=nftTokenId,proto3" json:"nftTokenId,omitempty"`
+	NftSrcChain     int32  `protobuf:"varint,5,opt,name=nftSrcChain,proto3" json:"nftSrcChain,omitempty"`
+	NftSrcAddr      string `protobuf:"bytes,6,opt,name=nftSrcAddr,proto3" json:"nftSrcAddr,omitempty"`
+	NftDestChain    int32  `protobuf:"varint,7,opt,name=nftDestChain,proto3" json:"nftDestChain,omitempty"`
+	NftDestAddr     string `protobuf:"bytes,8,opt,name=nftDestAddr,proto3" json:"nftDestAddr,omitempty"`
+	ReservedAt      int32  `protobuf:"varint,9,opt,name=reservedAt,proto3" json:"reservedAt,omitempty"`
 }
 
 func (m *NftTransferStatusDetail) Reset()         { *m = NftTransferStatusDetail{} }
@@ -69,13 +74,6 @@ func (m *NftTransferStatusDetail) GetReservedKey() string {
 	return ""
 }
 
-func (m *NftTransferStatusDetail) GetReservedData() *ReservedNftTransfer {
-	if m != nil {
-		return m.ReservedData
-	}
-	return nil
-}
-
 func (m *NftTransferStatusDetail) GetTransferStatus() int32 {
 	if m != nil {
 		return m.TransferStatus
@@ -90,6 +88,48 @@ func (m *NftTransferStatusDetail) GetTransactionHash() string {
 	return ""
 }
 
+func (m *NftTransferStatusDetail) GetNftTokenId() string {
+	if m != nil {
+		return m.NftTokenId
+	}
+	return ""
+}
+
+func (m *NftTransferStatusDetail) GetNftSrcChain() int32 {
+	if m != nil {
+		return m.NftSrcChain
+	}
+	return 0
+}
+
+func (m *NftTransferStatusDetail) GetNftSrcAddr() string {
+	if m != nil {
+		return m.NftSrcAddr
+	}
+	return ""
+}
+
+func (m *NftTransferStatusDetail) GetNftDestChain() int32 {
+	if m != nil {
+		return m.NftDestChain
+	}
+	return 0
+}
+
+func (m *NftTransferStatusDetail) GetNftDestAddr() string {
+	if m != nil {
+		return m.NftDestAddr
+	}
+	return ""
+}
+
+func (m *NftTransferStatusDetail) GetReservedAt() int32 {
+	if m != nil {
+		return m.ReservedAt
+	}
+	return 0
+}
+
 func init() {
 	proto.RegisterType((*NftTransferStatusDetail)(nil), "nti.nti.NftTransferStatusDetail")
 }
@@ -99,22 +139,26 @@ func init() {
 }
 
 var fileDescriptor_8999ace8997f812b = []byte{
-	// 238 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x52, 0xc9, 0x2b, 0xc9, 0xd4,
-	0xcf, 0x4b, 0x2b, 0x89, 0x2f, 0x29, 0x4a, 0xcc, 0x2b, 0x4e, 0x4b, 0x2d, 0x8a, 0x2f, 0x2e, 0x49,
-	0x2c, 0x29, 0x2d, 0x8e, 0x4f, 0x49, 0x2d, 0x49, 0xcc, 0xcc, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9,
-	0x17, 0x62, 0xcf, 0x2b, 0xc9, 0xd4, 0xcb, 0x2b, 0xc9, 0x94, 0x92, 0x07, 0x29, 0x2f, 0x4a, 0x2d,
-	0x4e, 0x2d, 0x2a, 0x4b, 0x4d, 0x89, 0x47, 0xd6, 0x07, 0x51, 0xa9, 0x74, 0x9e, 0x91, 0x4b, 0xdc,
-	0x2f, 0xad, 0x24, 0x04, 0x2a, 0x1a, 0x0c, 0x36, 0xcc, 0x05, 0x6c, 0x96, 0x90, 0x02, 0x17, 0x37,
-	0x4c, 0xab, 0x77, 0x6a, 0xa5, 0x04, 0xa3, 0x02, 0xa3, 0x06, 0x67, 0x10, 0xb2, 0x90, 0x90, 0x03,
-	0x17, 0x0f, 0x8c, 0xeb, 0x92, 0x58, 0x92, 0x28, 0xc1, 0xa4, 0xc0, 0xa8, 0xc1, 0x6d, 0x24, 0xa3,
-	0x07, 0xb5, 0x5e, 0x2f, 0x08, 0x2a, 0x89, 0x64, 0x43, 0x10, 0x8a, 0x0e, 0x21, 0x35, 0x2e, 0xbe,
-	0x12, 0x14, 0xbb, 0x25, 0x98, 0x15, 0x18, 0x35, 0x58, 0x83, 0xd0, 0x44, 0x85, 0x34, 0xb8, 0xf8,
-	0xc1, 0x22, 0x89, 0xc9, 0x25, 0x99, 0xf9, 0x79, 0x1e, 0x89, 0xc5, 0x19, 0x12, 0x2c, 0x60, 0xf7,
-	0xa0, 0x0b, 0x3b, 0x69, 0x9e, 0x78, 0x24, 0xc7, 0x78, 0xe1, 0x91, 0x1c, 0xe3, 0x83, 0x47, 0x72,
-	0x8c, 0x13, 0x1e, 0xcb, 0x31, 0x5c, 0x78, 0x2c, 0xc7, 0x70, 0xe3, 0xb1, 0x1c, 0x43, 0x14, 0x3f,
-	0x28, 0x30, 0x2a, 0xf4, 0x41, 0x64, 0x49, 0x65, 0x41, 0x6a, 0x71, 0x12, 0x1b, 0x38, 0x0c, 0x8c,
-	0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0xd8, 0x1d, 0xdd, 0x2a, 0x55, 0x01, 0x00, 0x00,
+	// 298 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x5c, 0x91, 0x41, 0x4b, 0xf3, 0x30,
+	0x18, 0xc7, 0x9b, 0xbd, 0xef, 0x36, 0x17, 0xc5, 0x41, 0x2e, 0x06, 0x0f, 0xb1, 0x0c, 0x91, 0x7a,
+	0xd9, 0x0e, 0x7e, 0x82, 0xe9, 0x0e, 0x8a, 0xe0, 0x61, 0xdd, 0xc9, 0x4b, 0x89, 0x6d, 0xc2, 0x82,
+	0x92, 0x8e, 0xe4, 0x51, 0xdc, 0xb7, 0xf0, 0x63, 0x79, 0xdc, 0x45, 0xf0, 0x28, 0xed, 0x17, 0x91,
+	0xa4, 0x9d, 0x64, 0xbb, 0x14, 0xfa, 0xe3, 0xf9, 0xff, 0xfe, 0x49, 0x1e, 0x7c, 0xae, 0x41, 0x4d,
+	0xb4, 0x84, 0x0c, 0x0c, 0xd7, 0x56, 0x0a, 0x93, 0x59, 0xe0, 0xf0, 0x6a, 0xb3, 0x42, 0x00, 0x57,
+	0x2f, 0xe3, 0x95, 0x29, 0xa1, 0x24, 0x7d, 0x0d, 0x6a, 0xac, 0x41, 0x9d, 0x9e, 0xb9, 0x71, 0x23,
+	0xac, 0x30, 0x6f, 0xa2, 0xc8, 0xc2, 0x5c, 0x33, 0x39, 0xfa, 0xea, 0xe0, 0x93, 0x07, 0x09, 0x8b,
+	0x96, 0xa6, 0x5e, 0x36, 0xf3, 0x2e, 0x12, 0xe3, 0xc3, 0x6d, 0xf4, 0x5e, 0xac, 0x29, 0x8a, 0x51,
+	0x32, 0x98, 0x87, 0x88, 0x5c, 0xe0, 0x63, 0xd8, 0x49, 0xd2, 0x4e, 0x8c, 0x92, 0xee, 0x7c, 0x8f,
+	0x92, 0x04, 0x0f, 0x3d, 0xe1, 0x39, 0xa8, 0x52, 0xdf, 0x72, 0xbb, 0xa4, 0xff, 0xbc, 0x6d, 0x1f,
+	0x13, 0x86, 0xb1, 0x96, 0xb0, 0x28, 0x9f, 0x85, 0xbe, 0x2b, 0xe8, 0x7f, 0x3f, 0x14, 0x10, 0x77,
+	0x26, 0x2d, 0x21, 0x35, 0xf9, 0xcd, 0x92, 0x2b, 0x4d, 0xbb, 0xbe, 0x2e, 0x44, 0xad, 0x21, 0x35,
+	0xf9, 0xb4, 0x28, 0x0c, 0xed, 0xfd, 0x19, 0x5a, 0x42, 0x46, 0xf8, 0x48, 0x4b, 0x98, 0x09, 0x0b,
+	0x8d, 0xa2, 0xef, 0x15, 0x3b, 0xac, 0x6d, 0x71, 0xff, 0x5e, 0x72, 0xd0, 0xdc, 0x3c, 0x40, 0xae,
+	0x65, 0xfb, 0x10, 0x53, 0xa0, 0x03, 0xef, 0x08, 0xc8, 0xf5, 0xe5, 0x67, 0xc5, 0xd0, 0xa6, 0x62,
+	0xe8, 0xa7, 0x62, 0xe8, 0xa3, 0x66, 0xd1, 0xa6, 0x66, 0xd1, 0x77, 0xcd, 0xa2, 0xc7, 0xa1, 0x5b,
+	0xc9, 0xfb, 0xc4, 0x7d, 0x61, 0xbd, 0x12, 0xf6, 0xa9, 0xe7, 0x37, 0x71, 0xf5, 0x1b, 0x00, 0x00,
+	0xff, 0xff, 0x51, 0x04, 0xc6, 0x46, 0xdb, 0x01, 0x00, 0x00,
 }
 
 func (m *NftTransferStatusDetail) Marshal() (dAtA []byte, err error) {
@@ -137,29 +181,53 @@ func (m *NftTransferStatusDetail) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	_ = i
 	var l int
 	_ = l
+	if m.ReservedAt != 0 {
+		i = encodeVarintNftTransferStatusDetail(dAtA, i, uint64(m.ReservedAt))
+		i--
+		dAtA[i] = 0x48
+	}
+	if len(m.NftDestAddr) > 0 {
+		i -= len(m.NftDestAddr)
+		copy(dAtA[i:], m.NftDestAddr)
+		i = encodeVarintNftTransferStatusDetail(dAtA, i, uint64(len(m.NftDestAddr)))
+		i--
+		dAtA[i] = 0x42
+	}
+	if m.NftDestChain != 0 {
+		i = encodeVarintNftTransferStatusDetail(dAtA, i, uint64(m.NftDestChain))
+		i--
+		dAtA[i] = 0x38
+	}
+	if len(m.NftSrcAddr) > 0 {
+		i -= len(m.NftSrcAddr)
+		copy(dAtA[i:], m.NftSrcAddr)
+		i = encodeVarintNftTransferStatusDetail(dAtA, i, uint64(len(m.NftSrcAddr)))
+		i--
+		dAtA[i] = 0x32
+	}
+	if m.NftSrcChain != 0 {
+		i = encodeVarintNftTransferStatusDetail(dAtA, i, uint64(m.NftSrcChain))
+		i--
+		dAtA[i] = 0x28
+	}
+	if len(m.NftTokenId) > 0 {
+		i -= len(m.NftTokenId)
+		copy(dAtA[i:], m.NftTokenId)
+		i = encodeVarintNftTransferStatusDetail(dAtA, i, uint64(len(m.NftTokenId)))
+		i--
+		dAtA[i] = 0x22
+	}
 	if len(m.TransactionHash) > 0 {
 		i -= len(m.TransactionHash)
 		copy(dAtA[i:], m.TransactionHash)
 		i = encodeVarintNftTransferStatusDetail(dAtA, i, uint64(len(m.TransactionHash)))
 		i--
-		dAtA[i] = 0x22
+		dAtA[i] = 0x1a
 	}
 	if m.TransferStatus != 0 {
 		i = encodeVarintNftTransferStatusDetail(dAtA, i, uint64(m.TransferStatus))
 		i--
-		dAtA[i] = 0x18
-	}
-	if m.ReservedData != nil {
-		{
-			size, err := m.ReservedData.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintNftTransferStatusDetail(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0x12
+		dAtA[i] = 0x10
 	}
 	if len(m.ReservedKey) > 0 {
 		i -= len(m.ReservedKey)
@@ -192,16 +260,33 @@ func (m *NftTransferStatusDetail) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovNftTransferStatusDetail(uint64(l))
 	}
-	if m.ReservedData != nil {
-		l = m.ReservedData.Size()
-		n += 1 + l + sovNftTransferStatusDetail(uint64(l))
-	}
 	if m.TransferStatus != 0 {
 		n += 1 + sovNftTransferStatusDetail(uint64(m.TransferStatus))
 	}
 	l = len(m.TransactionHash)
 	if l > 0 {
 		n += 1 + l + sovNftTransferStatusDetail(uint64(l))
+	}
+	l = len(m.NftTokenId)
+	if l > 0 {
+		n += 1 + l + sovNftTransferStatusDetail(uint64(l))
+	}
+	if m.NftSrcChain != 0 {
+		n += 1 + sovNftTransferStatusDetail(uint64(m.NftSrcChain))
+	}
+	l = len(m.NftSrcAddr)
+	if l > 0 {
+		n += 1 + l + sovNftTransferStatusDetail(uint64(l))
+	}
+	if m.NftDestChain != 0 {
+		n += 1 + sovNftTransferStatusDetail(uint64(m.NftDestChain))
+	}
+	l = len(m.NftDestAddr)
+	if l > 0 {
+		n += 1 + l + sovNftTransferStatusDetail(uint64(l))
+	}
+	if m.ReservedAt != 0 {
+		n += 1 + sovNftTransferStatusDetail(uint64(m.ReservedAt))
 	}
 	return n
 }
@@ -274,42 +359,6 @@ func (m *NftTransferStatusDetail) Unmarshal(dAtA []byte) error {
 			m.ReservedKey = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ReservedData", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowNftTransferStatusDetail
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthNftTransferStatusDetail
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthNftTransferStatusDetail
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.ReservedData == nil {
-				m.ReservedData = &ReservedNftTransfer{}
-			}
-			if err := m.ReservedData.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 3:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TransferStatus", wireType)
 			}
@@ -328,7 +377,7 @@ func (m *NftTransferStatusDetail) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 4:
+		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TransactionHash", wireType)
 			}
@@ -360,6 +409,159 @@ func (m *NftTransferStatusDetail) Unmarshal(dAtA []byte) error {
 			}
 			m.TransactionHash = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NftTokenId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNftTransferStatusDetail
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNftTransferStatusDetail
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNftTransferStatusDetail
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NftTokenId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NftSrcChain", wireType)
+			}
+			m.NftSrcChain = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNftTransferStatusDetail
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.NftSrcChain |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NftSrcAddr", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNftTransferStatusDetail
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNftTransferStatusDetail
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNftTransferStatusDetail
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NftSrcAddr = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 7:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NftDestChain", wireType)
+			}
+			m.NftDestChain = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNftTransferStatusDetail
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.NftDestChain |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 8:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NftDestAddr", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNftTransferStatusDetail
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthNftTransferStatusDetail
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthNftTransferStatusDetail
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NftDestAddr = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 9:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ReservedAt", wireType)
+			}
+			m.ReservedAt = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowNftTransferStatusDetail
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ReservedAt |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipNftTransferStatusDetail(dAtA[iNdEx:])

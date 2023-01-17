@@ -56,8 +56,13 @@ func getTransferStatusDetail(k Keeper, ctx sdk.Context, reservedNftTransfer type
 
 	return types.NftTransferStatusDetail{
 		ReservedKey:     reservedKey,
-		ReservedData:    &reservedNftTransfer,
 		TransferStatus:  int32(transferStatus),
 		TransactionHash: transactionHash,
+		NftTokenId:      reservedNftTransfer.NftTokenId,
+		NftSrcChain:     reservedNftTransfer.NftSrcChain,
+		NftSrcAddr:      reservedNftTransfer.NftSrcAddr,
+		NftDestChain:    reservedNftTransfer.NftDestChain,
+		NftDestAddr:     reservedNftTransfer.NftDestAddr,
+		ReservedAt:      reservedNftTransfer.CreatedAt,
 	}, nil
 }

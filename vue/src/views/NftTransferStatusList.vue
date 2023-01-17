@@ -3,7 +3,6 @@
     <page-title title="NFT Transfer Status"></page-title>
     <nft-transfer-status-list-form
     @getNftTransferStatus="getNftTransferStatus"></nft-transfer-status-list-form>
-    items: {{ nftTransferStatusList }}
     <nft-transfer-status-list-table
     :items="nftTransferStatusList"></nft-transfer-status-list-table>
   </div>
@@ -37,7 +36,18 @@ export default {
                     params: values
                 })?.nftTransferStatusDetail ?? []
             )
+            console.log(data)
             nftTransferStatusList.value = data
+            // nftTransferStatusList.value = {
+                // reservedKey: data.reservedKey,
+                // transferStatus: data.transferStatus,
+                // transactionHash: data.transactionHash,
+                // tokenId: data.reservedData.nftTokenId,
+                // srcChain: data.reservedData.nftSrcChain,
+                // srcAddr: data.reservedData.nftSrcAddr,
+                // destChain: data.reservedData.nftDestChain,
+                // destAddr: data.reservedData.nftDestAddr,
+            // }
         }
 
         return {

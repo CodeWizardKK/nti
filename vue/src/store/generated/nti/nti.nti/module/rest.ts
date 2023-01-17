@@ -50,11 +50,22 @@ export interface NtiNftTransferStatus {
 
 export interface NtiNftTransferStatusDetail {
   reservedKey?: string;
-  reservedData?: NtiReservedNftTransfer;
 
   /** @format int32 */
   transferStatus?: number;
   transactionHash?: string;
+  nftTokenId?: string;
+
+  /** @format int32 */
+  nftSrcChain?: number;
+  nftSrcAddr?: string;
+
+  /** @format int32 */
+  nftDestChain?: number;
+  nftDestAddr?: string;
+
+  /** @format int32 */
+  reservedAt?: number;
 }
 
 /**
