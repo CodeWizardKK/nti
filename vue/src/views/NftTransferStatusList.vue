@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-title title="NFT Transfer Status"></page-title>
+    <page-title title="NFT Transfer Status Explorer"></page-title>
     <nft-transfer-status-list-form
     @getNftTransferStatus="getNftTransferStatus"></nft-transfer-status-list-form>
     <nft-transfer-status-list-table

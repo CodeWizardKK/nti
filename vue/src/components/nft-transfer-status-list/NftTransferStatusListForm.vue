@@ -3,7 +3,6 @@
     <!-- You can use the field component to wrap a q-* component -->
     <!-- Do this if you have only one or a few places that need validation -->
 
-    <a-card>
       <Field name="chain" v-slot="{ value, handleChange, errorMessage }">
         <a-form-item
           label="Blockchain"
@@ -41,12 +40,10 @@
         </a-form-item>
       </Field>
 
-    </a-card>
+      <a-form-item>
+        <a-button type="primary" html-type="submit">Search</a-button>
+      </a-form-item>
     <br />
-
-    <a-form-item>
-      <a-button type="primary" html-type="submit">Search</a-button>
-    </a-form-item>
   </Form>
 </template>
 
