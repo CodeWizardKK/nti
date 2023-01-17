@@ -9,3 +9,19 @@ export const blockchainOpts = [
   { value: Blockchain.BTC, label: "BTC", prefix: "" },
   { value: Blockchain.AVAX, label: "AVAX", prefix: "" },
 ]
+
+export enum TransferStatus {
+  Reserved,
+  Confirmed,
+  Expired,
+  Waiting,
+  Completed
+}
+
+export const transferStatusOpts = [
+  { value: TransferStatus.Reserved, label: "Reserved" },
+  { value: TransferStatus.Confirmed, label: "Confirmed" },
+  { value: TransferStatus.Expired, label: "Expired" },
+  { value: TransferStatus.Waiting, label: "Waiting" },
+  { value: TransferStatus.Completed, label: "Completed" },
+]

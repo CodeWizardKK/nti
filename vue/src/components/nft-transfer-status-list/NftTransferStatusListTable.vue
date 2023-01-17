@@ -5,6 +5,9 @@
                 <template v-if="isChainColumn(column.key)">
                     {{ blockchainLabel(record[column.key]) }}
                 </template>
+                <template v-if="isStatusColumn(column.key)">
+                    <a-tag color="blue">{{ transferStatusLabel(record[column.key]) }}</a-tag>
+                </template>
             </template>
         </a-table>
     </div>
@@ -12,11 +15,11 @@
 
 <script lang="ts">
 import { computed } from 'vue'
-import { blockchainOpts } from '../../const';
+import { blockchainOpts, transferStatusOpts } from '../../const';
 
 const blockchainProps = [
-    "srcChain",
-    "destChain"
+    "nftSrcChain",
+    "nftDestChain"
 ]
 
 const columns = [
@@ -37,28 +40,28 @@ const columns = [
     },
     {
         title: 'Token ID',
-        dataIndex: 'reservedData',
-        key: 'reservedData',
+        dataIndex: 'nftTokenId',
+        key: 'nftTokenId',
     },
     {
         title: 'Source chain',
-        dataIndex: 'srcChain',
-        key: 'srcChain',
+        dataIndex: 'nftSrcChain',
+        key: 'nftSrcChain',
     },
     {
         title: 'Source address',
-        dataIndex: 'srcAddr',
-        key: 'srcAddr',
+        dataIndex: 'nftSrcAddr',
+        key: 'nftSrcAddr',
     },
     {
         title: 'Destination chain',
-        dataIndex: 'destChain',
-        key: 'destChain',
+        dataIndex: 'nftDestChain',
+        key: 'nftDestChain',
     },
     {
         title: 'Destination address',
-        dataIndex: 'destAddr',
-        key: 'destAddr',
+        dataIndex: 'nftDestAddr',
+        key: 'nftDestAddr',
     },
 ];
 
@@ -73,20 +76,34 @@ export default {
             return blockchainProps.includes(prop)
         }
 
-        const blockchainLabel = (value: number) => {
-            for (const blockchainOpt of blockchainOpts) {
-                if (blockchainOpt.value == value) {
-                    return blockchainOpt.label
+        const isStatusColumn = (prop: string) => {
+            return prop == 'transferStatus'
+        }
+
+        const getLabel = (value: number, opts: any) => {
+            for (const opt of opts) {
+                if (opt.value == value) {
+                    return opt.label
                 }
             }
             return null
+        }
+
+        const blockchainLabel = (value: number) => {
+            return getLabel(value, blockchainOpts)
+        }
+
+        const transferStatusLabel = (value: number) => {
+            return getLabel(value, transferStatusOpts)
         }
 
         return {
             columns,
             items,
             isChainColumn,
+            isStatusColumn,
             blockchainLabel,
+            transferStatusLabel,
         }
     }
 };
