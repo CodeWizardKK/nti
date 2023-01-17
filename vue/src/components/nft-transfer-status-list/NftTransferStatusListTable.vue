@@ -8,6 +8,12 @@
                 <template v-if="isStatusColumn(column.key)">
                     <a-tag color="blue">{{ transferStatusLabel(record[column.key]) }}</a-tag>
                 </template>
+                <template v-if="isLongCharColumn(column.key)">
+                    <a-typography-text
+                    style="width: 100px;"
+                    ellipsis
+                    :content="record[column.key]"/>
+                </template>
             </template>
         </a-table>
     </div>
@@ -20,6 +26,13 @@ import { blockchainOpts, transferStatusOpts } from '../../const';
 const blockchainProps = [
     "nftSrcChain",
     "nftDestChain"
+]
+
+const longCharProps = [
+    "reservedKey",
+    "transactionHash",
+    "nftSrcAddr",
+    "nftDestAddr"
 ]
 
 const columns = [
@@ -80,6 +93,10 @@ export default {
             return prop == 'transferStatus'
         }
 
+        const isLongCharColumn = (prop: string) => {
+            return longCharProps.includes(prop)
+        }
+
         const getLabel = (value: number, opts: any) => {
             for (const opt of opts) {
                 if (opt.value == value) {
@@ -102,6 +119,7 @@ export default {
             items,
             isChainColumn,
             isStatusColumn,
+            isLongCharColumn,
             blockchainLabel,
             transferStatusLabel,
         }
