@@ -60,8 +60,9 @@
         </a-form-item>
       </Field>
     </a-card>
-    <br />
-
+    <div style="text-align: center;">
+      <caret-down-outlined style="font-size: 30px;" />
+    </div>
     <a-card title="Destination: ONFET Kitties（NFT）">
       <template #extra>Contract: 
         <a
@@ -120,6 +121,7 @@
 import { Field, Form } from 'vee-validate';
 import { ref, Ref } from 'vue';
 import * as yup from 'yup';
+import { CaretDownOutlined } from '@ant-design/icons-vue';
 import useAccount from '../../composables/useAccount';
 import useAddress from '../../composables/useAddress';
 import { blockchainOpts, destContractAddr, srcContractAddr } from '../../const';
