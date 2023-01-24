@@ -1,6 +1,7 @@
 <template>
   <div>
     <page-title title="NFT Transfer Status Explorer"></page-title>
+    {{ searchParams }}
     <a-tabs v-model:activeKey="activeKey">
         <a-tab-pane key="1" tab="Search by Address">
             <nft-transfer-status-list-form
@@ -14,7 +15,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import PageTitle from '../components/common/PageTitle.vue';
 import NftTransferStatusListForm from '../components/nft-transfer-status-list/NftTransferStatusListForm.vue';
@@ -28,25 +29,34 @@ export default {
     },
     setup() {
         const activeKey = ref('1')
-        const nftTransferStatusList = ref([])
+        const searchParams = reactive({
+            chain: NaN,
+            walletAddr: ""
+        })
+
+        // computed
+        const nftTransferStatusList = computed(() => {
+            return (
+                $s.getters["nti.nti/getNftTransferStatusOfAddress"]({
+                    params: searchParams
+                })?.nftTransferStatusDetail ?? []
+            )
+        })
 
         // store
         let $s = useStore()
 
         const getNftTransferStatus = async (values) => {
             console.log(values)
-            await $s.dispatch("nti.nti/QueryNftTransferStatusOfAddress", { options:{}, params:values })
-            const data = (
-                $s.getters["nti.nti/getNftTransferStatusOfAddress"]({
-                    params: values
-                })?.nftTransferStatusDetail ?? []
-            )
-            nftTransferStatusList.value = data
+            await $s.dispatch("nti.nti/QueryNftTransferStatusOfAddress", { options:{subscribe:true, all:true}, params:values })
+            searchParams.chain = values.chain
+            searchParams.walletAddr = values.walletAddr
         }
 
         return {
             activeKey,
             nftTransferStatusList,
+            searchParams,
             getNftTransferStatus,
         }
     }
