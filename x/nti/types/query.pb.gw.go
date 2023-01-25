@@ -359,7 +359,7 @@ func request_Query_NftTransferStatusOfToken_0(ctx context.Context, marshaler run
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "chain")
 	}
 
-	protoReq.Chain, err = runtime.String(val)
+	protoReq.Chain, err = runtime.Int32(val)
 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "chain", err)
@@ -415,7 +415,7 @@ func local_request_Query_NftTransferStatusOfToken_0(ctx context.Context, marshal
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "chain")
 	}
 
-	protoReq.Chain, err = runtime.String(val)
+	protoReq.Chain, err = runtime.Int32(val)
 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "chain", err)
@@ -475,7 +475,7 @@ func request_Query_NftTransferStatusOfAddress_0(ctx context.Context, marshaler r
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "chain")
 	}
 
-	protoReq.Chain, err = runtime.String(val)
+	protoReq.Chain, err = runtime.Int32(val)
 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "chain", err)
@@ -520,7 +520,7 @@ func local_request_Query_NftTransferStatusOfAddress_0(ctx context.Context, marsh
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "chain")
 	}
 
-	protoReq.Chain, err = runtime.String(val)
+	protoReq.Chain, err = runtime.Int32(val)
 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "chain", err)

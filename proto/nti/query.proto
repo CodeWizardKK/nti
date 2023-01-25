@@ -136,7 +136,7 @@ message QueryAllNftMintResponse {
 }
 
 message QueryNftTransferStatusOfTokenRequest {
-	string chain = 1;
+	int32 chain = 1;
 	string contractAddr = 2;
 	string tokenId = 3;
 cosmos.base.query.v1beta1.PageRequest pagination = 4;
@@ -148,7 +148,7 @@ message QueryNftTransferStatusOfTokenResponse {
 }
 
 message QueryNftTransferStatusOfAddressRequest {
-	string chain = 1;
+	int32 chain = 1;
 	string walletAddr = 2;
 cosmos.base.query.v1beta1.PageRequest pagination = 3;
 }

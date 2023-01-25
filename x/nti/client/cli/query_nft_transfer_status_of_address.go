@@ -3,10 +3,12 @@ package cli
 import (
 	"strconv"
 
+	"nti/x/nti/types"
+
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
+	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
-	"nti/x/nti/types"
 )
 
 var _ = strconv.Itoa(0)
@@ -17,7 +19,10 @@ func CmdNftTransferStatusOfAddress() *cobra.Command {
 		Short: "Query nftTransferStatusOfAddress",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			reqChain := args[0]
+			reqChain, err := cast.ToInt32E(args[0])
+			if err != nil {
+				return err
+			}
 			reqWalletAddr := args[1]
 
 			clientCtx, err := client.GetClientTxContext(cmd)

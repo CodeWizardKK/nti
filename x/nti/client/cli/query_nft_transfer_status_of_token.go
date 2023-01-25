@@ -3,10 +3,12 @@ package cli
 import (
 	"strconv"
 
+	"nti/x/nti/types"
+
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
+	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
-	"nti/x/nti/types"
 )
 
 var _ = strconv.Itoa(0)
@@ -17,7 +19,10 @@ func CmdNftTransferStatusOfToken() *cobra.Command {
 		Short: "Query nftTransferStatusOfToken",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			reqChain := args[0]
+			reqChain, err := cast.ToInt32E(args[0])
+			if err != nil {
+				return err
+			}
 			reqContractAddr := args[1]
 			reqTokenId := args[2]
 

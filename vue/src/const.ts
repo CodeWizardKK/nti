@@ -9,8 +9,8 @@ export enum Blockchain {
 
 export const blockchainOpts = [
   { value: Blockchain.ETH, label: "ETH", prefix: "0x" },
-  { value: Blockchain.BTC, label: "BTC", prefix: "" },
-  { value: Blockchain.AVAX, label: "AVAX", prefix: "" },
+  { value: Blockchain.BTC, label: "SOL", prefix: "" },
+  { value: Blockchain.AVAX, label: "BSC", prefix: "0x" },
 ]
 
 export enum TransferStatus {

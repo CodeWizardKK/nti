@@ -578,7 +578,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @request GET:/nti/nti/nft_transfer_status_of_address/{chain}/{walletAddr}
    */
   queryNftTransferStatusOfAddress = (
-    chain: string,
+    chain: number,
     walletAddr: string,
     query?: {
       "pagination.key"?: string;
@@ -606,7 +606,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @request GET:/nti/nti/nft_transfer_status_of_token/{chain}/{contractAddr}/{tokenId}
    */
   queryNftTransferStatusOfToken = (
-    chain: string,
+    chain: number,
     contractAddr: string,
     tokenId: string,
     query?: {

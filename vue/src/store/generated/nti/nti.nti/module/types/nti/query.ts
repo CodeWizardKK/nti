@@ -80,7 +80,7 @@ export interface QueryAllNftMintResponse {
 }
 
 export interface QueryNftTransferStatusOfTokenRequest {
-  chain: string;
+  chain: number;
   contractAddr: string;
   tokenId: string;
   pagination: PageRequest | undefined;
@@ -92,7 +92,7 @@ export interface QueryNftTransferStatusOfTokenResponse {
 }
 
 export interface QueryNftTransferStatusOfAddressRequest {
-  chain: string;
+  chain: number;
   walletAddr: string;
   pagination: PageRequest | undefined;
 }
@@ -1287,7 +1287,7 @@ export const QueryAllNftMintResponse = {
 };
 
 const baseQueryNftTransferStatusOfTokenRequest: object = {
-  chain: "",
+  chain: 0,
   contractAddr: "",
   tokenId: "",
 };
@@ -1297,8 +1297,8 @@ export const QueryNftTransferStatusOfTokenRequest = {
     message: QueryNftTransferStatusOfTokenRequest,
     writer: Writer = Writer.create()
   ): Writer {
-    if (message.chain !== "") {
-      writer.uint32(10).string(message.chain);
+    if (message.chain !== 0) {
+      writer.uint32(8).int32(message.chain);
     }
     if (message.contractAddr !== "") {
       writer.uint32(18).string(message.contractAddr);
@@ -1325,7 +1325,7 @@ export const QueryNftTransferStatusOfTokenRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.chain = reader.string();
+          message.chain = reader.int32();
           break;
         case 2:
           message.contractAddr = reader.string();
@@ -1349,9 +1349,9 @@ export const QueryNftTransferStatusOfTokenRequest = {
       ...baseQueryNftTransferStatusOfTokenRequest,
     } as QueryNftTransferStatusOfTokenRequest;
     if (object.chain !== undefined && object.chain !== null) {
-      message.chain = String(object.chain);
+      message.chain = Number(object.chain);
     } else {
-      message.chain = "";
+      message.chain = 0;
     }
     if (object.contractAddr !== undefined && object.contractAddr !== null) {
       message.contractAddr = String(object.contractAddr);
@@ -1393,7 +1393,7 @@ export const QueryNftTransferStatusOfTokenRequest = {
     if (object.chain !== undefined && object.chain !== null) {
       message.chain = object.chain;
     } else {
-      message.chain = "";
+      message.chain = 0;
     }
     if (object.contractAddr !== undefined && object.contractAddr !== null) {
       message.contractAddr = object.contractAddr;
@@ -1528,7 +1528,7 @@ export const QueryNftTransferStatusOfTokenResponse = {
 };
 
 const baseQueryNftTransferStatusOfAddressRequest: object = {
-  chain: "",
+  chain: 0,
   walletAddr: "",
 };
 
@@ -1537,8 +1537,8 @@ export const QueryNftTransferStatusOfAddressRequest = {
     message: QueryNftTransferStatusOfAddressRequest,
     writer: Writer = Writer.create()
   ): Writer {
-    if (message.chain !== "") {
-      writer.uint32(10).string(message.chain);
+    if (message.chain !== 0) {
+      writer.uint32(8).int32(message.chain);
     }
     if (message.walletAddr !== "") {
       writer.uint32(18).string(message.walletAddr);
@@ -1562,7 +1562,7 @@ export const QueryNftTransferStatusOfAddressRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.chain = reader.string();
+          message.chain = reader.int32();
           break;
         case 2:
           message.walletAddr = reader.string();
@@ -1583,9 +1583,9 @@ export const QueryNftTransferStatusOfAddressRequest = {
       ...baseQueryNftTransferStatusOfAddressRequest,
     } as QueryNftTransferStatusOfAddressRequest;
     if (object.chain !== undefined && object.chain !== null) {
-      message.chain = String(object.chain);
+      message.chain = Number(object.chain);
     } else {
-      message.chain = "";
+      message.chain = 0;
     }
     if (object.walletAddr !== undefined && object.walletAddr !== null) {
       message.walletAddr = String(object.walletAddr);
@@ -1620,7 +1620,7 @@ export const QueryNftTransferStatusOfAddressRequest = {
     if (object.chain !== undefined && object.chain !== null) {
       message.chain = object.chain;
     } else {
-      message.chain = "";
+      message.chain = 0;
     }
     if (object.walletAddr !== undefined && object.walletAddr !== null) {
       message.walletAddr = object.walletAddr;
