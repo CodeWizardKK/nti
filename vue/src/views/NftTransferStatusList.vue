@@ -4,7 +4,7 @@
     <a-tabs v-model:activeKey="activeKey">
         <a-tab-pane key="1" tab="Search by Address">
             <nft-transfer-status-list-form
-            @getNftTransferStatus="getNftTransferStatus"></nft-transfer-status-list-form>
+            @subscribeNftTransferStatus="subscribeNftTransferStatus"></nft-transfer-status-list-form>
         </a-tab-pane>
         <a-tab-pane key="2" tab="Search by Token">Content of Tab Pane 2</a-tab-pane>
     </a-tabs>
@@ -27,7 +27,13 @@ export default {
         NftTransferStatusListTable
     },
     setup() {
+        // store
+        let $s = useStore()
+
+        // for search tabs
         const activeKey = ref('1')
+
+        const intervalId = ref(0)
         const searchParams = reactive({
             chain: NaN,
             walletAddr: ""
@@ -42,12 +48,13 @@ export default {
             )
         })
 
-        // store
-        let $s = useStore()
-
         const getNftTransferStatus = async (values) => {
-            console.log(values)
-            await $s.dispatch("nti.nti/QueryNftTransferStatusOfAddress", { options:{subscribe:true, all:true}, params:values })
+            await $s.dispatch("nti.nti/QueryNftTransferStatusOfAddress", { params:values })
+        }
+
+        const subscribeNftTransferStatus = async (values) => {
+            await clearInterval(intervalId.value)
+            intervalId.value = setInterval(getNftTransferStatus, 1000, values)
             searchParams.chain = values.chain
             searchParams.walletAddr = values.walletAddr
         }
@@ -56,7 +63,7 @@ export default {
             activeKey,
             nftTransferStatusList,
             searchParams,
-            getNftTransferStatus,
+            subscribeNftTransferStatus,
         }
     }
 };

@@ -29,8 +29,6 @@ export default {
     const reserveNftTransfer = async (value) => {
       try {
         // Send Tx
-        console.log('Send msg reserve nft transer...')
-
         const feeAmount = [{
             denom: 'stake',
             amount: '16000000000',

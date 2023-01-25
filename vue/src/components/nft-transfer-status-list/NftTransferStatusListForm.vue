@@ -66,11 +66,11 @@ const onSelectChain = (value: any) => {
   chain.value = value
 }
 
-const emits = defineEmits(['getNftTransferStatus'])
+const emits = defineEmits(['subscribeNftTransferStatus'])
 
 const onSubmit = (values: any) => {
     values.walletAddr = addPrefix(values.walletAddr)
-    emits('getNftTransferStatus', values)
+    emits('subscribeNftTransferStatus', values)
 }
 
 </script>
