@@ -394,6 +394,8 @@ func New(
 		keys[ntimoduletypes.StoreKey],
 		keys[ntimoduletypes.MemStoreKey],
 		app.GetSubspace(ntimoduletypes.ModuleName),
+
+		app.BankKeeper,
 	)
 	ntiModule := ntimodule.NewAppModule(appCodec, app.NtiKeeper, app.AccountKeeper, app.BankKeeper)
 

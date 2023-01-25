@@ -4,20 +4,20 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgCreateNftMint } from "./types/nti/tx";
-import { MsgChangeStatus } from "./types/nti/tx";
-import { MsgUpdateNftMint } from "./types/nti/tx";
 import { MsgReserveNftTransfer } from "./types/nti/tx";
 import { MsgTransferNft } from "./types/nti/tx";
+import { MsgChangeStatus } from "./types/nti/tx";
+import { MsgCreateNftMint } from "./types/nti/tx";
+import { MsgUpdateNftMint } from "./types/nti/tx";
 import { MsgDeleteNftMint } from "./types/nti/tx";
 
 
 const types = [
-  ["/nti.nti.MsgCreateNftMint", MsgCreateNftMint],
-  ["/nti.nti.MsgChangeStatus", MsgChangeStatus],
-  ["/nti.nti.MsgUpdateNftMint", MsgUpdateNftMint],
   ["/nti.nti.MsgReserveNftTransfer", MsgReserveNftTransfer],
   ["/nti.nti.MsgTransferNft", MsgTransferNft],
+  ["/nti.nti.MsgChangeStatus", MsgChangeStatus],
+  ["/nti.nti.MsgCreateNftMint", MsgCreateNftMint],
+  ["/nti.nti.MsgUpdateNftMint", MsgUpdateNftMint],
   ["/nti.nti.MsgDeleteNftMint", MsgDeleteNftMint],
   
 ];
@@ -51,11 +51,11 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
-    msgCreateNftMint: (data: MsgCreateNftMint): EncodeObject => ({ typeUrl: "/nti.nti.MsgCreateNftMint", value: MsgCreateNftMint.fromPartial( data ) }),
-    msgChangeStatus: (data: MsgChangeStatus): EncodeObject => ({ typeUrl: "/nti.nti.MsgChangeStatus", value: MsgChangeStatus.fromPartial( data ) }),
-    msgUpdateNftMint: (data: MsgUpdateNftMint): EncodeObject => ({ typeUrl: "/nti.nti.MsgUpdateNftMint", value: MsgUpdateNftMint.fromPartial( data ) }),
     msgReserveNftTransfer: (data: MsgReserveNftTransfer): EncodeObject => ({ typeUrl: "/nti.nti.MsgReserveNftTransfer", value: MsgReserveNftTransfer.fromPartial( data ) }),
     msgTransferNft: (data: MsgTransferNft): EncodeObject => ({ typeUrl: "/nti.nti.MsgTransferNft", value: MsgTransferNft.fromPartial( data ) }),
+    msgChangeStatus: (data: MsgChangeStatus): EncodeObject => ({ typeUrl: "/nti.nti.MsgChangeStatus", value: MsgChangeStatus.fromPartial( data ) }),
+    msgCreateNftMint: (data: MsgCreateNftMint): EncodeObject => ({ typeUrl: "/nti.nti.MsgCreateNftMint", value: MsgCreateNftMint.fromPartial( data ) }),
+    msgUpdateNftMint: (data: MsgUpdateNftMint): EncodeObject => ({ typeUrl: "/nti.nti.MsgUpdateNftMint", value: MsgUpdateNftMint.fromPartial( data ) }),
     msgDeleteNftMint: (data: MsgDeleteNftMint): EncodeObject => ({ typeUrl: "/nti.nti.MsgDeleteNftMint", value: MsgDeleteNftMint.fromPartial( data ) }),
     
   };

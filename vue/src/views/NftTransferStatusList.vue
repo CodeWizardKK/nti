@@ -1,7 +1,6 @@
 <template>
   <div>
     <page-title title="NFT Transfer Status Explorer"></page-title>
-    {{ searchParams }}
     <a-tabs v-model:activeKey="activeKey">
         <a-tab-pane key="1" tab="Search by Address">
             <nft-transfer-status-list-form

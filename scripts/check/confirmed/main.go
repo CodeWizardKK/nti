@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"os/exec"
 	"strconv"
-	"strings"
 	"time"
 
 	"google.golang.org/grpc"
 
 	"nti/scripts/check"
+	"nti/util"
 	"nti/x/nti/keeper"
 	"nti/x/nti/types"
 )
@@ -35,10 +35,6 @@ func isReserveExpired(reserveNftTransfer types.ReservedNftTransfer) bool {
 	return int(time.Now().Unix()) > int(reserveNftTransfer.CreatedAt)+validSecond
 }
 
-func outToString(out []byte) string {
-	return strings.TrimRight(string(out), "\n")
-}
-
 func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, error) {
 	fmt.Println("Check whether the NFT is recieved...")
 
@@ -53,7 +49,7 @@ func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, er
 		return false, err
 	}
 
-	outInt, err := strconv.Atoi(outToString(out))
+	outInt, err := strconv.Atoi(util.OutToString(out))
 	if err != nil {
 		fmt.Println(err)
 		return false, err
@@ -83,7 +79,7 @@ func getTokenUri(reservedNftTransfer types.ReservedNftTransfer) (string, error) 
 		return "", err
 	}
 
-	tokenUri := outToString(out)
+	tokenUri := util.OutToString(out)
 	fmt.Printf("Token URI: %s\n", tokenUri)
 
 	return tokenUri, nil
@@ -106,7 +102,7 @@ func mintNft(reservedNftTransfer types.ReservedNftTransfer, tokenUri string) (st
 		return "", err
 	}
 
-	transactionHash := outToString(out)
+	transactionHash := util.OutToString(out)
 	fmt.Printf("NFT Minted! Check it out at: https://goerli.etherscan.io/tx/%s\n", transactionHash)
 
 	return transactionHash, nil

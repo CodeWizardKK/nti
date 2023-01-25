@@ -4,17 +4,46 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
+	"os/exec"
 	"strconv"
 	"strings"
 	"time"
 
+	"nti/util"
 	"nti/x/nti/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
+const transferFee = 10
+
+func getAdminAddr() (string, error) {
+	out, err := exec.Command("ntid", "keys", "show", "admin", "-a").Output()
+	if err != nil {
+		return "", err
+	}
+	return util.OutToString(out), nil
+}
+
 func (k msgServer) ReserveNftTransfer(goCtx context.Context, msg *types.MsgReserveNftTransfer) (*types.MsgReserveNftTransferResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	// Convert transfer fee to sdk.Coins
+	fee := sdk.Coins{sdk.NewInt64Coin("token", transferFee)}
+
+	// Convert owner and buyer address strings to sdk.AccAddress
+	adminAddr, err := getAdminAddr()
+	if err != nil {
+		return nil, err
+	}
+	admin, _ := sdk.AccAddressFromBech32(adminAddr)
+	creator, _ := sdk.AccAddressFromBech32(msg.Creator)
+
+	// Send tokens from the creator to the admin
+	err = k.bankKeeper.SendCoins(ctx, creator, admin, fee)
+	if err != nil {
+		return nil, err
+	}
 
 	// Generate reserved key.
 	elems := []string{
