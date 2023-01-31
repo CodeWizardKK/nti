@@ -1,3 +1,5 @@
+// cmd: node file-path.js token-id
+
 require('dotenv').config();
 const Moralis = require("moralis").default;
 const { EvmChain } = require("@moralisweb3/common-evm-utils");
@@ -8,11 +10,9 @@ const runApp = async () => {
     // ...and any other configuration
   });
   
-  const address = "0x48a192ca68E88B0A8De87aa713B6f8C87A42EbdA";
-
-    const chain = EvmChain.GOERLI;
-  
-  const tokenId = 1;
+  const address = process.env.CONTRACT_ADDRESS;
+  const chain = EvmChain.GOERLI;
+  const tokenId = process.argv[2];
 
   const response = await Moralis.EvmApi.nft.getNFTMetadata({
       address,
@@ -20,7 +20,7 @@ const runApp = async () => {
       tokenId,
   });
   
-  console.log(response.toJSON());
+  console.log(response.toJSON().token_uri);
 }
 
 runApp();
