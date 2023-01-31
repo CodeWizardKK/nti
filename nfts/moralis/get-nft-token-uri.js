@@ -1,9 +1,10 @@
+require('dotenv').config();
 const Moralis = require("moralis").default;
 const { EvmChain } = require("@moralisweb3/common-evm-utils");
 
 const runApp = async () => {
   await Moralis.start({
-    apiKey: "JVQxiry3w2BnTyXjgaTZjEo2dLzLBwiA6RdGpLIVfDSQgHtoB22fuypjsT5jxgxX",
+    apiKey: process.env.MORALIS_API_KEY,
     // ...and any other configuration
   });
   
