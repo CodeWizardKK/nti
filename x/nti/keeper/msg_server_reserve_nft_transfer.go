@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"nti/util"
+	"nti/internal/util"
 	"nti/x/nti/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"

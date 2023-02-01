@@ -1,5 +1,5 @@
 alchemy/node_modules
-nfts/node_modules
+pkg/nfts/node_modules
 vue/node_modules
 vue/dist
 release/

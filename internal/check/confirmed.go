@@ -8,7 +8,7 @@ import (
 
 	"google.golang.org/grpc"
 
-	"nti/util"
+	"nti/internal/util"
 	"nti/x/nti/keeper"
 	"nti/x/nti/types"
 )
