@@ -1,4 +1,4 @@
-package main
+package check
 
 import (
 	"fmt"
@@ -8,19 +8,11 @@ import (
 
 	"google.golang.org/grpc"
 
-	"nti/scripts/check"
 	"nti/x/nti/keeper"
 	"nti/x/nti/types"
 )
 
 const checkIsNftMintedPath = "/Users/rika/work/src/adon/nti/alchemy/check-is-nft-minted.js"
-
-type IsCompleted int
-
-const (
-	False IsCompleted = iota
-	True
-)
 
 func checkIsNftMinted(nftMint types.NftMint) (bool, error) {
 	fmt.Println("Check whether the NFT is minted...")
@@ -42,7 +34,7 @@ func checkIsNftMinted(nftMint types.NftMint) (bool, error) {
 		return false, err
 	}
 
-	switch IsCompleted(outInt) {
+	switch ResultBool(outInt) {
 	case False:
 		return false, nil
 	case True:
@@ -53,7 +45,7 @@ func checkIsNftMinted(nftMint types.NftMint) (bool, error) {
 	}
 }
 
-func main() {
+func CheckIsCompleted() {
 	// Create a connection to the gRPC server.
 	grpcConn, err := grpc.Dial(
 		"127.0.0.1:9090",    // your gRPC server address.
@@ -69,13 +61,13 @@ func main() {
 
 	// Check waiting keys.
 	fmt.Println("Check waiting keys...")
-	waitingKeys, err := check.GetReservedKeysOf(keeper.Waiting, queryClient)
+	waitingKeys, err := getReservedKeysOf(keeper.Waiting, queryClient)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	for _, reservedKey := range waitingKeys {
-		nftMint, err := check.GetNftMint(reservedKey, queryClient)
+		nftMint, err := getNftMint(reservedKey, queryClient)
 		if err != nil {
 			fmt.Println(err)
 			continue
@@ -89,7 +81,7 @@ func main() {
 		fmt.Printf("Check result is %v.\n", isCompleted)
 
 		if isCompleted {
-			err = check.ChangeStatus(reservedKey, keeper.Completed)
+			err = changeStatus(reservedKey, keeper.Completed)
 			if err != nil {
 				fmt.Println(err)
 				continue

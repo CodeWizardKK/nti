@@ -1,4 +1,4 @@
-package main
+package check
 
 import (
 	"fmt"
@@ -8,12 +8,12 @@ import (
 
 	"google.golang.org/grpc"
 
-	"nti/scripts/check"
 	"nti/util"
 	"nti/x/nti/keeper"
 	"nti/x/nti/types"
 )
 
+const appDir = ""
 const apiProvider = "moralis"
 const apiDir = "/Users/rika/work/src/adon/nti/nfts/" + apiProvider
 const alchemyDir = "/Users/rika/work/src/adon/nti/alchemy"
@@ -22,13 +22,6 @@ const getNftTokenUriPath = apiDir + "/get-nft-token-uri.js"
 const mintNftDir = "/Users/rika/work/src/learn/eth/my-nft"
 const mintNftPath = mintNftDir + "/scripts/mint-nft.js"
 const validSecond = 60 * 60 * 1000
-
-type IsConfirmed int
-
-const (
-	False IsConfirmed = iota
-	True
-)
 
 func isReserveExpired(reserveNftTransfer types.ReservedNftTransfer) bool {
 	fmt.Println("Check whether the reserve is expired...")
@@ -57,7 +50,7 @@ func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, er
 		return false, err
 	}
 
-	switch IsConfirmed(outInt) {
+	switch ResultBool(outInt) {
 	case False:
 		return false, nil
 	case True:
@@ -121,7 +114,7 @@ func createNftMint(reservedKey, transactionHash string) error {
 		reservedKey,
 		transactionHash,
 		"--fees",
-		check.Fees,
+		Fees,
 		"--from",
 		"bob",
 		"-y",
@@ -134,7 +127,7 @@ func createNftMint(reservedKey, transactionHash string) error {
 	return nil
 }
 
-func main() {
+func CheckIsConfirmed() {
 	// Create a connection to the gRPC server.
 	grpcConn, err := grpc.Dial(
 		"127.0.0.1:9090",    // your gRPC server address.
@@ -150,13 +143,13 @@ func main() {
 
 	// Check reserved keys.
 	fmt.Println("Check reserved keys...")
-	reservedKeys, err := check.GetReservedKeysOf(keeper.Reserved, queryClient)
+	reservedKeys, err := getReservedKeysOf(keeper.Reserved, queryClient)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	for _, reservedKey := range reservedKeys {
-		reservedNftTransfer, err := check.GetReservedNftTransfer(reservedKey, queryClient)
+		reservedNftTransfer, err := getReservedNftTransfer(reservedKey, queryClient)
 		if err != nil {
 			fmt.Println(err)
 			continue
@@ -170,7 +163,7 @@ func main() {
 		fmt.Printf("Check result is %v.\n", isConfirmed)
 
 		if isConfirmed {
-			err = check.ChangeStatus(reservedKey, keeper.Confirmed)
+			err = changeStatus(reservedKey, keeper.Confirmed)
 			if err != nil {
 				fmt.Println(err)
 				continue
@@ -181,7 +174,7 @@ func main() {
 			fmt.Printf("Check result is %v.\n", isExpired)
 
 			if isExpired {
-				err = check.ChangeStatus(reservedKey, keeper.Expired)
+				err = changeStatus(reservedKey, keeper.Expired)
 				if err != nil {
 					fmt.Println(err)
 					continue
@@ -192,13 +185,13 @@ func main() {
 
 	// Mint NFT for the confirmed reserves.
 	fmt.Println("Mint NFTs...")
-	confirmedKeys, err := check.GetReservedKeysOf(keeper.Confirmed, queryClient)
+	confirmedKeys, err := getReservedKeysOf(keeper.Confirmed, queryClient)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	for _, reservedKey := range confirmedKeys {
-		reservedNftTransfer, err := check.GetReservedNftTransfer(reservedKey, queryClient)
+		reservedNftTransfer, err := getReservedNftTransfer(reservedKey, queryClient)
 		if err != nil {
 			fmt.Println(err)
 			continue
@@ -224,7 +217,7 @@ func main() {
 			continue
 		}
 
-		err = check.ChangeStatus(reservedKey, keeper.Waiting)
+		err = changeStatus(reservedKey, keeper.Waiting)
 		if err != nil {
 			fmt.Println(err)
 			continue

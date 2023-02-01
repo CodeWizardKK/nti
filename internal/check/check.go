@@ -3,16 +3,24 @@ package check
 import (
 	"context"
 	"fmt"
-	"nti/x/nti/keeper"
-	"nti/x/nti/types"
 	"os/exec"
 	"reflect"
 	"strconv"
+
+	"nti/x/nti/keeper"
+	"nti/x/nti/types"
 )
 
 const Fees = "16000000000stake"
 
-func GetReservedKeysOf(status keeper.TransferStatus, queryClient types.QueryClient) ([]string, error) {
+type ResultBool int
+
+const (
+	False ResultBool = iota
+	True
+)
+
+func getReservedKeysOf(status keeper.TransferStatus, queryClient types.QueryClient) ([]string, error) {
 	fmt.Println("Get reserved keys of status xx...")
 
 	// Get NFT transfer status.
@@ -36,7 +44,7 @@ func GetReservedKeysOf(status keeper.TransferStatus, queryClient types.QueryClie
 	return reservedKeys, nil
 }
 
-func GetReservedNftTransfer(reservedKey string, queryClient types.QueryClient) (types.ReservedNftTransfer, error) {
+func getReservedNftTransfer(reservedKey string, queryClient types.QueryClient) (types.ReservedNftTransfer, error) {
 	fmt.Println("Get the reserved NFT transfer...")
 
 	params := &types.QueryGetReservedNftTransferRequest{
@@ -50,7 +58,7 @@ func GetReservedNftTransfer(reservedKey string, queryClient types.QueryClient) (
 	return res.GetReservedNftTransfer(), nil
 }
 
-func GetNftMint(reservedKey string, queryClient types.QueryClient) (types.NftMint, error) {
+func getNftMint(reservedKey string, queryClient types.QueryClient) (types.NftMint, error) {
 	fmt.Println("Get the NFT mint...")
 
 	params := &types.QueryGetNftMintRequest{
@@ -64,7 +72,7 @@ func GetNftMint(reservedKey string, queryClient types.QueryClient) (types.NftMin
 	return res.GetNftMint(), nil
 }
 
-func ChangeStatus(reservedKey string, to keeper.TransferStatus) error {
+func changeStatus(reservedKey string, to keeper.TransferStatus) error {
 	fmt.Println("Change status...")
 
 	err := exec.Command(
