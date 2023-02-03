@@ -13,21 +13,14 @@ import (
 	"nti/x/nti/types"
 )
 
-const appDir = ""
-const apiProvider = "moralis"
-const apiDir = "/Users/rika/work/src/adon/nti/nfts/" + apiProvider
-const alchemyDir = "/Users/rika/work/src/adon/nti/alchemy"
-const checkIsNftRecievedPath = alchemyDir + "/check-is-nft-recieved.js"
-const getNftTokenUriPath = apiDir + "/get-nft-token-uri.js"
 const mintNftDir = "/Users/rika/work/src/learn/eth/my-nft"
 const mintNftPath = mintNftDir + "/scripts/mint-nft.js"
-const validSecond = 60 * 60 * 1000
 
 func isReserveExpired(reserveNftTransfer types.ReservedNftTransfer) bool {
 	fmt.Println("Check whether the reserve is expired...")
 
 	// 現在時刻が予約の有効期限を過ぎているか
-	return int(time.Now().Unix()) > int(reserveNftTransfer.CreatedAt)+validSecond
+	return int(time.Now().Unix()) > int(reserveNftTransfer.CreatedAt)+validSecond()
 }
 
 func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, error) {
@@ -35,7 +28,7 @@ func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, er
 
 	out, err := exec.Command(
 		"node",
-		checkIsNftRecievedPath,
+		isNftRecievedPath(),
 		reservedNftTransfer.NftSrcAddr,
 		reservedNftTransfer.NftTokenId,
 	).Output()
@@ -66,7 +59,7 @@ func getTokenUri(reservedNftTransfer types.ReservedNftTransfer) (string, error) 
 
 	out, err := exec.Command(
 		"node",
-		getNftTokenUriPath,
+		getNftTokenUriPath(),
 		reservedNftTransfer.NftTokenId,
 	).Output()
 	if err != nil {
@@ -114,7 +107,7 @@ func createNftMint(reservedKey, transactionHash string) error {
 		reservedKey,
 		transactionHash,
 		"--fees",
-		Fees,
+		fees(),
 		"--from",
 		"bob",
 		"-y",

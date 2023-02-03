@@ -12,14 +12,12 @@ import (
 	"nti/x/nti/types"
 )
 
-const checkIsNftMintedPath = "/Users/rika/work/src/adon/nti/alchemy/check-is-nft-minted.js"
-
 func checkIsNftMinted(nftMint types.NftMint) (bool, error) {
 	fmt.Println("Check whether the NFT is minted...")
 
 	out, err := exec.Command(
 		"node",
-		checkIsNftMintedPath,
+		isNftMintedPath(),
 		nftMint.TransactionHash,
 	).Output()
 	if err != nil {

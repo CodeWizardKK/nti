@@ -11,8 +11,6 @@ import (
 	"nti/x/nti/types"
 )
 
-const Fees = "16000000000stake"
-
 type ResultBool int
 
 const (
@@ -83,7 +81,7 @@ func changeStatus(reservedKey string, to keeper.TransferStatus) error {
 		reservedKey,
 		strconv.Itoa(int(to)),
 		"--fees",
-		Fees,
+		fees(),
 		"--from",
 		"bob",
 		"-y",
