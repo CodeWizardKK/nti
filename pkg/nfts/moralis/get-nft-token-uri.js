@@ -1,6 +1,6 @@
 // cmd: node file-path.js token-id
 
-require('dotenv').config();
+require('dotenv').config({ path: 'env/.env.local' });
 const Moralis = require("moralis").default;
 const { EvmChain } = require("@moralisweb3/common-evm-utils");
 
@@ -10,7 +10,7 @@ const runApp = async () => {
     // ...and any other configuration
   });
   
-  const address = process.env.CONTRACT_ADDRESS;
+  const address = process.env.ETH_CONTRACT_ADDRESS;
   const chain = EvmChain.GOERLI;
   const tokenId = process.argv[2];
 
