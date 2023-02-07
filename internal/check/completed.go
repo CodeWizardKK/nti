@@ -2,45 +2,55 @@ package check
 
 import (
 	"fmt"
+	"os"
 	"os/exec"
-	"strconv"
-	"strings"
 
 	"google.golang.org/grpc"
 
+	"nti/internal/util"
 	"nti/x/nti/keeper"
 	"nti/x/nti/types"
 )
 
-func checkIsNftMinted(nftMint types.NftMint) (bool, error) {
-	fmt.Println("Check whether the NFT is minted...")
+func getMintResult(nftMint types.NftMint) (string, error) {
+	fmt.Println("Get mint result...")
 
 	out, err := exec.Command(
 		"node",
-		isNftMintedPath(),
-		nftMint.TransactionHash,
+		getMintResultPath(),
+		os.Getenv("ETH_DEST_CONTRACT_ADDRESS"),
+		nftMint.TokenUri,
 	).Output()
 	if err != nil {
 		fmt.Println(err)
-		return false, err
+		return "", err
 	}
 
-	outString := strings.TrimRight(string(out), "\n")
-	outInt, err := strconv.Atoi(outString)
+	return util.OutToString(out), nil
+}
+
+func addNftMintResult(reservedKey, tokenId string) error {
+	fmt.Println("Add NFT mint result...")
+
+	err := exec.Command(
+		"ntid",
+		"tx",
+		"nti",
+		"add-nft-mint-result",
+		reservedKey,
+		tokenId,
+		"--fees",
+		fees(),
+		"--from",
+		"bob",
+		"-y",
+	).Run()
 	if err != nil {
 		fmt.Println(err)
-		return false, err
+		return err
 	}
 
-	switch ResultBool(outInt) {
-	case False:
-		return false, nil
-	case True:
-		return true, nil
-	default:
-		// TODO: エラーを生成
-		return false, err
-	}
+	return nil
 }
 
 func CheckIsCompleted() {
@@ -71,14 +81,21 @@ func CheckIsCompleted() {
 			continue
 		}
 
-		isCompleted, err := checkIsNftMinted(nftMint)
+		tokenId, err := getMintResult(nftMint)
 		if err != nil {
 			fmt.Println(err)
 			continue
 		}
-		fmt.Printf("Check result is %v.\n", isCompleted)
 
-		if isCompleted {
+		if tokenId != "" {
+			fmt.Printf("The NFT successfully minted! Token ID is %v.\n", tokenId)
+
+			err = addNftMintResult(reservedKey, tokenId)
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+
 			err = changeStatus(reservedKey, keeper.Completed)
 			if err != nil {
 				fmt.Println(err)

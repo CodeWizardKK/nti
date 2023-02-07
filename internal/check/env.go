@@ -10,16 +10,16 @@ func apiDir() string {
 	return path.Join(os.Getenv("APP_DIR"), "pkg/nfts", os.Getenv("API_PROVIDER"))
 }
 
-func isNftMintedPath() string {
-	return path.Join(apiDir(), "is-nft-minted.js")
-}
-
 func isNftRecievedPath() string {
 	return path.Join(apiDir(), "is-nft-recieved.js")
 }
 
 func getNftTokenUriPath() string {
 	return path.Join(apiDir(), "get-nft-token-uri.js")
+}
+
+func getMintResultPath() string {
+	return path.Join(apiDir(), "get-mint-result.js")
 }
 
 func fees() string {

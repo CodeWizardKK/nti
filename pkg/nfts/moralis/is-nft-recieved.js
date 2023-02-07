@@ -12,7 +12,7 @@ const runApp = async () => {
     // ...and any other configuration
   });
   
-  const address = process.env.ETH_CONTRACT_ADDRESS;
+  const address = process.env.ETH_SRC_CONTRACT_ADDRESS;
   const chain = EvmChain.GOERLI;
   const tokenId = process.argv[3];
 
