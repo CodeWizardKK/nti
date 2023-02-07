@@ -1,32 +1,31 @@
-// cmd: node file-path.js transaction-hash
+// cmd: node file-path.js contract-addr token-uri
 
 require('dotenv').config({ path: 'env/.env.local' });
 const Moralis = require("moralis").default;
 const { EvmChain } = require("@moralisweb3/common-evm-utils");
 
-// const fromAddress = process.argv[2]
-
 const runApp = async () => {
-  await Moralis.start({
-    apiKey: process.env.MORALIS_KEY,
-    // ...and any other configuration
-  });
-  
-  const chain = EvmChain.GOERLI;
-  const transactionHash = process.argv[2];
+    await Moralis.start({
+        apiKey: process.env.MORALIS_KEY,
+        // ...and any other configuration
+    });
+    
+    const chain = EvmChain.GOERLI;
+    const address = process.argv[2];
+    const tokenUri = process.argv[3];
 
-  const response = await Moralis.EvmApi.transaction.getTransaction({
-    transactionHash,
-    chain,
-  });
+    const response = await Moralis.EvmApi.nft.getContractNFTs({
+        address,
+        chain,
+    });
 
-  const blockNumber = response.toJSON().block_number;
+    for (const nft of response.result) {
+        if (nft.tokenUri == tokenUri) {
+            console.log(nft.tokenId);
+            break;
+        }
+    }
 
-  if (blockNumber == null) {
-      console.log("0");
-  } else {
-      console.log("1");
-  }
 }
 
 runApp();
