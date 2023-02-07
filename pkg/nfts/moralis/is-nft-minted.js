@@ -8,7 +8,7 @@ const { EvmChain } = require("@moralisweb3/common-evm-utils");
 
 const runApp = async () => {
   await Moralis.start({
-    apiKey: process.env.MORALIS_API_KEY,
+    apiKey: process.env.MORALIS_KEY,
     // ...and any other configuration
   });
   
