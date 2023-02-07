@@ -17,12 +17,14 @@ func NewMsgCreateNftMint(
 	creator string,
 	reservedKey string,
 	transactionHash string,
+	tokenUri string,
 
 ) *MsgCreateNftMint {
 	return &MsgCreateNftMint{
 		Creator:         creator,
 		ReservedKey:     reservedKey,
 		TransactionHash: transactionHash,
+		TokenUri:        tokenUri,
 	}
 }
 

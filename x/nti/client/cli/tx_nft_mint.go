@@ -1,24 +1,26 @@
 package cli
 
 import (
+	"nti/x/nti/types"
+
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/spf13/cobra"
-	"nti/x/nti/types"
 )
 
 func CmdCreateNftMint() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-nft-mint [reserved-key] [transaction-hash]",
+		Use:   "create-nft-mint [reserved-key] [transaction-hash] [token-uri]",
 		Short: "Create a new nftMint",
-		Args:  cobra.ExactArgs(2),
+		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			// Get indexes
 			indexReservedKey := args[0]
 
 			// Get value arguments
 			argTransactionHash := args[1]
+			argTokenUri := args[2]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -29,6 +31,7 @@ func CmdCreateNftMint() *cobra.Command {
 				clientCtx.GetFromAddress().String(),
 				indexReservedKey,
 				argTransactionHash,
+				argTokenUri,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
