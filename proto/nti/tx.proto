@@ -14,6 +14,7 @@ service Msg {
   rpc CreateNftMint(MsgCreateNftMint) returns (MsgCreateNftMintResponse);
   rpc UpdateNftMint(MsgUpdateNftMint) returns (MsgUpdateNftMintResponse);
   rpc DeleteNftMint(MsgDeleteNftMint) returns (MsgDeleteNftMintResponse);
+  rpc AddNftMintResult(MsgAddNftMintResult) returns (MsgAddNftMintResultResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -79,5 +80,14 @@ message MsgDeleteNftMint {
   string reservedKey = 2;
 }
 message MsgDeleteNftMintResponse {}
+
+message MsgAddNftMintResult {
+  string creator = 1;
+  string reservedKey = 2;
+  string tokenId = 3;
+}
+
+message MsgAddNftMintResultResponse {
+}
 
 // this line is used by starport scaffolding # proto/tx/message

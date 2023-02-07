@@ -9,6 +9,8 @@
  * ---------------------------------------------------------------
  */
 
+export type NtiMsgAddNftMintResultResponse = object;
+
 export type NtiMsgChangeStatusResponse = object;
 
 export type NtiMsgCreateNftMintResponse = object;
@@ -25,6 +27,7 @@ export interface NtiNftMint {
   reservedKey?: string;
   transactionHash?: string;
   tokenUri?: string;
+  tokenId?: string;
 }
 
 export interface NtiNftTransfer {

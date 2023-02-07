@@ -7,5 +7,6 @@ message NftMint {
   string reservedKey = 1; 
   string transactionHash = 2; 
   string tokenUri = 3;
+  string tokenId = 4;
 }
 

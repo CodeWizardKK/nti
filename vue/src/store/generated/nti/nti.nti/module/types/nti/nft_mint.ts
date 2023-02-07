@@ -7,12 +7,14 @@ export interface NftMint {
   reservedKey: string;
   transactionHash: string;
   tokenUri: string;
+  tokenId: string;
 }
 
 const baseNftMint: object = {
   reservedKey: "",
   transactionHash: "",
   tokenUri: "",
+  tokenId: "",
 };
 
 export const NftMint = {
@@ -25,6 +27,9 @@ export const NftMint = {
     }
     if (message.tokenUri !== "") {
       writer.uint32(26).string(message.tokenUri);
+    }
+    if (message.tokenId !== "") {
+      writer.uint32(34).string(message.tokenId);
     }
     return writer;
   },
@@ -44,6 +49,9 @@ export const NftMint = {
           break;
         case 3:
           message.tokenUri = reader.string();
+          break;
+        case 4:
+          message.tokenId = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -73,6 +81,11 @@ export const NftMint = {
     } else {
       message.tokenUri = "";
     }
+    if (object.tokenId !== undefined && object.tokenId !== null) {
+      message.tokenId = String(object.tokenId);
+    } else {
+      message.tokenId = "";
+    }
     return message;
   },
 
@@ -83,6 +96,7 @@ export const NftMint = {
     message.transactionHash !== undefined &&
       (obj.transactionHash = message.transactionHash);
     message.tokenUri !== undefined && (obj.tokenUri = message.tokenUri);
+    message.tokenId !== undefined && (obj.tokenId = message.tokenId);
     return obj;
   },
 
@@ -105,6 +119,11 @@ export const NftMint = {
       message.tokenUri = object.tokenUri;
     } else {
       message.tokenUri = "";
+    }
+    if (object.tokenId !== undefined && object.tokenId !== null) {
+      message.tokenId = object.tokenId;
+    } else {
+      message.tokenId = "";
     }
     return message;
   },

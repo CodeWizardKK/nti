@@ -29907,6 +29907,8 @@ paths:
                       type: string
                     tokenUri:
                       type: string
+                    tokenId:
+                      type: string
               pagination:
                 type: object
                 properties:
@@ -30029,6 +30031,8 @@ paths:
                   transactionHash:
                     type: string
                   tokenUri:
+                    type: string
+                  tokenId:
                     type: string
         default:
           description: An unexpected error response.
@@ -52771,6 +52775,8 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
+  nti.nti.MsgAddNftMintResultResponse:
+    type: object
   nti.nti.MsgChangeStatusResponse:
     type: object
   nti.nti.MsgCreateNftMintResponse:
@@ -52791,6 +52797,8 @@ definitions:
       transactionHash:
         type: string
       tokenUri:
+        type: string
+      tokenId:
         type: string
   nti.nti.NftTransfer:
     type: object
@@ -52876,6 +52884,8 @@ definitions:
             transactionHash:
               type: string
             tokenUri:
+              type: string
+            tokenId:
               type: string
       pagination:
         type: object
@@ -53026,6 +53036,8 @@ definitions:
           transactionHash:
             type: string
           tokenUri:
+            type: string
+          tokenId:
             type: string
   nti.nti.QueryGetNftTransferResponse:
     type: object
