@@ -43,6 +43,7 @@ export interface MsgCreateNftMint {
   creator: string;
   reservedKey: string;
   transactionHash: string;
+  tokenUri: string;
 }
 
 export interface MsgCreateNftMintResponse {}
@@ -51,6 +52,7 @@ export interface MsgUpdateNftMint {
   creator: string;
   reservedKey: string;
   transactionHash: string;
+  tokenUri: string;
 }
 
 export interface MsgUpdateNftMintResponse {}
@@ -705,6 +707,7 @@ const baseMsgCreateNftMint: object = {
   creator: "",
   reservedKey: "",
   transactionHash: "",
+  tokenUri: "",
 };
 
 export const MsgCreateNftMint = {
@@ -717,6 +720,9 @@ export const MsgCreateNftMint = {
     }
     if (message.transactionHash !== "") {
       writer.uint32(26).string(message.transactionHash);
+    }
+    if (message.tokenUri !== "") {
+      writer.uint32(34).string(message.tokenUri);
     }
     return writer;
   },
@@ -736,6 +742,9 @@ export const MsgCreateNftMint = {
           break;
         case 3:
           message.transactionHash = reader.string();
+          break;
+        case 4:
+          message.tokenUri = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -765,6 +774,11 @@ export const MsgCreateNftMint = {
     } else {
       message.transactionHash = "";
     }
+    if (object.tokenUri !== undefined && object.tokenUri !== null) {
+      message.tokenUri = String(object.tokenUri);
+    } else {
+      message.tokenUri = "";
+    }
     return message;
   },
 
@@ -775,6 +789,7 @@ export const MsgCreateNftMint = {
       (obj.reservedKey = message.reservedKey);
     message.transactionHash !== undefined &&
       (obj.transactionHash = message.transactionHash);
+    message.tokenUri !== undefined && (obj.tokenUri = message.tokenUri);
     return obj;
   },
 
@@ -797,6 +812,11 @@ export const MsgCreateNftMint = {
       message.transactionHash = object.transactionHash;
     } else {
       message.transactionHash = "";
+    }
+    if (object.tokenUri !== undefined && object.tokenUri !== null) {
+      message.tokenUri = object.tokenUri;
+    } else {
+      message.tokenUri = "";
     }
     return message;
   },
@@ -858,6 +878,7 @@ const baseMsgUpdateNftMint: object = {
   creator: "",
   reservedKey: "",
   transactionHash: "",
+  tokenUri: "",
 };
 
 export const MsgUpdateNftMint = {
@@ -870,6 +891,9 @@ export const MsgUpdateNftMint = {
     }
     if (message.transactionHash !== "") {
       writer.uint32(26).string(message.transactionHash);
+    }
+    if (message.tokenUri !== "") {
+      writer.uint32(34).string(message.tokenUri);
     }
     return writer;
   },
@@ -889,6 +913,9 @@ export const MsgUpdateNftMint = {
           break;
         case 3:
           message.transactionHash = reader.string();
+          break;
+        case 4:
+          message.tokenUri = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -918,6 +945,11 @@ export const MsgUpdateNftMint = {
     } else {
       message.transactionHash = "";
     }
+    if (object.tokenUri !== undefined && object.tokenUri !== null) {
+      message.tokenUri = String(object.tokenUri);
+    } else {
+      message.tokenUri = "";
+    }
     return message;
   },
 
@@ -928,6 +960,7 @@ export const MsgUpdateNftMint = {
       (obj.reservedKey = message.reservedKey);
     message.transactionHash !== undefined &&
       (obj.transactionHash = message.transactionHash);
+    message.tokenUri !== undefined && (obj.tokenUri = message.tokenUri);
     return obj;
   },
 
@@ -950,6 +983,11 @@ export const MsgUpdateNftMint = {
       message.transactionHash = object.transactionHash;
     } else {
       message.transactionHash = "";
+    }
+    if (object.tokenUri !== undefined && object.tokenUri !== null) {
+      message.tokenUri = object.tokenUri;
+    } else {
+      message.tokenUri = "";
     }
     return message;
   },

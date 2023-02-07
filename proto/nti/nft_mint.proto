@@ -6,6 +6,6 @@ option go_package = "nti/x/nti/types";
 message NftMint {
   string reservedKey = 1; 
   string transactionHash = 2; 
-  string creator = 3;
+  string tokenUri = 3;
 }
 

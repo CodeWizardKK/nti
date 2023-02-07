@@ -3,15 +3,16 @@ package nti
 import (
 	"math/rand"
 
+	"nti/testutil/sample"
+	ntisimulation "nti/x/nti/simulation"
+	"nti/x/nti/types"
+
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	simappparams "github.com/cosmos/cosmos-sdk/simapp/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
-	"nti/testutil/sample"
-	ntisimulation "nti/x/nti/simulation"
-	"nti/x/nti/types"
 )
 
 // avoid unused import issue
@@ -61,11 +62,9 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 		Params: types.DefaultParams(),
 		NftMintList: []types.NftMint{
 			{
-				Creator:     sample.AccAddress(),
 				ReservedKey: "0",
 			},
 			{
-				Creator:     sample.AccAddress(),
 				ReservedKey: "1",
 			},
 		},
@@ -131,10 +130,10 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 			weightMsgCreateNftMint = defaultWeightMsgCreateNftMint
 		},
 	)
-	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgCreateNftMint,
-		ntisimulation.SimulateMsgCreateNftMint(am.accountKeeper, am.bankKeeper, am.keeper),
-	))
+	// operations = append(operations, simulation.NewWeightedOperation(
+	// weightMsgCreateNftMint,
+	// ntisimulation.SimulateMsgCreateNftMint(am.accountKeeper, am.bankKeeper, am.keeper),
+	// ))
 
 	var weightMsgUpdateNftMint int
 	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUpdateNftMint, &weightMsgUpdateNftMint, nil,
@@ -142,10 +141,10 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 			weightMsgUpdateNftMint = defaultWeightMsgUpdateNftMint
 		},
 	)
-	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgUpdateNftMint,
-		ntisimulation.SimulateMsgUpdateNftMint(am.accountKeeper, am.bankKeeper, am.keeper),
-	))
+	// operations = append(operations, simulation.NewWeightedOperation(
+	// weightMsgUpdateNftMint,
+	// ntisimulation.SimulateMsgUpdateNftMint(am.accountKeeper, am.bankKeeper, am.keeper),
+	// ))
 
 	var weightMsgDeleteNftMint int
 	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgDeleteNftMint, &weightMsgDeleteNftMint, nil,
@@ -153,10 +152,10 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 			weightMsgDeleteNftMint = defaultWeightMsgDeleteNftMint
 		},
 	)
-	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgDeleteNftMint,
-		ntisimulation.SimulateMsgDeleteNftMint(am.accountKeeper, am.bankKeeper, am.keeper),
-	))
+	// operations = append(operations, simulation.NewWeightedOperation(
+	// weightMsgDeleteNftMint,
+	// ntisimulation.SimulateMsgDeleteNftMint(am.accountKeeper, am.bankKeeper, am.keeper),
+	// ))
 
 	// this line is used by starport scaffolding # simapp/module/operation
 

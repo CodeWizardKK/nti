@@ -61,6 +61,7 @@ message MsgCreateNftMint {
   string reservedKey = 2;
 
   string transactionHash = 3;
+  string tokenUri = 4;
 }
 message MsgCreateNftMintResponse {}
 
@@ -69,6 +70,7 @@ message MsgUpdateNftMint {
   string reservedKey = 2;
 
   string transactionHash = 3;
+  string tokenUri = 4;
 }
 message MsgUpdateNftMintResponse {}
 

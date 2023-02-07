@@ -24,7 +24,7 @@ export type NtiMsgUpdateNftMintResponse = object;
 export interface NtiNftMint {
   reservedKey?: string;
   transactionHash?: string;
-  creator?: string;
+  tokenUri?: string;
 }
 
 export interface NtiNftTransfer {

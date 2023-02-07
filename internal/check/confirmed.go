@@ -96,7 +96,7 @@ func mintNft(reservedNftTransfer types.ReservedNftTransfer, tokenUri string) (st
 	return transactionHash, nil
 }
 
-func createNftMint(reservedKey, transactionHash string) error {
+func createNftMint(reservedKey, transactionHash, tokenUri string) error {
 	fmt.Println("Create NFT mint...")
 
 	err := exec.Command(
@@ -106,6 +106,7 @@ func createNftMint(reservedKey, transactionHash string) error {
 		"create-nft-mint",
 		reservedKey,
 		transactionHash,
+		tokenUri,
 		"--fees",
 		fees(),
 		"--from",
@@ -204,7 +205,7 @@ func CheckIsConfirmed() {
 		}
 
 		// Create NFT mint
-		err = createNftMint(reservedKey, transactionHash)
+		err = createNftMint(reservedKey, transactionHash, tokenUri)
 		if err != nil {
 			fmt.Println(err)
 			continue

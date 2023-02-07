@@ -6,13 +6,13 @@ export const protobufPackage = "nti.nti";
 export interface NftMint {
   reservedKey: string;
   transactionHash: string;
-  creator: string;
+  tokenUri: string;
 }
 
 const baseNftMint: object = {
   reservedKey: "",
   transactionHash: "",
-  creator: "",
+  tokenUri: "",
 };
 
 export const NftMint = {
@@ -23,8 +23,8 @@ export const NftMint = {
     if (message.transactionHash !== "") {
       writer.uint32(18).string(message.transactionHash);
     }
-    if (message.creator !== "") {
-      writer.uint32(26).string(message.creator);
+    if (message.tokenUri !== "") {
+      writer.uint32(26).string(message.tokenUri);
     }
     return writer;
   },
@@ -43,7 +43,7 @@ export const NftMint = {
           message.transactionHash = reader.string();
           break;
         case 3:
-          message.creator = reader.string();
+          message.tokenUri = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -68,10 +68,10 @@ export const NftMint = {
     } else {
       message.transactionHash = "";
     }
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator);
+    if (object.tokenUri !== undefined && object.tokenUri !== null) {
+      message.tokenUri = String(object.tokenUri);
     } else {
-      message.creator = "";
+      message.tokenUri = "";
     }
     return message;
   },
@@ -82,7 +82,7 @@ export const NftMint = {
       (obj.reservedKey = message.reservedKey);
     message.transactionHash !== undefined &&
       (obj.transactionHash = message.transactionHash);
-    message.creator !== undefined && (obj.creator = message.creator);
+    message.tokenUri !== undefined && (obj.tokenUri = message.tokenUri);
     return obj;
   },
 
@@ -101,10 +101,10 @@ export const NftMint = {
     } else {
       message.transactionHash = "";
     }
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = object.creator;
+    if (object.tokenUri !== undefined && object.tokenUri !== null) {
+      message.tokenUri = object.tokenUri;
     } else {
-      message.creator = "";
+      message.tokenUri = "";
     }
     return message;
   },
