@@ -3,12 +3,13 @@ package keeper
 import (
 	"context"
 
+	"nti/x/nti/types"
+
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"nti/x/nti/types"
 )
 
 func (k Keeper) ReservedNftTransferAll(c context.Context, req *types.QueryAllReservedNftTransferRequest) (*types.QueryAllReservedNftTransferResponse, error) {
@@ -35,6 +36,8 @@ func (k Keeper) ReservedNftTransferAll(c context.Context, req *types.QueryAllRes
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
+
+	reservedNftTransfers = sortReservedNftTransfers(reservedNftTransfers)
 
 	return &types.QueryAllReservedNftTransferResponse{ReservedNftTransfer: reservedNftTransfers, Pagination: pageRes}, nil
 }

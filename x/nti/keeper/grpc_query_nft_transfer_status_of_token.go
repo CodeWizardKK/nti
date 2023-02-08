@@ -43,6 +43,8 @@ func (k Keeper) NftTransferStatusOfToken(goCtx context.Context, req *types.Query
 		}
 	}
 
+	nftTransferStatusList = sortTransferStatusList(nftTransferStatusList)
+
 	return &types.QueryNftTransferStatusOfTokenResponse{
 		NftTransferStatusDetail: nftTransferStatusList,
 	}, nil

@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"reflect"
+	"sort"
 
 	"nti/x/nti/types"
 
@@ -9,6 +10,20 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
+
+func sortReservedNftTransfers(reservedNftTransfers []types.ReservedNftTransfer) []types.ReservedNftTransfer {
+	sort.Slice(reservedNftTransfers, func(i, j int) bool {
+		return reservedNftTransfers[i].CreatedAt > reservedNftTransfers[j].CreatedAt
+	})
+	return reservedNftTransfers
+}
+
+func sortTransferStatusList(nftTransferStatusList []types.NftTransferStatusDetail) []types.NftTransferStatusDetail {
+	sort.Slice(nftTransferStatusList, func(i, j int) bool {
+		return nftTransferStatusList[i].ReservedAt > nftTransferStatusList[j].ReservedAt
+	})
+	return nftTransferStatusList
+}
 
 func getTransferStatus(reservedKey string, nftTransferStatus types.NftTransferStatus) TransferStatus {
 	var transferStatus TransferStatus
