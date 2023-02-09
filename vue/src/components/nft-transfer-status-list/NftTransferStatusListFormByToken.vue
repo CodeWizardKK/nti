@@ -36,7 +36,8 @@
           <a-input
             :value="removePrefix(value)"
             @update:value="handleChange"
-            :addon-before="addrPrefix"/>
+            :addon-before="addrPrefix"
+            :disabled="isAddrDisabled()" />
         </a-form-item>
       </Field>
 
@@ -72,7 +73,7 @@ const schema = yup.object({
 });
 
 const chain = ref(NaN)
-const { addrPrefix, removePrefix, addPrefix } = useAddress(chain)
+const { addrPrefix, removePrefix, addPrefix, isAddrDisabled } = useAddress(chain)
 
 const onSelectChain = (value: any) => {
   chain.value = value
