@@ -3,10 +3,13 @@
     <page-title title="NFT Transfer Status Explorer"></page-title>
     <a-tabs v-model:activeKey="activeKey">
         <a-tab-pane key="1" tab="Search by Address">
-            <nft-transfer-status-list-form
-            @subscribeNftTransferStatus="subscribeNftTransferStatus"></nft-transfer-status-list-form>
+            <nft-transfer-status-list-form-by-wallet-addr
+            @subscribeNftTransferStatus="subscribeNftTransferStatus"></nft-transfer-status-list-form-by-wallet-addr>
         </a-tab-pane>
-        <a-tab-pane key="2" tab="Search by Token">Content of Tab Pane 2</a-tab-pane>
+        <a-tab-pane key="2" tab="Search by Token">
+            <nft-transfer-status-list-form-by-token
+            @subscribeNftTransferStatus="subscribeNftTransferStatus"></nft-transfer-status-list-form-by-token>
+        </a-tab-pane>
     </a-tabs>
     <nft-transfer-status-list-table
     :items="nftTransferStatusList"></nft-transfer-status-list-table>
@@ -17,14 +20,16 @@
 import { ref, reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import PageTitle from '../components/common/PageTitle.vue';
-import NftTransferStatusListForm from '../components/nft-transfer-status-list/NftTransferStatusListForm.vue';
+import NftTransferStatusListFormByWalletAddr from '../components/nft-transfer-status-list/NftTransferStatusListFormByWalletAddr.vue';
+import NftTransferStatusListFormByToken from '../components/nft-transfer-status-list/NftTransferStatusListFormByToken.vue';
 import NftTransferStatusListTable from '../components/nft-transfer-status-list/NftTransferStatusListTable.vue';
 
 export default {
     components: {
         PageTitle,
-        NftTransferStatusListForm,
-        NftTransferStatusListTable
+        NftTransferStatusListFormByWalletAddr,
+        NftTransferStatusListTable,
+        NftTransferStatusListFormByToken,
     },
     setup() {
         // store
@@ -34,35 +39,72 @@ export default {
         const activeKey = ref('1')
 
         const intervalId = ref(0)
-        const searchParams = reactive({
-            chain: NaN,
-            walletAddr: ""
+
+        const searchOfAddress = reactive({
+            id:'Address',
+            params:{
+                chain: NaN,
+                walletAddr: ""
+            }
+        })
+
+        const searchOfToken = reactive({
+            id:'Token',
+            params:{
+                chain: NaN,
+                contractAddr: "",
+                tokenId: ""
+            }
+        })
+
+        let search = reactive({
+            id:'',
+            params:{}
         })
 
         // computed
+        const searchedIn = computed(() => {
+            if(activeKey.value == '1'){
+                return searchOfAddress
+            } else {
+                return searchOfToken
+            }
+        })
+
         const nftTransferStatusList = computed(() => {
+            search = searchedIn.value
             return (
-                $s.getters["nti.nti/getNftTransferStatusOfAddress"]({
-                    params: searchParams
+                $s.getters[`nti.nti/getNftTransferStatusOf${search.id}`]({
+                    params: search.params
                 })?.nftTransferStatusDetail ?? []
             )
         })
 
         const getNftTransferStatus = async (values) => {
-            await $s.dispatch("nti.nti/QueryNftTransferStatusOfAddress", { params:values })
+            await $s.dispatch(`nti.nti/QueryNftTransferStatusOf${search.id}`, { params:values })
         }
 
         const subscribeNftTransferStatus = async (values) => {
             await clearInterval(intervalId.value)
             intervalId.value = setInterval(getNftTransferStatus, 1000, values)
-            searchParams.chain = values.chain
-            searchParams.walletAddr = values.walletAddr
+            setSearchParams(values)
+        }
+
+        const setSearchParams = (values) => {
+            if(activeKey.value == '1'){
+                search.params.chain = values.chain
+                search.params.walletAddr = values.walletAddr
+            } else {
+                search.params.chain = values.chain
+                search.params.contractAddr = values.contractAddr
+                search.params.tokenId = values.tokenId
+            }
         }
 
         return {
             activeKey,
             nftTransferStatusList,
-            searchParams,
+            search,
             subscribeNftTransferStatus,
         }
     }
