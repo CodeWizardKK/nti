@@ -45,7 +45,8 @@
           <a-input
             :value="removeSrcAddrPrefix(value)"
             @update:value="handleChange"
-            :addon-before="srcAddrPrefix"/>
+            :addon-before="srcAddrPrefix"
+            :disabled="isSrcAddrDisabled()" />
         </a-form-item>
       </Field>
 
@@ -105,7 +106,8 @@
           <a-input
             :value="removeDestAddrPrefix(value)"
             @update:value="handleChange"
-            :addon-before="destAddrPrefix"/>
+            :addon-before="destAddrPrefix"
+            :disabled="isDestAddrDisabled()" />
         </a-form-item>
       </Field>
     </a-card>
@@ -115,29 +117,49 @@
       <a-button type="primary" html-type="submit">Submit</a-button>
     </a-form-item>
   </Form>
+
+  <nft-transfer-edit-comfirm
+    :isVisible="isVisible" 
+    :values="conform" 
+    @handleOk="handleOk" 
+    @cancel="cancel"
+  ></nft-transfer-edit-comfirm>
+
 </template>
 
 <script setup lang="ts">
 import { Field, Form } from 'vee-validate';
-import { ref, Ref } from 'vue';
+import { ref, Ref, reactive } from 'vue';
 import * as yup from 'yup';
 import { CaretDownOutlined } from '@ant-design/icons-vue';
 import useAccount from '../../composables/useAccount';
 import useAddress from '../../composables/useAddress';
 import { blockchainOpts, destContractAddr, srcContractAddr } from '../../const';
+import NftTransferEditComfirm from '../common/nft-transfer-edit/comfirmModal.vue';
 
 const srcChain = ref(NaN)
 const destChain = ref(NaN)
+const isVisible = ref(false)
+const conform = reactive({
+  nftSrcChain: NaN,
+  nftSrcAddr: '',
+  nftTokenId: '',
+  nftDestChain: NaN,
+  nftDestAddr: '',
+})
+let copyValues = reactive({})
 
 const {
   addrPrefix: srcAddrPrefix,
   removePrefix: removeSrcAddrPrefix,
   addPrefix: addSrcAddrPrefix,
+  isAddrDisabled: isSrcAddrDisabled,
 } = useAddress(srcChain)
 const {
   addrPrefix: destAddrPrefix,
   removePrefix: removeDestAddrPrefix,
   addPrefix: addDestAddrPrefix,
+  isAddrDisabled: isDestAddrDisabled,
 } = useAddress(destChain)
 
 const onSelectSrcChain = (value: any) => {
@@ -177,8 +199,35 @@ const onSubmit = (values: any) => {
     values.creator = currentAccount.value
     values.nftSrcAddr = addSrcAddrPrefix(values.nftSrcAddr)
     values.nftDestAddr = addDestAddrPrefix(values.nftDestAddr)
+    setConform(values)
+    setValues(values)
+    changeVisible()
     console.log('Success:', values)
-    emits('reserveNftTransfer', values)
+}
+
+const changeVisible = () => {
+  isVisible.value = !isVisible.value
+}
+
+const setConform = (values: any) => {
+  conform.nftSrcChain = values.nftSrcChain
+  conform.nftSrcAddr = values.nftSrcAddr
+  conform.nftTokenId = values.nftTokenId
+  conform.nftDestChain = values.nftDestChain
+  conform.nftDestAddr = values.nftDestAddr
+}
+
+const setValues = (values: any) => {
+  copyValues = values
+}
+
+const handleOk = () => {
+    changeVisible()
+    emits('reserveNftTransfer', copyValues)
+  }
+
+const cancel = () => {
+    changeVisible()
 }
 
 </script>

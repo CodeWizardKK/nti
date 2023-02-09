@@ -24,9 +24,15 @@ export default function useAddress(chain: Ref<number>) {
         return addrPrefix.value + value
     }
 
+    const isAddrDisabled = () => {
+        let bool = Number.isNaN(chain.value) ? true : false
+        return bool
+    }
+
     return {
         addrPrefix,
         removePrefix,
-        addPrefix
+        addPrefix,
+        isAddrDisabled,
     }
 }
