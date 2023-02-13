@@ -1,13 +1,15 @@
 <template>
   <div>
     <page-title title="NFT Transfer Status Explorer"></page-title>
-    <a-tabs v-model:activeKey="activeKey">
+    <a-tabs v-model:activeKey="activeKey" @change="onChange">
         <a-tab-pane key="1" tab="Search by Address">
             <nft-transfer-status-list-form-by-wallet-addr
+            :key="resetKey"
             @subscribeNftTransferStatus="subscribeNftTransferStatus"></nft-transfer-status-list-form-by-wallet-addr>
         </a-tab-pane>
         <a-tab-pane key="2" tab="Search by Token">
             <nft-transfer-status-list-form-by-token
+            :key="resetKey"
             @subscribeNftTransferStatus="subscribeNftTransferStatus"></nft-transfer-status-list-form-by-token>
         </a-tab-pane>
     </a-tabs>
@@ -62,6 +64,17 @@ export default {
             params:{}
         })
 
+        const resetKey = ref(0)
+        const reset = () => {
+            resetKey.value++
+        }
+
+        const onChange = () => {
+            reset()
+            resetSearchParams(searchOfAddress)
+            resetSearchParams(searchOfToken)
+        }
+
         // computed
         const searchedIn = computed(() => {
             if(activeKey.value == '1'){
@@ -87,22 +100,25 @@ export default {
         const subscribeNftTransferStatus = async (values) => {
             await clearInterval(intervalId.value)
             intervalId.value = setInterval(getNftTransferStatus, 1000, values)
-            setSearchParams(values)
+            Object.keys(search.params).forEach(function(key) {
+                search.params[key] = values[key]
+            })
         }
 
-        const setSearchParams = (values) => {
-            if(activeKey.value == '1'){
-                search.params.chain = values.chain
-                search.params.walletAddr = values.walletAddr
-            } else {
-                search.params.chain = values.chain
-                search.params.contractAddr = values.contractAddr
-                search.params.tokenId = values.tokenId
-            }
+        const resetSearchParams = (item) => {
+            Object.keys(item.params).forEach(function(key) {
+                if(key == 'chain'){
+                    item.params[key] = NaN
+                } else {
+                    item.params[key] = ""
+                }
+            })
         }
 
         return {
+            resetKey,
             activeKey,
+            onChange,
             nftTransferStatusList,
             search,
             subscribeNftTransferStatus,
