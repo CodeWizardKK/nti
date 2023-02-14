@@ -32,12 +32,12 @@
 </template>
 
 <script lang="ts">
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { CaretDownOutlined } from '@ant-design/icons-vue';
-import { blockchainOpts, destContractAddr, srcContractAddr } from '../../../const';
+import { blockchainOpts, destContractAddr, srcContractAddr } from '../../const';
 
 export default {
-  name: 'comfirmModal',
+  name: 'NftTransferEditConfirmModal',
 
   components: {
     blockchainOpts,
@@ -59,17 +59,17 @@ export default {
     }
   },
   setup(props,{ emit }) {
-    const title = ref('Are these details ok?')
+    const title = 'Are these details ok?'
     const isVisible = computed(() => props.isVisible)
     const values = computed(() => props.values) 
 
     // methods
-    const handleOk = (e: MouseEvent) => {
-      emit('handleOk', isVisible)
+    const handleOk = () => {
+      emit('handleOk')
     }
 
-    const cancel = (e: MouseEvent) => {
-      emit('cancel', isVisible)
+    const cancel = () => {
+      emit('cancel')
     }
 
     const blockchainLabel = (value: number) => {

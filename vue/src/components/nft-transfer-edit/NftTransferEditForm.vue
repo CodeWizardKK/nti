@@ -118,12 +118,12 @@
     </a-form-item>
   </Form>
 
-  <nft-transfer-edit-comfirm
-    :isVisible="isVisible" 
+  <nft-transfer-edit-confirm-modal
+    :isVisible="isModalVisible" 
     :values="conform" 
-    @handleOk="handleOk" 
-    @cancel="cancel"
-  ></nft-transfer-edit-comfirm>
+    @handleOk="OkModal" 
+    @cancel="cancelModal"
+  ></nft-transfer-edit-confirm-modal>
 
 </template>
 
@@ -135,11 +135,11 @@ import { CaretDownOutlined } from '@ant-design/icons-vue';
 import useAccount from '../../composables/useAccount';
 import useAddress from '../../composables/useAddress';
 import { blockchainOpts, destContractAddr, srcContractAddr } from '../../const';
-import NftTransferEditComfirm from '../common/nft-transfer-edit/comfirmModal.vue';
+import NftTransferEditConfirmModal from './NftTransferEditConfirmModal.vue';
 
 const srcChain = ref(NaN)
 const destChain = ref(NaN)
-const isVisible = ref(false)
+const isModalVisible = ref(false)
 const conform = reactive({
   nftSrcChain: NaN,
   nftSrcAddr: '',
@@ -201,12 +201,16 @@ const onSubmit = (values: any) => {
     values.nftDestAddr = addDestAddrPrefix(values.nftDestAddr)
     setConform(values)
     setValues(values)
-    changeVisible()
+    openModal()
     console.log('Success:', values)
 }
 
-const changeVisible = () => {
-  isVisible.value = !isVisible.value
+const openModal = () => {
+  isModalVisible.value = true
+}
+
+const closeModal = () => {
+  isModalVisible.value = false
 }
 
 const setConform = (values: any) => {
@@ -221,13 +225,13 @@ const setValues = (values: any) => {
   copyValues = values
 }
 
-const handleOk = () => {
-    changeVisible()
-    emits('reserveNftTransfer', copyValues)
+const OkModal = () => {
+  closeModal()
+  emits('reserveNftTransfer', copyValues)
   }
 
-const cancel = () => {
-    changeVisible()
+const cancelModal = () => {
+  closeModal()
 }
 
 </script>
