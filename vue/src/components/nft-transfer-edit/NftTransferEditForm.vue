@@ -117,37 +117,19 @@
       <a-button type="primary" html-type="submit">Submit</a-button>
     </a-form-item>
   </Form>
-
-  <nft-transfer-edit-confirm-modal
-    :isVisible="isModalVisible" 
-    :values="conform" 
-    @handleOk="OkModal" 
-    @cancel="cancelModal"
-  ></nft-transfer-edit-confirm-modal>
-
 </template>
 
 <script setup lang="ts">
 import { Field, Form } from 'vee-validate';
-import { ref, Ref, reactive } from 'vue';
+import { ref, Ref } from 'vue';
 import * as yup from 'yup';
 import { CaretDownOutlined } from '@ant-design/icons-vue';
 import useAccount from '../../composables/useAccount';
 import useAddress from '../../composables/useAddress';
 import { blockchainOpts, destContractAddr, srcContractAddr } from '../../const';
-import NftTransferEditConfirmModal from './NftTransferEditConfirmModal.vue';
 
 const srcChain = ref(NaN)
 const destChain = ref(NaN)
-const isModalVisible = ref(false)
-const conform = reactive({
-  nftSrcChain: NaN,
-  nftSrcAddr: '',
-  nftTokenId: '',
-  nftDestChain: NaN,
-  nftDestAddr: '',
-})
-let copyValues = reactive({})
 
 const {
   addrPrefix: srcAddrPrefix,
@@ -199,39 +181,8 @@ const onSubmit = (values: any) => {
     values.creator = currentAccount.value
     values.nftSrcAddr = addSrcAddrPrefix(values.nftSrcAddr)
     values.nftDestAddr = addDestAddrPrefix(values.nftDestAddr)
-    setConform(values)
-    setValues(values)
-    openModal()
     console.log('Success:', values)
-}
-
-const openModal = () => {
-  isModalVisible.value = true
-}
-
-const closeModal = () => {
-  isModalVisible.value = false
-}
-
-const setConform = (values: any) => {
-  conform.nftSrcChain = values.nftSrcChain
-  conform.nftSrcAddr = values.nftSrcAddr
-  conform.nftTokenId = values.nftTokenId
-  conform.nftDestChain = values.nftDestChain
-  conform.nftDestAddr = values.nftDestAddr
-}
-
-const setValues = (values: any) => {
-  copyValues = values
-}
-
-const OkModal = () => {
-  closeModal()
-  emits('reserveNftTransfer', copyValues)
-  }
-
-const cancelModal = () => {
-  closeModal()
+    emits('reserveNftTransfer', values)
 }
 
 </script>

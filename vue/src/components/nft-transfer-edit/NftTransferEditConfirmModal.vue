@@ -1,32 +1,36 @@
 <template>
   <a-modal v-model:visible="isVisible" :title="title" width="70%" bodyStyle="background: #ececec;" centered @ok="handleOk" @cancel="cancel">
-    <a-card title="Source: ADON Kitties（NFT）" size="small" >
+    <a-card title="Source: ADON Kitties（NFT）" >
       <template #extra>Contract: 
         {{ srcContractAddr }}
       </template>
-      <a-card title="Blockchain" size="small">
-        {{ blockchainLabel(values.nftSrcChain) }}
-      </a-card>
-      <a-card title="Wallet address" size="small" :style="{ marginTop: '5px' }">
-        {{ values.nftSrcAddr }}
-      </a-card>
-      <a-card title="Token ID" size="small" :style="{ marginTop: '5px' }">
-        {{ values.nftTokenId }}
-      </a-card>
+      <a-descriptions bordered>
+        <a-descriptions-item label="Blockchain" :span="3">
+          {{ blockchainLabel(values.nftSrcChain) }}
+        </a-descriptions-item>
+        <a-descriptions-item label="Wallet address" :span="3">
+          {{ values.nftSrcAddr }}
+        </a-descriptions-item>
+        <a-descriptions-item label="Token ID" :span="3">
+          {{ values.nftTokenId }}
+        </a-descriptions-item>
+      </a-descriptions>
     </a-card> 
     <div style="text-align: center;">
       <caret-down-outlined style="font-size: 30px;" />
     </div>
-    <a-card title="Destination: ONFET Kitties（NFT）" size="small" >
+    <a-card title="Destination: ONFET Kitties（NFT）" >
       <template #extra>Contract: 
         {{ destContractAddr }}
       </template>
-      <a-card title="Blockchain" size="small">
-        {{ blockchainLabel(values.nftDestChain) }}
-      </a-card>
-      <a-card title="Wallet address" size="small" :style="{ marginTop: '5px' }">
-        {{ values.nftDestAddr }}
-      </a-card>
+      <a-descriptions bordered>
+        <a-descriptions-item label="Blockchain" :span="3">
+          {{ blockchainLabel(values.nftDestChain) }}
+        </a-descriptions-item>
+        <a-descriptions-item label="Wallet address" :span="3">
+          {{ values.nftDestAddr }}
+        </a-descriptions-item>
+      </a-descriptions>
     </a-card>
   </a-modal>
 </template>
@@ -50,6 +54,7 @@ export default {
       type: Object,
       required: true,
       'default': () => ({
+        creator:'',
         nftSrcChain: NaN,
         nftSrcAddr: '',
         nftTokenId: '',
