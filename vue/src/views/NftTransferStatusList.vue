@@ -31,88 +31,76 @@ import NftTransferStatusListFormByWalletAddr from '../components/nft-transfer-st
 import NftTransferStatusListFormByToken from '../components/nft-transfer-status-list/NftTransferStatusListFormByToken.vue';
 import NftTransferStatusListTable from '../components/nft-transfer-status-list/NftTransferStatusListTable.vue';
 
+const init = {
+        chain: NaN,
+        walletAddr: '',
+        contractAddr:'',
+        tokenId:'',
+}
+
 export default {
     components: {
         PageTitle,
         NftTransferStatusListFormByWalletAddr,
-        NftTransferStatusListTable,
         NftTransferStatusListFormByToken,
+        NftTransferStatusListTable,
     },
     setup() {
-
-        const chain = ref(NaN)
-        const walletAddr = ref('')
-        const contractAddr = ref('')
-        const tokenId = ref('')
-
         // store
         let $s = useStore()
 
         // for search tabs
         const activeKey = ref('1')
-
         const intervalId = ref(0)
-
-        const searchOfAddress = reactive({
-            id:'Address',
-            params:{
-                chain: NaN,
-                walletAddr: ""
-            }
-        })
-
-        const searchOfToken = reactive({
-            id:'Token',
-            params:{
-                chain: NaN,
-                contractAddr: "",
-                tokenId: ""
-            }
-        })
-
-        let search = reactive({
-            id:'Address',
-            params:{
-                chain: NaN,
-                walletAddr: ""
-            }
-        })
-
         const resetKey = ref(0)
+
+        const chain = ref(init.chain)
+        const walletAddr = ref(init.walletAddr)
+        const contractAddr = ref(init.contractAddr)
+        const tokenId = ref(init.tokenId)
+
         const resetForm = () => {
             resetKey.value++
         }
 
-        const onChange = async () => {
-            // search = activeKey.value == '1' ? searchOfAddress : searchOfToken
-            console.log('チェンジ',search)
-            await clearInterval(intervalId.value)
-            resetForm()
-            resetSearchParams(searchOfAddress)
-            resetSearchParams(searchOfToken)
-        }
+        const searchParamsOfAdrr = reactive({
+            chain: init.chain,
+            walletAddr: init.walletAddr,
+        })
+
+        const searchParamsOfToken = reactive({
+            chain: init.chain,
+            contractAddr: init.contractAddr,
+            tokenId: init.tokenId,
+        })
 
         // computed
-        const searchedIn = computed(() => {
+        const searchParams = computed(() => {
             if(activeKey.value == '1'){
-                return searchOfAddress
+                return searchParamsOfAdrr
             } else {
-                return searchOfToken
+                return searchParamsOfToken
+            }
+        })
+
+        const getters = computed(() => {
+            if(activeKey.value == '1'){
+                return "nti.nti/getNftTransferStatusOfAddress"
+            } else {
+                return "nti.nti/getNftTransferStatusOfToken"
             }
         })
 
         const nftTransferStatusList = computed(() => {
-            search = searchedIn.value
-            console.log('GETリクエスト',search)
             return (
-                $s.getters[`nti.nti/getNftTransferStatusOf${search.id}`]({
-                    params: search.params
+                $s.getters[getters.value]({
+                    params: searchParams.value
                 })?.nftTransferStatusDetail ?? []
             )
         })
 
-        const getNftTransferStatus = async (values) => {
-            await $s.dispatch(`nti.nti/QueryNftTransferStatusOf${search.id}`, { params:values })
+        const getNftTransferStatusOfAddr = async (values) => {
+            await $s.dispatch("nti.nti/QueryNftTransferStatusOfAddress", { params:values })
         }
 
         const getNftTransferStatusOfToken = async (values) => {
@@ -124,10 +112,9 @@ export default {
             values.chain = chain.value
             values.walletAddr = walletAddr.value
             await clearInterval(intervalId.value)
-            intervalId.value = setInterval(getNftTransferStatus, 1000, values)
-            Object.keys(search.params).forEach(function(key) {
-                search.params[key] = values[key]
-            })
+            intervalId.value = setInterval(getNftTransferStatusOfAddr, 1000, values)
+            searchParamsOfAdrr.chain = chain.value
+            searchParamsOfAdrr.walletAddr = walletAddr.value
         }
 
         const subscribeNftTransferStatusOfToken = async () => {
@@ -136,32 +123,46 @@ export default {
             values.contractAddr = contractAddr.value
             values.tokenId = tokenId.value
             await clearInterval(intervalId.value)
-            intervalId.value = setInterval(getNftTransferStatus, 1000, values)
-            Object.keys(search.params).forEach(function(key) {
-                search.params[key] = values[key]
-            })
+            intervalId.value = setInterval(getNftTransferStatusOfToken, 1000, values)
+            searchParamsOfToken.chain = chain.value
+            searchParamsOfToken.contractAddr = contractAddr.value
+            searchParamsOfToken.tokenId = tokenId.value
+        }
+
+        const onChange = async () => {
+            //GETrequest定期実行stop
+            await clearInterval(intervalId.value)
+            //form値初期化
+            resetForm()
+            //searchParam初期化
+            resetSearchParams(searchParamsOfAdrr)
+            resetSearchParams(searchParamsOfToken)
+            //v-model初期化
+            resetModel()
         }
 
         const resetSearchParams = (item) => {
-            Object.keys(item.params).forEach(function(key) {
-                if(key == 'chain'){
-                    item.params[key] = NaN
-                } else {
-                    item.params[key] = ""
-                }
+            Object.keys(item).forEach(function(key) {
+                item[key] = init[key]
             })
         }
 
+        const resetModel = () => {
+            chain.value = init.chain
+            walletAddr.value = init.walletAddr
+            contractAddr.value = init.contractAddr
+            tokenId.value = init.tokenId
+        }
+
         return {
+            resetKey,
+            activeKey,
             chain,
             walletAddr,
             contractAddr,
             tokenId,
-            resetKey,
-            activeKey,
             onChange,
             nftTransferStatusList,
-            search,
             subscribeNftTransferStatusOfAddr,
             subscribeNftTransferStatusOfToken,
         }
