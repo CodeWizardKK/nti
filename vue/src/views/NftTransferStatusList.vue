@@ -5,12 +5,17 @@
         <a-tab-pane key="1" tab="Search by Address">
             <nft-transfer-status-list-form-by-wallet-addr
             :key="resetKey"
-            @subscribeNftTransferStatus="subscribeNftTransferStatus"></nft-transfer-status-list-form-by-wallet-addr>
+            v-model:chain="chain"
+            v-model:walletAddr="walletAddr"
+            @subscribeNftTransferStatus="subscribeNftTransferStatusOfAddr"></nft-transfer-status-list-form-by-wallet-addr>
         </a-tab-pane>
         <a-tab-pane key="2" tab="Search by Token">
             <nft-transfer-status-list-form-by-token
             :key="resetKey"
-            @subscribeNftTransferStatus="subscribeNftTransferStatus"></nft-transfer-status-list-form-by-token>
+            v-model:chain="chain"
+            v-model:contractAddr="contractAddr"
+            v-model:tokenId="tokenId"
+            @subscribeNftTransferStatus="subscribeNftTransferStatusOfToken"></nft-transfer-status-list-form-by-token>
         </a-tab-pane>
     </a-tabs>
     <nft-transfer-status-list-table
@@ -34,6 +39,12 @@ export default {
         NftTransferStatusListFormByToken,
     },
     setup() {
+
+        const chain = ref(NaN)
+        const walletAddr = ref('')
+        const contractAddr = ref('')
+        const tokenId = ref('')
+
         // store
         let $s = useStore()
 
@@ -60,17 +71,23 @@ export default {
         })
 
         let search = reactive({
-            id:'',
-            params:{}
+            id:'Address',
+            params:{
+                chain: NaN,
+                walletAddr: ""
+            }
         })
 
         const resetKey = ref(0)
-        const reset = () => {
+        const resetForm = () => {
             resetKey.value++
         }
 
-        const onChange = () => {
-            reset()
+        const onChange = async () => {
+            // search = activeKey.value == '1' ? searchOfAddress : searchOfToken
+            console.log('チェンジ',search)
+            await clearInterval(intervalId.value)
+            resetForm()
             resetSearchParams(searchOfAddress)
             resetSearchParams(searchOfToken)
         }
@@ -86,6 +103,7 @@ export default {
 
         const nftTransferStatusList = computed(() => {
             search = searchedIn.value
+            console.log('GETリクエスト',search)
             return (
                 $s.getters[`nti.nti/getNftTransferStatusOf${search.id}`]({
                     params: search.params
@@ -97,7 +115,26 @@ export default {
             await $s.dispatch(`nti.nti/QueryNftTransferStatusOf${search.id}`, { params:values })
         }
 
-        const subscribeNftTransferStatus = async (values) => {
+        const getNftTransferStatusOfToken = async (values) => {
+            await $s.dispatch(`nti.nti/QueryNftTransferStatusOfToken`, { params:values })
+        }
+
+        const subscribeNftTransferStatusOfAddr = async () => {
+            let values = {}
+            values.chain = chain.value
+            values.walletAddr = walletAddr.value
+            await clearInterval(intervalId.value)
+            intervalId.value = setInterval(getNftTransferStatus, 1000, values)
+            Object.keys(search.params).forEach(function(key) {
+                search.params[key] = values[key]
+            })
+        }
+
+        const subscribeNftTransferStatusOfToken = async () => {
+            let values = {}
+            values.chain = chain.value
+            values.contractAddr = contractAddr.value
+            values.tokenId = tokenId.value
             await clearInterval(intervalId.value)
             intervalId.value = setInterval(getNftTransferStatus, 1000, values)
             Object.keys(search.params).forEach(function(key) {
@@ -116,12 +153,17 @@ export default {
         }
 
         return {
+            chain,
+            walletAddr,
+            contractAddr,
+            tokenId,
             resetKey,
             activeKey,
             onChange,
             nftTransferStatusList,
             search,
-            subscribeNftTransferStatus,
+            subscribeNftTransferStatusOfAddr,
+            subscribeNftTransferStatusOfToken,
         }
     }
 };
