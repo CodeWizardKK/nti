@@ -102,6 +102,18 @@ export interface QueryNftTransferStatusOfAddressResponse {
   pagination: PageResponse | undefined;
 }
 
+export interface QueryNftTransferHistoryRequest {
+  chain: number;
+  contractAddr: string;
+  tokenId: string;
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryNftTransferHistoryResponse {
+  nftTransferStatusDetail: string;
+  pagination: PageResponse | undefined;
+}
+
 const baseQueryParamsRequest: object = {};
 
 export const QueryParamsRequest = {
@@ -1749,6 +1761,235 @@ export const QueryNftTransferStatusOfAddressResponse = {
   },
 };
 
+const baseQueryNftTransferHistoryRequest: object = {
+  chain: 0,
+  contractAddr: "",
+  tokenId: "",
+};
+
+export const QueryNftTransferHistoryRequest = {
+  encode(
+    message: QueryNftTransferHistoryRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.chain !== 0) {
+      writer.uint32(8).int32(message.chain);
+    }
+    if (message.contractAddr !== "") {
+      writer.uint32(18).string(message.contractAddr);
+    }
+    if (message.tokenId !== "") {
+      writer.uint32(26).string(message.tokenId);
+    }
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(34).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryNftTransferHistoryRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryNftTransferHistoryRequest,
+    } as QueryNftTransferHistoryRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.chain = reader.int32();
+          break;
+        case 2:
+          message.contractAddr = reader.string();
+          break;
+        case 3:
+          message.tokenId = reader.string();
+          break;
+        case 4:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryNftTransferHistoryRequest {
+    const message = {
+      ...baseQueryNftTransferHistoryRequest,
+    } as QueryNftTransferHistoryRequest;
+    if (object.chain !== undefined && object.chain !== null) {
+      message.chain = Number(object.chain);
+    } else {
+      message.chain = 0;
+    }
+    if (object.contractAddr !== undefined && object.contractAddr !== null) {
+      message.contractAddr = String(object.contractAddr);
+    } else {
+      message.contractAddr = "";
+    }
+    if (object.tokenId !== undefined && object.tokenId !== null) {
+      message.tokenId = String(object.tokenId);
+    } else {
+      message.tokenId = "";
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryNftTransferHistoryRequest): unknown {
+    const obj: any = {};
+    message.chain !== undefined && (obj.chain = message.chain);
+    message.contractAddr !== undefined &&
+      (obj.contractAddr = message.contractAddr);
+    message.tokenId !== undefined && (obj.tokenId = message.tokenId);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryNftTransferHistoryRequest>
+  ): QueryNftTransferHistoryRequest {
+    const message = {
+      ...baseQueryNftTransferHistoryRequest,
+    } as QueryNftTransferHistoryRequest;
+    if (object.chain !== undefined && object.chain !== null) {
+      message.chain = object.chain;
+    } else {
+      message.chain = 0;
+    }
+    if (object.contractAddr !== undefined && object.contractAddr !== null) {
+      message.contractAddr = object.contractAddr;
+    } else {
+      message.contractAddr = "";
+    }
+    if (object.tokenId !== undefined && object.tokenId !== null) {
+      message.tokenId = object.tokenId;
+    } else {
+      message.tokenId = "";
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryNftTransferHistoryResponse: object = {
+  nftTransferStatusDetail: "",
+};
+
+export const QueryNftTransferHistoryResponse = {
+  encode(
+    message: QueryNftTransferHistoryResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.nftTransferStatusDetail !== "") {
+      writer.uint32(10).string(message.nftTransferStatusDetail);
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryNftTransferHistoryResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryNftTransferHistoryResponse,
+    } as QueryNftTransferHistoryResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.nftTransferStatusDetail = reader.string();
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryNftTransferHistoryResponse {
+    const message = {
+      ...baseQueryNftTransferHistoryResponse,
+    } as QueryNftTransferHistoryResponse;
+    if (
+      object.nftTransferStatusDetail !== undefined &&
+      object.nftTransferStatusDetail !== null
+    ) {
+      message.nftTransferStatusDetail = String(object.nftTransferStatusDetail);
+    } else {
+      message.nftTransferStatusDetail = "";
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryNftTransferHistoryResponse): unknown {
+    const obj: any = {};
+    message.nftTransferStatusDetail !== undefined &&
+      (obj.nftTransferStatusDetail = message.nftTransferStatusDetail);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryNftTransferHistoryResponse>
+  ): QueryNftTransferHistoryResponse {
+    const message = {
+      ...baseQueryNftTransferHistoryResponse,
+    } as QueryNftTransferHistoryResponse;
+    if (
+      object.nftTransferStatusDetail !== undefined &&
+      object.nftTransferStatusDetail !== null
+    ) {
+      message.nftTransferStatusDetail = object.nftTransferStatusDetail;
+    } else {
+      message.nftTransferStatusDetail = "";
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -1785,6 +2026,10 @@ export interface Query {
   NftTransferStatusOfAddress(
     request: QueryNftTransferStatusOfAddressRequest
   ): Promise<QueryNftTransferStatusOfAddressResponse>;
+  /** Queries a list of NftTransferHistory items. */
+  NftTransferHistory(
+    request: QueryNftTransferHistoryRequest
+  ): Promise<QueryNftTransferHistoryResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -1905,6 +2150,20 @@ export class QueryClientImpl implements Query {
     );
     return promise.then((data) =>
       QueryNftTransferStatusOfAddressResponse.decode(new Reader(data))
+    );
+  }
+
+  NftTransferHistory(
+    request: QueryNftTransferHistoryRequest
+  ): Promise<QueryNftTransferHistoryResponse> {
+    const data = QueryNftTransferHistoryRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "nti.nti.Query",
+      "NftTransferHistory",
+      data
+    );
+    return promise.then((data) =>
+      QueryNftTransferHistoryResponse.decode(new Reader(data))
     );
   }
 }

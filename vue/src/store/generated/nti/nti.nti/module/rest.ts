@@ -137,6 +137,21 @@ export interface NtiQueryGetReservedNftTransferResponse {
   reservedNftTransfer?: NtiReservedNftTransfer;
 }
 
+export interface NtiQueryNftTransferHistoryResponse {
+  nftTransferStatusDetail?: string;
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface NtiQueryNftTransferStatusOfAddressResponse {
   nftTransferStatusDetail?: NtiNftTransferStatusDetail[];
 
@@ -552,6 +567,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     this.request<NtiQueryGetNftTransferResponse, RpcStatus>({
       path: `/nti/nti/nft_transfer/${index}`,
       method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryNftTransferHistory
+   * @summary Queries a list of NftTransferHistory items.
+   * @request GET:/nti/nti/nft_transfer_history/{chain}/{contractAddr}/{tokenId}
+   */
+  queryNftTransferHistory = (
+    chain: number,
+    contractAddr: string,
+    tokenId: string,
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<NtiQueryNftTransferHistoryResponse, RpcStatus>({
+      path: `/nti/nti/nft_transfer_history/${chain}/${contractAddr}/${tokenId}`,
+      method: "GET",
+      query: query,
       format: "json",
       ...params,
     });
