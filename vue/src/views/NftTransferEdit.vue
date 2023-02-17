@@ -6,12 +6,12 @@
       <page-title title="NFT Transfer Reservation Form"></page-title>
       <nft-transfer-edit-form
       :key="resetKey"
-      @reserveNftTransfer="reserveNftTransfer"></nft-transfer-edit-form>
+      @confirm="confirm"></nft-transfer-edit-form>
       <nft-transfer-edit-confirm-modal
       :isVisible="isModalVisible" 
       :values="values" 
-      @handleOk="OkModal" 
-      @cancel="cancelModal"></nft-transfer-edit-confirm-modal>
+      @handleOk="sendTransaction" 
+      @cancel="closeModal"></nft-transfer-edit-confirm-modal>
     </a-spin>
   </div>
 </template>
@@ -47,7 +47,7 @@ export default {
     let $s = useStore()
 
     // methods
-    const reserveNftTransfer = (value) => {
+    const confirm = (value) => {
         values.creator = value.creator
         values.nftSrcAddr = value.nftSrcAddr
         values.nftSrcChain = value.nftSrcChain
@@ -57,7 +57,7 @@ export default {
         openModal()
     }
 
-    const OkModal = async () => {
+    const sendTransaction = async () => {
       try {
         closeModal()
         spinningOn()        
@@ -82,10 +82,6 @@ export default {
         spinningOff()
           
       }
-    }
-
-    const cancelModal = () => {
-      closeModal()
     }
 
     const openModal = () => {
@@ -124,11 +120,11 @@ export default {
     return {
       isSpinning,
       resetKey,
-      reserveNftTransfer,
+      confirm,
       isModalVisible,
       values,
-      OkModal,
-      cancelModal,
+      sendTransaction,
+      closeModal,
     }
   }
 }

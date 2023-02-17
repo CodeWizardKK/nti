@@ -174,7 +174,7 @@ const schema = yup.object({
     blockHeight: yup.number().label('Block height'),
 });
 
-const emits = defineEmits(['reserveNftTransfer'])
+const emits = defineEmits(['confirm'])
 const { currentAccount } = useAccount()
 
 const onSubmit = (values: any) => {
@@ -182,7 +182,7 @@ const onSubmit = (values: any) => {
     values.nftSrcAddr = addSrcAddrPrefix(values.nftSrcAddr)
     values.nftDestAddr = addDestAddrPrefix(values.nftDestAddr)
     console.log('Success:', values)
-    emits('reserveNftTransfer', values)
+    emits('confirm', values)
 }
 
 </script>
