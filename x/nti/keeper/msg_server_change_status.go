@@ -4,45 +4,11 @@ import (
 	"context"
 	"reflect"
 
+	"nti/internal/enum"
 	"nti/x/nti/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
-
-type TransferStatus int
-
-const (
-	Reserved TransferStatus = iota
-	Confirmed
-	Expired
-	Waiting
-	Completed
-)
-
-func (s TransferStatus) String() string {
-	switch s {
-	case Reserved:
-		return "Reserved"
-	case Confirmed:
-		return "Confirmed"
-	case Expired:
-		return "Expired"
-	case Waiting:
-		return "Waiting"
-	case Completed:
-		return "Completed"
-	default:
-		return "Unknown"
-	}
-}
-
-// TODO: To:Reservedの対応もするかどうか
-var prevTransferStatus = map[TransferStatus]TransferStatus{
-	Confirmed: Reserved,
-	Expired:   Reserved,
-	Waiting:   Confirmed,
-	Completed: Waiting,
-}
 
 func (k msgServer) ChangeStatus(goCtx context.Context, msg *types.MsgChangeStatus) (*types.MsgChangeStatusResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
@@ -50,9 +16,9 @@ func (k msgServer) ChangeStatus(goCtx context.Context, msg *types.MsgChangeStatu
 	// 現在の移転ステータスリストを取得
 	nftTransferStatus, _ := k.Keeper.GetNftTransferStatus(ctx)
 	// 指定されたステータスを文字列に変換
-	statusTo := TransferStatus(int(msg.To))
+	statusTo := enum.TransferStatus(int(msg.To))
 	// 一つ前のステータスを取得
-	statusFrom, ok := prevTransferStatus[statusTo]
+	statusFrom, ok := enum.PrevTransferStatus[statusTo]
 	// Toの値が無効の場合、終了
 	// TODO: エラーの返し方
 	if !ok {

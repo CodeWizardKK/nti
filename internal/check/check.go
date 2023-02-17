@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"strconv"
 
-	"nti/x/nti/keeper"
+	"nti/internal/enum"
 	"nti/x/nti/types"
 )
 
@@ -18,7 +18,7 @@ const (
 	True
 )
 
-func getReservedKeysOf(status keeper.TransferStatus, queryClient types.QueryClient) ([]string, error) {
+func getReservedKeysOf(status enum.TransferStatus, queryClient types.QueryClient) ([]string, error) {
 	fmt.Println("Get reserved keys of status xx...")
 
 	// Get NFT transfer status.
@@ -70,7 +70,7 @@ func getNftMint(reservedKey string, queryClient types.QueryClient) (types.NftMin
 	return res.GetNftMint(), nil
 }
 
-func changeStatus(reservedKey string, to keeper.TransferStatus) error {
+func changeStatus(reservedKey string, to enum.TransferStatus) error {
 	fmt.Println("Change status...")
 
 	err := exec.Command(
