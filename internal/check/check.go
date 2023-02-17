@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"nti/internal/enum"
+	"nti/internal/util"
 	"nti/x/nti/types"
 )
 
@@ -17,6 +18,25 @@ const (
 	False ResultBool = iota
 	True
 )
+
+func GetTokenUri(tokenId string) (string, error) {
+	fmt.Println("Get token URI...")
+
+	out, err := exec.Command(
+		"node",
+		getNftTokenUriPath(),
+		tokenId,
+	).Output()
+	if err != nil {
+		fmt.Println(err)
+		return "", err
+	}
+
+	tokenUri := util.OutToString(out)
+	fmt.Printf("Token URI: %s\n", tokenUri)
+
+	return tokenUri, nil
+}
 
 func getReservedKeysOf(status enum.TransferStatus, queryClient types.QueryClient) ([]string, error) {
 	fmt.Println("Get reserved keys of status xx...")

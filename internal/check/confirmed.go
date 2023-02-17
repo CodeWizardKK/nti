@@ -54,25 +54,6 @@ func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, er
 	}
 }
 
-func getTokenUri(reservedNftTransfer types.ReservedNftTransfer) (string, error) {
-	fmt.Println("Get token URI...")
-
-	out, err := exec.Command(
-		"node",
-		getNftTokenUriPath(),
-		reservedNftTransfer.NftTokenId,
-	).Output()
-	if err != nil {
-		fmt.Println(err)
-		return "", err
-	}
-
-	tokenUri := util.OutToString(out)
-	fmt.Printf("Token URI: %s\n", tokenUri)
-
-	return tokenUri, nil
-}
-
 func mintNft(reservedNftTransfer types.ReservedNftTransfer, tokenUri string) (string, error) {
 	fmt.Println("Mint NFT...")
 
@@ -191,7 +172,7 @@ func CheckIsConfirmed() {
 			continue
 		}
 
-		tokenUri, err := getTokenUri(reservedNftTransfer)
+		tokenUri, err := GetTokenUri(reservedNftTransfer.NftTokenId)
 		if err != nil {
 			fmt.Println(err)
 			continue

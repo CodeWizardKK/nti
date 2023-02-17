@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 
+	"nti/internal/check"
 	"nti/x/nti/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -17,8 +18,11 @@ func (k Keeper) NftTransferHistory(goCtx context.Context, req *types.QueryNftTra
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// TODO: Get token URI
-	tokenUri := "qhthyuomatggfidx"
+	// 検索条件のNFTのトークンURIを取得
+	tokenUri, err := check.GetTokenUri(req.TokenId)
+	if err != nil {
+		return nil, err
+	}
 
 	// 全mint結果を取得
 	nftMintList := k.GetAllNftMint(ctx)
