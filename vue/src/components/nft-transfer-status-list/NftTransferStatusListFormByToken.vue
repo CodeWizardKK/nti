@@ -77,7 +77,6 @@ const { addrPrefix, removePrefix, addPrefix, isAddrDisabled } = useAddress(chain
 
 const onSelectChain = (value: any) => {
   chain.value = value
-  emits('update:chain',value)
 }
 
 const props = defineProps({
@@ -95,6 +94,7 @@ const emits = defineEmits([
 
 const onSubmit = (values: any) => {
     values.contractAddr = addPrefix(values.contractAddr)
+    emits('update:chain',values.chain)
     emits('update:contractAddr',values.contractAddr)
     emits('update:tokenId',values.tokenId)
     emits('subscribeNftTransferStatus')
