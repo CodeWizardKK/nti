@@ -4,6 +4,7 @@ import (
 	"reflect"
 	"sort"
 
+	"nti/internal/enum"
 	"nti/x/nti/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -25,13 +26,13 @@ func sortTransferStatusList(nftTransferStatusList []types.NftTransferStatusDetai
 	return nftTransferStatusList
 }
 
-func getTransferStatus(reservedKey string, nftTransferStatus types.NftTransferStatus) TransferStatus {
-	var transferStatus TransferStatus
+func getTransferStatus(reservedKey string, nftTransferStatus types.NftTransferStatus) enum.TransferStatus {
+	var transferStatus enum.TransferStatus
 	nftTransferStatusValue := reflect.ValueOf(&nftTransferStatus).Elem()
 
 	// 各ステータス（Reserved, ... , Completed）のリストから検索
-	for ts := int(Reserved); ts < int(Completed)+1; ts++ {
-		targetStatus := TransferStatus(ts).String()
+	for ts := int(enum.Reserved); ts < int(enum.Completed)+1; ts++ {
+		targetStatus := enum.TransferStatus(ts).String()
 		reservedKeyList := nftTransferStatusValue.FieldByName(targetStatus)
 
 		found := false
@@ -44,7 +45,7 @@ func getTransferStatus(reservedKey string, nftTransferStatus types.NftTransferSt
 		}
 
 		if found {
-			transferStatus = TransferStatus(ts)
+			transferStatus = enum.TransferStatus(ts)
 			break
 		}
 	}
@@ -60,7 +61,7 @@ func getTransferStatusDetail(k Keeper, ctx sdk.Context, reservedNftTransfer type
 
 	// NFTミント後の場合は、トランザクションハッシュを取得
 	transactionHash := ""
-	if int(transferStatus) >= int(Waiting) {
+	if int(transferStatus) >= int(enum.Waiting) {
 		nftMint, found := k.GetNftMint(ctx, reservedKey)
 		if !found {
 			return types.NftTransferStatusDetail{}, status.Error(codes.NotFound, "not found")

@@ -8,8 +8,8 @@ import (
 
 	"google.golang.org/grpc"
 
+	"nti/internal/enum"
 	"nti/internal/util"
-	"nti/x/nti/keeper"
 	"nti/x/nti/types"
 )
 
@@ -52,25 +52,6 @@ func checkIsNftRecieved(reservedNftTransfer types.ReservedNftTransfer) (bool, er
 		// TODO: エラーを生成
 		return false, err
 	}
-}
-
-func getTokenUri(reservedNftTransfer types.ReservedNftTransfer) (string, error) {
-	fmt.Println("Get token URI...")
-
-	out, err := exec.Command(
-		"node",
-		getNftTokenUriPath(),
-		reservedNftTransfer.NftTokenId,
-	).Output()
-	if err != nil {
-		fmt.Println(err)
-		return "", err
-	}
-
-	tokenUri := util.OutToString(out)
-	fmt.Printf("Token URI: %s\n", tokenUri)
-
-	return tokenUri, nil
 }
 
 func mintNft(reservedNftTransfer types.ReservedNftTransfer, tokenUri string) (string, error) {
@@ -137,7 +118,7 @@ func CheckIsConfirmed() {
 
 	// Check reserved keys.
 	fmt.Println("Check reserved keys...")
-	reservedKeys, err := getReservedKeysOf(keeper.Reserved, queryClient)
+	reservedKeys, err := getReservedKeysOf(enum.Reserved, queryClient)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -157,7 +138,7 @@ func CheckIsConfirmed() {
 		fmt.Printf("Check result is %v.\n", isConfirmed)
 
 		if isConfirmed {
-			err = changeStatus(reservedKey, keeper.Confirmed)
+			err = changeStatus(reservedKey, enum.Confirmed)
 			if err != nil {
 				fmt.Println(err)
 				continue
@@ -168,7 +149,7 @@ func CheckIsConfirmed() {
 			fmt.Printf("Check result is %v.\n", isExpired)
 
 			if isExpired {
-				err = changeStatus(reservedKey, keeper.Expired)
+				err = changeStatus(reservedKey, enum.Expired)
 				if err != nil {
 					fmt.Println(err)
 					continue
@@ -179,7 +160,7 @@ func CheckIsConfirmed() {
 
 	// Mint NFT for the confirmed reserves.
 	fmt.Println("Mint NFTs...")
-	confirmedKeys, err := getReservedKeysOf(keeper.Confirmed, queryClient)
+	confirmedKeys, err := getReservedKeysOf(enum.Confirmed, queryClient)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -191,7 +172,7 @@ func CheckIsConfirmed() {
 			continue
 		}
 
-		tokenUri, err := getTokenUri(reservedNftTransfer)
+		tokenUri, err := GetTokenUri(reservedNftTransfer.NftTokenId)
 		if err != nil {
 			fmt.Println(err)
 			continue
@@ -211,7 +192,7 @@ func CheckIsConfirmed() {
 			continue
 		}
 
-		err = changeStatus(reservedKey, keeper.Waiting)
+		err = changeStatus(reservedKey, enum.Waiting)
 		if err != nil {
 			fmt.Println(err)
 			continue

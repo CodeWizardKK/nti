@@ -7,8 +7,8 @@ import (
 
 	"google.golang.org/grpc"
 
+	"nti/internal/enum"
 	"nti/internal/util"
-	"nti/x/nti/keeper"
 	"nti/x/nti/types"
 )
 
@@ -69,7 +69,7 @@ func CheckIsCompleted() {
 
 	// Check waiting keys.
 	fmt.Println("Check waiting keys...")
-	waitingKeys, err := getReservedKeysOf(keeper.Waiting, queryClient)
+	waitingKeys, err := getReservedKeysOf(enum.Waiting, queryClient)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -96,7 +96,7 @@ func CheckIsCompleted() {
 				continue
 			}
 
-			err = changeStatus(reservedKey, keeper.Completed)
+			err = changeStatus(reservedKey, enum.Completed)
 			if err != nil {
 				fmt.Println(err)
 				continue
