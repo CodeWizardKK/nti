@@ -3,7 +3,7 @@
     <!-- You can use the field component to wrap a q-* component -->
     <!-- Do this if you have only one or a few places that need validation -->
 
-      <Field name="chain" v-slot="{ value, handleChange, errorMessage }">
+    <Field name="chain" v-slot="{ handleChange, errorMessage }">
         <a-form-item
           label="Blockchain"
           :has-feedback="!!errorMessage"
@@ -11,7 +11,7 @@
           :validate-status="errorMessage ? 'error' : undefined">
           <a-select
             ref="select"
-            :value="value"
+            :value="Number.isNaN(chain) ? undefined : chain"
             style="width: 120px"
             @focus="focus"
             @change="handleChange"
@@ -26,7 +26,7 @@
         </a-form-item>
       </Field>
 
-      <Field name="contractAddr" v-slot="{ value, handleChange, errorMessage }">
+      <Field name="contractAddr" v-slot="{ handleChange, errorMessage }">
         <a-form-item
           label="Contract address"
           :has-feedback="!!errorMessage"
@@ -34,21 +34,25 @@
           :validate-status="errorMessage ? 'error' : undefined"
         >
           <a-input
-            :value="removePrefix(value)"
+            :value="removePrefix(contractAddr)"
+            @input="$emit('update:contractAddr', removePrefix($event.target.value))"
             @update:value="handleChange"
             :addon-before="addrPrefix"
             :disabled="isAddrDisabled()" />
         </a-form-item>
       </Field>
 
-      <Field name="tokenId" v-slot="{ value, handleChange, errorMessage }">
+      <Field name="tokenId" v-slot="{ handleChange, errorMessage }">
         <a-form-item
           label="Token ID"
           :has-feedback="!!errorMessage"
           :help="errorMessage"
           :validate-status="errorMessage ? 'error' : undefined"
         >
-          <a-input :value="value" @update:value="handleChange" />
+           <a-input
+           :value="tokenId"
+           @input="$emit('update:tokenId', $event.target.value)"
+           @update:value="handleChange" />
         </a-form-item>
       </Field>
 
@@ -61,7 +65,7 @@
 
 <script setup lang="ts">
 import { Field, Form } from 'vee-validate';
-import { ref } from 'vue';
+import { computed } from 'vue';
 import * as yup from 'yup';
 import useAddress from '../../composables/useAddress';
 import { blockchainOpts } from '../../const';
@@ -72,17 +76,19 @@ const schema = yup.object({
     tokenId: yup.string().required().label('token ID'),
 });
 
-const chain = ref(NaN)
-const { addrPrefix, removePrefix, addPrefix, isAddrDisabled } = useAddress(chain)
-
-const onSelectChain = (value: any) => {
-  chain.value = value
-}
-
 const props = defineProps({
-  chain: Number,
-  contractAddr: String,
-  tokenId: String,
+  chain: {
+    type : Number,
+    default : NaN,
+  },
+  contractAddr: {
+    type : String,
+    default : '',
+  },
+  tokenId: {
+    type : String,
+    default : '',
+  },
 })
 
 const emits = defineEmits([
@@ -92,11 +98,16 @@ const emits = defineEmits([
   'subscribeNftTransferStatus'
 ])
 
+const chain = computed(() => props.chain)
+const { addrPrefix, removePrefix, addPrefix, isAddrDisabled } = useAddress(chain)
+
+const onSelectChain = (value: any) => {
+  emits('update:chain',value)
+}
+
 const onSubmit = (values: any) => {
     values.contractAddr = addPrefix(values.contractAddr)
-    emits('update:chain',values.chain)
     emits('update:contractAddr',values.contractAddr)
-    emits('update:tokenId',values.tokenId)
     emits('subscribeNftTransferStatus')
 }
 

@@ -7,7 +7,7 @@
             :key="resetKey"
             v-model:chain="chain"
             v-model:walletAddr="walletAddr"
-            @subscribeNftTransferStatus="subscribeNftTransferStatus"></nft-transfer-status-list-form-by-wallet-addr>
+            @subscribeNftTransferStatus="subscribeNftTransferStatusOfAddress"></nft-transfer-status-list-form-by-wallet-addr>
         </a-tab-pane>
         <a-tab-pane key="2" tab="Search by Token">
             <nft-transfer-status-list-form-by-token
@@ -15,7 +15,7 @@
             v-model:chain="chain"
             v-model:contractAddr="contractAddr"
             v-model:tokenId="tokenId"
-            @subscribeNftTransferStatus="subscribeNftTransferStatus"></nft-transfer-status-list-form-by-token>
+            @subscribeNftTransferStatus="subscribeNftTransferStatusOfToken"></nft-transfer-status-list-form-by-token>
         </a-tab-pane>
     </a-tabs>
     <nft-transfer-status-list-table
@@ -70,22 +70,29 @@ export default {
         const contractAddr = ref(init.contractAddr)
         const tokenId = ref(init.tokenId)
 
+        const searchParams = reactive({
+            chain: init.chain,
+            walletAddr: init.walletAddr,
+            contractAddr: init.contractAddr,
+            tokenId: init.tokenId,
+        })
+
         const resetForm = () => {
             resetKey.value++
         }
 
         // computed
-        const searchParams = computed(() => {
+        const params = computed(() => {
             if(activeKey.value == '1'){
                 return {
-                    chain: chain.value,
-                    walletAddr: walletAddr.value
+                    chain: searchParams.chain,
+                    walletAddr: searchParams.walletAddr
                 }
             } else {
                 return {
-                    chain: chain.value,
-                    contractAddr: contractAddr.value,
-                    tokenId: tokenId.value,
+                    chain: searchParams.chain,
+                    contractAddr: searchParams.contractAddr,
+                    tokenId: searchParams.tokenId,
                 }
             }
         })        
@@ -93,27 +100,39 @@ export default {
         const nftTransferStatusList = computed(() => {
             return (
                 $s.getters[getters[activeKey.value]]({
-                    params: searchParams.value
+                    params: params.value
                 })?.nftTransferStatusDetail ?? []
             )
         })
 
         const getNftTransferStatus = async () => {
-            await $s.dispatch(dispatch[activeKey.value], { params:searchParams.value })
+            await $s.dispatch(dispatch[activeKey.value], { params:params.value })
         }
 
-        const subscribeNftTransferStatus = async () => {
+        const subscribeNftTransferStatusOfAddress = async () => {
             await clearInterval(intervalId.value)
             intervalId.value = setInterval(getNftTransferStatus, 1000)
+            searchParams.chain = chain.value
+            searchParams.walletAddr = walletAddr.value
+        }
+
+        const subscribeNftTransferStatusOfToken = async () => {
+            await clearInterval(intervalId.value)
+            intervalId.value = setInterval(getNftTransferStatus, 1000)
+            searchParams.chain = chain.value
+            searchParams.contractAddr = contractAddr.value
+            searchParams.tokenId = tokenId.value
         }
 
         const onChange = async () => {
             //GETrequest定期実行stop
             await clearInterval(intervalId.value)
-            //form値初期化
+            //Prefix初期化,selectBoxのfocus初期化
             resetForm()
             //v-model初期化
             resetModel()
+            //searchParams初期化
+            resetSearchParams()
         }
 
         const resetModel = () => {
@@ -121,6 +140,12 @@ export default {
             walletAddr.value = init.walletAddr
             contractAddr.value = init.contractAddr
             tokenId.value = init.tokenId
+        }
+
+        const resetSearchParams = () => {
+            Object.keys(searchParams).forEach(function(key){
+                searchParams[key] = init[key]
+            })
         }
 
         return {
@@ -132,7 +157,8 @@ export default {
             tokenId,
             onChange,
             nftTransferStatusList,
-            subscribeNftTransferStatus,
+            subscribeNftTransferStatusOfAddress,
+            subscribeNftTransferStatusOfToken,
         }
     }
 };

@@ -3,7 +3,7 @@
     <!-- You can use the field component to wrap a q-* component -->
     <!-- Do this if you have only one or a few places that need validation -->
 
-      <Field name="chain" v-slot="{ value, handleChange, errorMessage }">
+      <Field name="chain" v-slot="{ handleChange, errorMessage }">
         <a-form-item
           label="Blockchain"
           :has-feedback="!!errorMessage"
@@ -11,7 +11,7 @@
           :validate-status="errorMessage ? 'error' : undefined">
           <a-select
             ref="select"
-            :value="value"
+            :value="Number.isNaN(chain) ? undefined : chain"
             style="width: 120px"
             @focus="focus"
             @change="handleChange"
@@ -26,7 +26,7 @@
         </a-form-item>
       </Field>
 
-      <Field name="walletAddr" v-slot="{ value, handleChange, errorMessage }">
+      <Field name="walletAddr" v-slot="{ handleChange, errorMessage }">
         <a-form-item
           label="Wallet address"
           :has-feedback="!!errorMessage"
@@ -34,7 +34,8 @@
           :validate-status="errorMessage ? 'error' : undefined"
         >
           <a-input
-            :value="removePrefix(value)"
+            :value="removePrefix(walletAddr)"
+            @input="$emit('update:walletAddr', removePrefix($event.target.value))"
             @update:value="handleChange"
             :addon-before="addrPrefix"
             :disabled="isAddrDisabled()" />
@@ -50,7 +51,7 @@
 
 <script setup lang="ts">
 import { Field, Form } from 'vee-validate';
-import { ref } from 'vue';
+import { computed } from 'vue';
 import * as yup from 'yup';
 import useAddress from '../../composables/useAddress';
 import { blockchainOpts } from '../../const';
@@ -60,16 +61,15 @@ const schema = yup.object({
     walletAddr: yup.string().required().label('Wallet address'),
 });
 
-const chain = ref(NaN)
-const { addrPrefix, removePrefix, addPrefix, isAddrDisabled } = useAddress(chain)
-
-const onSelectChain = (value: any) => {
-  chain.value = value
-}
-
 const props = defineProps({
-  chain: Number,
-  walletAddr: String,
+  chain: {
+    type : Number,
+    default : NaN,
+  },
+  walletAddr: {
+    type : String,
+    default : '',
+  },
 })
 
 const emits = defineEmits([
@@ -78,9 +78,15 @@ const emits = defineEmits([
   'subscribeNftTransferStatus'
 ])
 
+const chain = computed(() => props.chain)
+const { addrPrefix, removePrefix, addPrefix, isAddrDisabled } = useAddress(chain)
+
+const onSelectChain = (value: any) => {
+  emits('update:chain',value)
+}
+
 const onSubmit = (values: any) => {
     values.walletAddr = addPrefix(values.walletAddr)
-    emits('update:chain',values.chain)
     emits('update:walletAddr',values.walletAddr)
     emits('subscribeNftTransferStatus')
 }
