@@ -35,7 +35,7 @@
         >
           <a-input
             :value="removePrefix(contractAddr)"
-            @input="$emit('update:contractAddr', removePrefix($event.target.value))"
+            @input="updateContractAddr"
             @update:value="handleChange"
             :addon-before="addrPrefix"
             :disabled="isAddrDisabled()" />
@@ -51,7 +51,7 @@
         >
            <a-input
            :value="tokenId"
-           @input="$emit('update:tokenId', $event.target.value)"
+           @input="updateTokenId"
            @update:value="handleChange" />
         </a-form-item>
       </Field>
@@ -105,9 +105,15 @@ const onSelectChain = (value: any) => {
   emits('update:chain',value)
 }
 
+const updateContractAddr = (e : any) => {
+  emits('update:contractAddr', addPrefix(removePrefix(e.target.value)))
+}
+
+const updateTokenId = (e : any) => {
+  emits('update:tokenId', addPrefix(removePrefix(e.target.value)))
+}
+
 const onSubmit = (values: any) => {
-    values.contractAddr = addPrefix(values.contractAddr)
-    emits('update:contractAddr',values.contractAddr)
     emits('subscribeNftTransferStatus')
 }
 

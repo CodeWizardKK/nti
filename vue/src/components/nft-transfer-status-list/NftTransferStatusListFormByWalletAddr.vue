@@ -35,7 +35,7 @@
         >
           <a-input
             :value="removePrefix(walletAddr)"
-            @input="$emit('update:walletAddr', removePrefix($event.target.value))"
+            @input="updateWalletAddr"
             @update:value="handleChange"
             :addon-before="addrPrefix"
             :disabled="isAddrDisabled()" />
@@ -85,9 +85,11 @@ const onSelectChain = (value: any) => {
   emits('update:chain',value)
 }
 
+const updateWalletAddr = (e : any) => {
+  emits('update:walletAddr', addPrefix(e.target.value))
+}
+
 const onSubmit = (values: any) => {
-    values.walletAddr = addPrefix(values.walletAddr)
-    emits('update:walletAddr',values.walletAddr)
     emits('subscribeNftTransferStatus')
 }
 
