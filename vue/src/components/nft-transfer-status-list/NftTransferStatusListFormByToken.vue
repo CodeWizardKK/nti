@@ -106,7 +106,7 @@ const onSelectChain = (value: any) => {
 }
 
 const updateContractAddr = (e : any) => {
-  emits('update:contractAddr', addPrefix(e.target.value))
+  emits('update:contractAddr', addPrefix(removePrefix(e.target.value)))
 }
 
 const updateTokenId = (e : any) => {

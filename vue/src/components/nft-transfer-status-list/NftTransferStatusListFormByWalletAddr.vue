@@ -86,7 +86,7 @@ const onSelectChain = (value: any) => {
 }
 
 const updateWalletAddr = (e : any) => {
-  emits('update:walletAddr', addPrefix(e.target.value))
+  emits('update:walletAddr', addPrefix(removePrefix(e.target.value)))
 }
 
 const onSubmit = (values: any) => {
