@@ -25,8 +25,7 @@ export default function useAddress(chain: Ref<number>) {
     }
 
     const isAddrDisabled = () => {
-        let bool = Number.isNaN(chain.value) ? true : false
-        return bool
+        return Number.isNaN(chain.value)
     }
 
     return {
