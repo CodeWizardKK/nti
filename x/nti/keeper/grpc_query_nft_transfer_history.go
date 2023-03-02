@@ -18,10 +18,14 @@ func (k Keeper) NftTransferHistory(goCtx context.Context, req *types.QueryNftTra
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	var nftTransferStatusList []types.NftTransferStatusDetail
+
 	// 検索条件のNFTのトークンURIを取得
 	tokenUri, err := check.GetTokenUri(req.TokenId)
 	if err != nil {
-		return nil, err
+		return &types.QueryNftTransferHistoryResponse{
+			NftTransferStatusDetail: nftTransferStatusList,
+		}, nil
 	}
 
 	// 全mint結果を取得
@@ -42,7 +46,6 @@ func (k Keeper) NftTransferHistory(goCtx context.Context, req *types.QueryNftTra
 	}
 
 	// 検索条件に該当する移転予約のステータスリスト
-	var nftTransferStatusList []types.NftTransferStatusDetail
 	for _, reservedKey := range reservedKeyList {
 		reservedNftTransfer, found := k.GetReservedNftTransfer(ctx, reservedKey)
 		if !found {
