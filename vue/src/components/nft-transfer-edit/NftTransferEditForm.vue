@@ -1,5 +1,5 @@
 <template>
-  <Form :validation-schema="schema" @submit="onSubmit">
+  <Form :initial-values="initialValues" :validation-schema="schema" @submit="onSubmit">
     <!-- You can use the field component to wrap a q-* component -->
     <!-- Do this if you have only one or a few places that need validation -->
 
@@ -12,7 +12,7 @@
           {{ srcContractAddr }}
         </a>
       </template>
-      <Field name="nftSrcChain" v-slot="{ value, handleChange, errorMessage }">
+      <Field name="nftSrcChain" v-slot="{ handleChange, errorMessage }">
         <a-form-item
           label="Blockchain"
           :has-feedback="!!errorMessage"
@@ -20,7 +20,7 @@
           :validate-status="errorMessage ? 'error' : undefined">
           <a-select
             ref="select"
-            :value="value"
+            :value="Number.isNaN(nftSrcChain) ? undefined : nftSrcChain"
             style="width: 120px"
             @focus="focus"
             @change="handleChange"
@@ -35,7 +35,7 @@
         </a-form-item>
       </Field>
 
-      <Field name="nftSrcAddr" v-slot="{ value, handleChange, errorMessage }">
+      <Field name="nftSrcAddr" v-slot="{ handleChange, errorMessage }">
         <a-form-item
           label="Wallet address"
           :has-feedback="!!errorMessage"
@@ -43,21 +43,25 @@
           :validate-status="errorMessage ? 'error' : undefined"
         >
           <a-input
-            :value="removeSrcAddrPrefix(value)"
-            @update:value="handleChange"
-            :addon-before="srcAddrPrefix"
-            :disabled="isSrcAddrDisabled()" />
+           :value="removeSrcAddrPrefix(nftSrcAddr)"
+           @input="updateSrcAddr"
+           @update:value="handleChange"
+           :addon-before="srcAddrPrefix"
+           :disabled="isSrcAddrDisabled()" />
         </a-form-item>
       </Field>
 
-      <Field name="nftTokenId" v-slot="{ value, handleChange, errorMessage }">
+      <Field name="nftTokenId" v-slot="{ handleChange, errorMessage }">
         <a-form-item
           label="Token ID"
           :has-feedback="!!errorMessage"
           :help="errorMessage"
           :validate-status="errorMessage ? 'error' : undefined"
         >
-          <a-input :value="value" @update:value="handleChange" />
+          <a-input
+           :value="nftTokenId" 
+           @input="updateTokenId"
+           @update:value="handleChange" />
         </a-form-item>
       </Field>
     </a-card>
@@ -73,7 +77,7 @@
           {{ destContractAddr }}
         </a>
       </template>
-      <Field name="nftDestChain" v-slot="{ value, handleChange, errorMessage }">
+      <Field name="nftDestChain" v-slot="{ handleChange, errorMessage }">
         <a-form-item
           label="Blockchain"
           :has-feedback="!!errorMessage"
@@ -81,7 +85,7 @@
           :validate-status="errorMessage ? 'error' : undefined">
           <a-select
             ref="select"
-            :value="value"
+            :value="Number.isNaN(nftDestChain) ? undefined : nftDestChain"
             style="width: 120px"
             @focus="focus"
             @change="handleChange"
@@ -96,7 +100,7 @@
         </a-form-item>
       </Field>
 
-      <Field name="nftDestAddr" v-slot="{ value, handleChange, errorMessage }">
+      <Field name="nftDestAddr" v-slot="{ handleChange, errorMessage }">
         <a-form-item
           label="Wallet address"
           :has-feedback="!!errorMessage"
@@ -104,52 +108,126 @@
           :validate-status="errorMessage ? 'error' : undefined"
         >
           <a-input
-            :value="removeDestAddrPrefix(value)"
-            @update:value="handleChange"
-            :addon-before="destAddrPrefix"
-            :disabled="isDestAddrDisabled()" />
+           :value="removeDestAddrPrefix(nftDestAddr)"
+           @input="updateDestAddr"
+           @update:value="handleChange"
+           :addon-before="destAddrPrefix"
+           :disabled="isDestAddrDisabled()" />
         </a-form-item>
       </Field>
     </a-card>
     <br />
 
     <a-form-item>
-      <a-button type="primary" html-type="submit">Submit</a-button>
+      <a-button type="primary" html-type="submit">Confirm</a-button>
     </a-form-item>
   </Form>
 </template>
 
 <script setup lang="ts">
 import { Field, Form } from 'vee-validate';
-import { ref, Ref } from 'vue';
+import { reactive, computed, onBeforeMount } from 'vue';
 import * as yup from 'yup';
 import { CaretDownOutlined } from '@ant-design/icons-vue';
 import useAccount from '../../composables/useAccount';
 import useAddress from '../../composables/useAddress';
 import { blockchainOpts, destContractAddr, srcContractAddr } from '../../const';
+import { message } from 'ant-design-vue';
+import { isNull } from 'lodash';
+import { useRouter } from 'vue-router';
 
-const srcChain = ref(NaN)
-const destChain = ref(NaN)
+const props = defineProps({
+  creator: {
+    type : String,
+    default : '',
+  },
+  nftSrcChain : {
+    type : Number,
+    default : NaN,
+  },
+  nftSrcAddr : {
+    type : String,
+    default : '',
+  },
+  nftTokenId : {
+    type : String,
+    default : '',
+  },
+  nftDestChain : {
+    type : Number,
+    default : NaN,
+  },
+  nftDestAddr : {
+    type : String,
+    default : '',
+  },
+})
+
+const emits = defineEmits([
+  'update:creator',
+  'update:nftSrcChain',
+  'update:nftSrcAddr',
+  'update:nftTokenId',
+  'update:nftDestChain',
+  'update:nftDestAddr',
+  'update:srcAddrPrefix',
+])
+
+const srcChain = computed(() => props.nftSrcChain)
+const destChain = computed(() => props.nftDestChain)
 
 const {
   addrPrefix: srcAddrPrefix,
+  setAddrPrefix: setSrcAddrPrefix,
   removePrefix: removeSrcAddrPrefix,
   addPrefix: addSrcAddrPrefix,
   isAddrDisabled: isSrcAddrDisabled,
 } = useAddress(srcChain)
 const {
   addrPrefix: destAddrPrefix,
+  setAddrPrefix: setDestAddrPrefix,
   removePrefix: removeDestAddrPrefix,
   addPrefix: addDestAddrPrefix,
   isAddrDisabled: isDestAddrDisabled,
 } = useAddress(destChain)
 
+let router = useRouter()
+let initialValues = reactive({})
+const { currentAccount } = useAccount()
+
+//確認画面 => 入力画面へ戻ってきた場合を考慮する
+onBeforeMount(() => {
+  //Prefix固定表示の有無を設定する
+  setSrcAddrPrefix()
+  setDestAddrPrefix()
+  //入力内容をformに反映する(validation回避の為)
+  initialValues = ({
+    nftTokenId: props.nftTokenId,
+    nftSrcChain: Number.isNaN(props.nftSrcChain) ? undefined : props.nftSrcChain,
+    nftSrcAddr: props.nftSrcAddr,
+    nftDestChain: Number.isNaN(props.nftDestChain) ? undefined : props.nftDestChain,
+    nftDestAddr: props.nftDestAddr,
+  })
+})
+
 const onSelectSrcChain = (value: any) => {
-  srcChain.value = value
+  emits('update:nftSrcChain',value)
   fetchTokenIds()
 }
 const onSelectDestChain = (value: any) => {
-  destChain.value = value
+  emits('update:nftDestChain',value)
+}
+
+const updateSrcAddr = (e:any) => {
+  emits('update:nftSrcAddr', addSrcAddrPrefix(removeSrcAddrPrefix(e.target.value)))
+}
+
+const updateTokenId = (e:any) => {
+  emits('update:nftTokenId', e.target.value)
+}
+
+const updateDestAddr = (e:any) => {
+  emits('update:nftDestAddr', addDestAddrPrefix(removeDestAddrPrefix(e.target.value)))
 }
 
 // イーサリアムの場合、アドレスから所有するトークンのIDリストを取得する
@@ -174,15 +252,25 @@ const schema = yup.object({
     blockHeight: yup.number().label('Block height'),
 });
 
-const emits = defineEmits(['confirm'])
-const { currentAccount } = useAccount()
-
+//Transition to Confirm
 const onSubmit = (values: any) => {
-    values.creator = currentAccount.value
-    values.nftSrcAddr = addSrcAddrPrefix(values.nftSrcAddr)
-    values.nftDestAddr = addDestAddrPrefix(values.nftDestAddr)
-    console.log('Success:', values)
-    emits('confirm', values)
+  console.log('Success:', values)
+  if(isNull(currentAccount.value)){
+    warningMessage()
+    return;
+  }
+    emits('update:creator', currentAccount.value)
+    router.push({
+    hash : '#confirm',
+  })
+}
+
+const warningMessage = () => {
+  message.warning({
+    content: () => 'Please connect the wallet and press the confirm button again',
+    duration: 5,
+    class: 'custom-class',
+  })
 }
 
 </script>

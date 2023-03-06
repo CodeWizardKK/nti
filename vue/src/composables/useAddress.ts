@@ -30,6 +30,7 @@ export default function useAddress(chain: Ref<number>) {
 
     return {
         addrPrefix,
+        setAddrPrefix,
         removePrefix,
         addPrefix,
         isAddrDisabled,
